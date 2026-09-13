@@ -1,6 +1,7 @@
 # ============================================================
 # HelloPython plugin for Falkon
 # Copyright (C) 2018 David Rosca <nowrep@gmail.com>
+# Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -89,7 +90,7 @@ class HelloPlugin(Falkon.PluginInterface, QtCore.QObject):
 
         self.settings.setAttribute(QtCore.Qt.WA_DeleteOnClose)
         self.settings.setWindowTitle(i18n("Hello Python Settings"))
-        self.settings.setWindowIcon(QtGui.QIcon(":icons/falkon.svg"))
+        self.settings.setWindowIcon(QtGui.QIcon(":icons/compass.svg"))
         closeButton.clicked.connect(self.settings.close)
 
         self.settings.show()

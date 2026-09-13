@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2010-2014  David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -148,7 +149,7 @@ void Updater::downCompleted()
         Version updated(html);
 
         if (current.isValid && updated.isValid && current < updated) {
-            mApp->desktopNotifications()->showNotification(QIcon(QSL(":icons/falkon.svg")).pixmap(48), tr("Update available"), tr("New version of Falkon is ready to download."));
+            mApp->desktopNotifications()->showNotification(QIcon(QSL(":icons/compass.svg")).pixmap(48), tr("Update available"), tr("New version of Falkon is ready to download."));
         }
     }
 
