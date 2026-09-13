@@ -252,6 +252,7 @@ Preferences::Preferences(BrowserWindow* window)
     //TABS
     settings.beginGroup(QSL("Browser-Tabs-Settings"));
     ui->hideTabsOnTab->setChecked(settings.value(QSL("hideTabsWithOneTab"), false).toBool());
+    ui->useVerticalTabs->setChecked(settings.value(QSL("VerticalTabsEnabled"), false).toBool());
     ui->activateLastTab->setChecked(settings.value(QSL("ActivateLastTabWhenClosingActual"), false).toBool());
     ui->openNewTabAfterActive->setChecked(settings.value(QSL("newTabAfterActive"), true).toBool());
     ui->openNewEmptyTabAfterActive->setChecked(settings.value(QSL("newEmptyTabAfterActive"), false).toBool());
@@ -1001,7 +1002,13 @@ void Preferences::saveSettings()
     settings.setValue(QSL("AskOnClosing"), ui->askWhenClosingMultipleTabs->isChecked());
     settings.setValue(QSL("showClosedTabsButton"), ui->showClosedTabsButton->isChecked());
     settings.setValue(QSL("showCloseOnInactiveTabs"), ui->showCloseOnInactive->currentIndex());
+    settings.setValue(QSL("VerticalTabsEnabled"), ui->useVerticalTabs->isChecked());
     settings.endGroup();
+
+    const auto windows = mApp->windows();
+    for (BrowserWindow *w : windows) {
+        w->showVerticalTabs(ui->useVerticalTabs->isChecked());
+    }
 
     //DOWNLOADS
     settings.beginGroup(QSL("DownloadManager"));

@@ -699,6 +699,13 @@
                 </widget>
                </item>
                <item>
+                <widget class="QCheckBox" name="useVerticalTabs">
+                 <property name="text">
+                  <string>Use vertical tabs</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
                 <widget class="QCheckBox" name="activateLastTab">
                  <property name="text">
                   <string>Activate last tab when closing active tab</string>
