@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2010-2018 David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -199,9 +200,9 @@ PluginSpec Plugins::createSpec(const DesktopFile &metaData)
     PluginSpec spec;
     spec.name = metaData.name();
     spec.description = metaData.comment();
-    spec.version = metaData.value(QSL("X-Falkon-Version")).toString();
-    spec.author = QSL("%1 <%2>").arg(metaData.value(QSL("X-Falkon-Author")).toString(), metaData.value(QSL("X-Falkon-Email")).toString());
-    spec.hasSettings = metaData.value(QSL("X-Falkon-Settings")).toBool();
+    spec.version = metaData.value(QSL("X-Compass-Version")).toString();
+    spec.author = QSL("%1 <%2>").arg(metaData.value(QSL("X-Compass-Author")).toString(), metaData.value(QSL("X-Compass-Email")).toString());
+    spec.hasSettings = metaData.value(QSL("X-Compass-Settings")).toBool();
 
     const QString iconName = metaData.icon();
     if (!iconName.isEmpty()) {
@@ -273,7 +274,7 @@ void Plugins::loadAvailablePlugins()
                 }
             } else if (info.isDir()) {
                 const DesktopFile metaData(QDir(pluginPath).filePath(QSL("metadata.desktop")));
-                const QString type = metaData.value(QSL("X-Falkon-Type")).toString();
+                const QString type = metaData.value(QSL("X-Compass-Type")).toString();
                 if (type == QL1S("Extension/Python")) {
                     // PythonPlugin
                     plugin = loadPythonPlugin(pluginPath);

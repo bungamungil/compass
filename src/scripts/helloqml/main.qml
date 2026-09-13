@@ -1,4 +1,4 @@
-import org.kde.falkon 1.0 as Falkon
+import id.bungamungil.compass 1.0 as Falkon
 import QtQuick.Controls 2.3
 import QtQuick 2.3
 

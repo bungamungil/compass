@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2010-2014  David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -196,7 +197,7 @@ void BookmarksManager::createContextMenu(const QPoint &pos)
 
     // Disable paste if clipboard is empty
     const QMimeData* clipboardData = QApplication::clipboard()->mimeData();
-    bool canPaste = clipboardData && clipboardData->hasFormat(QSL("application/falkon.bookmarks"));
+    bool canPaste = clipboardData && clipboardData->hasFormat(QSL("application/compass.bookmarks"));
     if (!canPaste) {
         actPaste->setDisabled(true);
     }

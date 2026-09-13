@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2018 Anmol Gautam <tarptaeya@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -56,7 +57,7 @@
 // static
 void QmlPlugins::registerQmlTypes()
 {
-    const char *url = "org.kde.falkon";
+    const char *url = "id.bungamungil.compass";
     const int majorVersion = 1;
     const int minorVersion = 0;
     // PluginInterface

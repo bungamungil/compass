@@ -47,8 +47,8 @@
     "Name[x-test]": "xxPIMxx",
     "Name[zh_CN]": "个人信息管理",
     "Name[zh_TW]": "PIM",
-    "X-Falkon-Author": "Mladen Pejaković",
-    "X-Falkon-Email": "pejakm@autistici.org",
-    "X-Falkon-Settings": "true",
-    "X-Falkon-Version": "0.2.0"
+    "X-Compass-Author": "Mladen Pejaković",
+    "X-Compass-Email": "pejakm@autistici.org",
+    "X-Compass-Settings": "true",
+    "X-Compass-Version": "0.2.0"
 }

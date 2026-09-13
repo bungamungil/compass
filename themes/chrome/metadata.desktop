@@ -92,8 +92,8 @@ Comment[zh_TW]=適用於 Falkon 之基於 Firefox Chromifox 主題的類 Chrome 
 
 Icon=theme.png
 Type=Service
-X-Falkon-Type=Theme
+X-Compass-Type=Theme
 
-X-Falkon-Author=David Rosca
-X-Falkon-Email=nowrep@gmail.com
-X-Falkon-License=license.txt
+X-Compass-Author=David Rosca
+X-Compass-Email=nowrep@gmail.com
+X-Compass-License=license.txt

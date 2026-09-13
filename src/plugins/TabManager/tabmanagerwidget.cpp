@@ -873,7 +873,7 @@ Qt::DropActions TabTreeWidget::supportedDropActions() const
     return Qt::MoveAction | Qt::CopyAction;
 }
 
-#define MIMETYPE QLatin1String("application/falkon.tabs")
+#define MIMETYPE QLatin1String("application/compass.tabs")
 
 QStringList TabTreeWidget::mimeTypes() const
 {

@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2019 David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -70,11 +71,11 @@ bool OcsSupport::handleUrl(const QUrl &url)
         }
     }
 
-    if (!fileType.startsWith(QL1S("falkon_"))) {
+    if (!fileType.startsWith(QL1S("compass_"))) {
         return false;
     }
 
-    if (fileType != QL1S("falkon_themes") && fileType != QL1S("falkon_extensions")) {
+    if (fileType != QL1S("compass_themes") && fileType != QL1S("compass_extensions")) {
         qWarning() << "Unsupported type" << fileType;
         return false;
     }
@@ -101,9 +102,9 @@ bool OcsSupport::handleUrl(const QUrl &url)
             return;
         }
         QString notifyMessage;
-        if (fileType == QL1S("falkon_themes")) {
+        if (fileType == QL1S("compass_themes")) {
             installTheme(zip.directory());
-        } else if (fileType == QL1S("falkon_extensions")) {
+        } else if (fileType == QL1S("compass_extensions")) {
             installExtension(zip.directory());
         }
     });
@@ -180,7 +181,7 @@ void OcsSupport::installExtension(const KArchiveDirectory *directory)
     }
 
     const DesktopFile metaData = readMetaData(static_cast<const KArchiveDirectory*>(entry));
-    const QString extensionType = metaData.value(QSL("X-Falkon-Type")).toString();
+    const QString extensionType = metaData.value(QSL("X-Compass-Type")).toString();
 
     QString type;
     if (extensionType == QL1S("Extension/Python")) {

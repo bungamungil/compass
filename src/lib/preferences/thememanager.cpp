@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2010-2014  David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -137,7 +138,7 @@ ThemeManager::Theme ThemeManager::parseTheme(const QString &path, const QString 
     DesktopFile metadata(path + QSL("metadata.desktop"));
     info.name = metadata.name();
     info.description = metadata.comment();
-    info.author = metadata.value(QSL("X-Falkon-Author")).toString();
+    info.author = metadata.value(QSL("X-Compass-Author")).toString();
     info.themePath = path.chopped(1);
 
     const QString iconName = metadata.icon();
@@ -149,7 +150,7 @@ ThemeManager::Theme ThemeManager::parseTheme(const QString &path, const QString 
         }
     }
 
-    const QString licensePath = metadata.value(QSL("X-Falkon-License")).toString();
+    const QString licensePath = metadata.value(QSL("X-Compass-License")).toString();
     if (!licensePath.isEmpty() && QFileInfo::exists(path + licensePath)) {
         info.license = QzTools::readAllFileContents(path + licensePath);
     }
