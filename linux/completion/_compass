@@ -1,11 +1,11 @@
-#compdef falkon
+#compdef compass
 #
-# Zsh completion for Falkon
+# Zsh completion for Compass
 #
 opts=(
     '(-)'{-h,--help}'[print usage help]'
-    '(-)'{-a,--authors}'[print Falkon authors]'
-    '(-)'{-v,--version}'[print Falkon version]'
+    '(-)'{-a,--authors}'[print Compass authors]'
+    '(-)'{-v,--version}'[print Compass version]'
 
     '(-)'{-p,--profile=}'[start with specified profile]'
     '(-)'{-e,--no-extensions}'[start without extensions]'

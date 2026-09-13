@@ -1,19 +1,20 @@
 # SPDX-FileCopyrightText: 2024, 2025 Scarlett Moore <sgmoore@kde.org>
+# SPDX-FileCopyrightText: 2026 Bunga Mungil / Compass Browser Developer
 #
 # SPDX-License-Identifier: CC0-1.0
 ---
-name: falkon
+name: compass
 confinement: strict
 grade: stable
 base: core24
-adopt-info: falkon
+adopt-info: compass
 apps:
-  falkon:
+  compass:
     extensions:
       - kde-neon-6
-    common-id: org.kde.falkon.desktop
-    desktop: usr/share/applications/org.kde.falkon.desktop
-    command: usr/bin/falkon
+    common-id: id.bungamungil.compass.desktop
+    desktop: usr/share/applications/id.bungamungil.compass.desktop
+    command: usr/bin/compass
     plugs:
       - audio-record
       - browser-support
@@ -31,7 +32,7 @@ plugs:
 slots:
   session-dbus-interface:
     interface: dbus
-    name: org.kde.falkon
+    name: id.bungamungil.compass
     bus: session
 package-repositories:
 -   type: apt
@@ -43,9 +44,9 @@ package-repositories:
     url: http://origin.archive.neon.kde.org/user
     key-server: keyserver.ubuntu.com
 parts:
-  falkon:
+  compass:
     parse-info:
-      - usr/share/metainfo/org.kde.falkon.appdata.xml
+      - usr/share/metainfo/id.bungamungil.compass.appdata.xml
     plugin: cmake
     source: .
     source-type: local
@@ -105,7 +106,7 @@ parts:
       - -usr/lib/aspell/*
       - -usr/share/lintian
   gpu-2404:
-    after: [falkon]
+    after: [compass]
     source: https://github.com/canonical/gpu-snap.git
     plugin: dump
     override-prime: |
@@ -115,7 +116,7 @@ parts:
       - bin/gpu-2404-wrapper
   cleanup:
     after:
-      - falkon
+      - compass
     plugin: nil
     build-snaps:
       - core24

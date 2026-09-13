@@ -1,7 +1,7 @@
 #
-# Bash completion for Falkon
+# Bash completion for Compass
 #
-_falkon()
+_compass()
 {
     local cur prev opts
     COMPREPLY=()
@@ -19,4 +19,4 @@ _falkon()
         _filedir
     fi
 }
-complete -F _falkon falkon
+complete -F _compass compass

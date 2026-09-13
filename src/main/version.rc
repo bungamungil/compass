@@ -1,7 +1,7 @@
 #include "winver.h"
 #include "falkonversion.h"
 
-IDI_ICON1 ICON DISCARDABLE "..\lib\data\icons\exeicons\falkon.ico"
+IDI_ICON1 ICON DISCARDABLE "..\lib\data\icons\exeicons\compass.ico"
 IDI_ICON2 ICON DISCARDABLE "..\lib\data\icons\exeicons\page.ico"
 
 VS_VERSION_INFO VERSIONINFO
@@ -18,12 +18,12 @@ BEGIN
         BLOCK "000004b0"
         BEGIN
             VALUE "CompanyName", "KDE"
-            VALUE "FileDescription", "Falkon"
+            VALUE "FileDescription", "Compass"
             VALUE "FileVersion", FALKON_VERSION_STRING
             VALUE "LegalCopyright", "Copyright (C) 2010-2018 David Rosca"
-            VALUE "InternalName", "falkon"
-            VALUE "OriginalFilename", "falkon.exe"
-            VALUE "ProductName", "Falkon"
+            VALUE "InternalName", "compass"
+            VALUE "OriginalFilename", "compass.exe"
+            VALUE "ProductName", "Compass"
             VALUE "ProductVersion", FALKON_VERSION_STRING
         END
     END
