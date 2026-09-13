@@ -158,15 +158,7 @@ QString FalkonSchemeReply::startPage()
     }
 
     sPage.append(QzTools::readAllFileContents(QSL(":html/start.html")));
-    sPage.replace(QLatin1String("%ABOUT-IMG%"), QSL("qrc:icons/other/startpage.svg"));
-    sPage.replace(QLatin1String("%ABOUT-IMG-DARK%"), QSL("qrc:icons/other/startpage-dark.svg"));
-
     sPage.replace(QLatin1String("%TITLE%"), tr("Start Page"));
-    sPage.replace(QLatin1String("%BUTTON-LABEL%"), tr("Search on Web"));
-    sPage.replace(QLatin1String("%SEARCH-BY%"), tr("Search results provided by DuckDuckGo"));
-    sPage.replace(QLatin1String("%WWW%"), QString::fromLatin1(Qz::WIKIADDRESS));
-    sPage.replace(QLatin1String("%ABOUT-FALKON%"), tr("About Compass"));
-    sPage.replace(QLatin1String("%PRIVATE-BROWSING%"), mApp->isPrivate() ? tr("<h1>Private Browsing</h1>") : QString());
     sPage = QzTools::applyDirectionToPage(sPage);
 
     return sPage;
