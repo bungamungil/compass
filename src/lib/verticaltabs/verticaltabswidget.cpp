@@ -121,8 +121,8 @@ void VerticalTabsWidget::setIconOnly(bool enable)
         m_searchButton->setVisible(true);
     }
 
-    m_collapseButton->setIcon(enable ? QIcon::fromTheme(QSL("go-next"), QIcon::fromTheme(QSL("sidebar-expand")))
-                                      : QIcon::fromTheme(QSL("go-previous"), QIcon::fromTheme(QSL("sidebar-collapse"))));
+    m_collapseButton->setIcon(enable ? QIcon::fromTheme(QSL("sidebar-expand"), QIcon::fromTheme(QSL("go-next")))
+                                      : QIcon::fromTheme(QSL("sidebar-collapse"), QIcon::fromTheme(QSL("go-previous"))));
 
     qzSettings->verticalTabsIconOnly = enable;
     qzSettings->saveSettings();
