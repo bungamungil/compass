@@ -223,7 +223,7 @@ MainApplication::MainApplication(int &argc, char** argv)
     }
 
     if (isPortable()) {
-        std::cout << "Falkon: Running in Portable Mode." << std::endl;
+        std::cout << "Compass: Running in Portable Mode." << std::endl;
         DataPaths::setPortableVersion();
     }
 
