@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2010-2018 David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -887,7 +888,7 @@ void QzTools::setWmClass(const QString &name, const QWidget* widget)
     }
 
     const QByteArray nameData = name.toUtf8();
-    const QByteArray classData = mApp->wmClass().isEmpty() ? QByteArrayLiteral("Falkon") : mApp->wmClass();
+    const QByteArray classData = mApp->wmClass().isEmpty() ? QByteArrayLiteral("Compass") : mApp->wmClass();
 
     uint32_t class_len = nameData.length() + 1 + classData.length() + 1;
     char *class_hint = (char*) malloc(class_len);
