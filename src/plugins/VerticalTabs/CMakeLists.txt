@@ -37,4 +37,4 @@ qt_add_resources(RSCS ${VerticalTabs_RSCS})
 
 add_library(VerticalTabs MODULE ${VerticalTabs_SRCS} ${UIS} ${RSCS})
 install(TARGETS VerticalTabs DESTINATION ${FALKON_INSTALL_PLUGINDIR})
-target_link_libraries(VerticalTabs FalkonPrivate)
+target_link_libraries(VerticalTabs CompassPrivate)

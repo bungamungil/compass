@@ -11,61 +11,61 @@ if (WIN32)
     configure_file(falkonversion.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/falkonversion.h)
 endif()
 ecm_create_qm_loader(SRCS falkon_qt)
-add_executable(falkon ${SRCS})
+add_executable(compass ${SRCS})
 
-target_link_libraries(falkon FalkonPrivate)
+target_link_libraries(compass CompassPrivate)
 
 if (APPLE)
-    set_target_properties(falkon PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist)
-    set_target_properties(falkon PROPERTIES MACOSX_BUNDLE_GUI_IDENTIFIER "org.kde.falkon")
-    set_target_properties(falkon PROPERTIES MACOSX_BUNDLE_BUNDLE_NAME "Falkon")
-    install(FILES lib/data/icons/exeicons/compass.icns DESTINATION ${BUNDLE_INSTALL_DIR}/falkon.app/Contents/Resources)
-    #install(DIRECTORY ${CMAKE_BINARY_DIR}/bin/locale DESTINATION ${BUNDLE_INSTALL_DIR}/falkon.app/Contents/Resources)
-    install(DIRECTORY ${CMAKE_SOURCE_DIR}/themes DESTINATION ${BUNDLE_INSTALL_DIR}/falkon.app/Contents/Resources)
-    install(DIRECTORY ${CMAKE_BINARY_DIR}/bin/plugins DESTINATION ${BUNDLE_INSTALL_DIR}/falkon.app/Contents/Resources)
+    set_target_properties(compass PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist)
+    set_target_properties(compass PROPERTIES MACOSX_BUNDLE_GUI_IDENTIFIER "id.bungamungil.compass")
+    set_target_properties(compass PROPERTIES MACOSX_BUNDLE_BUNDLE_NAME "Compass")
+    install(FILES lib/data/icons/exeicons/compass.icns DESTINATION ${BUNDLE_INSTALL_DIR}/compass.app/Contents/Resources)
+    #install(DIRECTORY ${CMAKE_BINARY_DIR}/bin/locale DESTINATION ${BUNDLE_INSTALL_DIR}/compass.app/Contents/Resources)
+    install(DIRECTORY ${CMAKE_SOURCE_DIR}/themes DESTINATION ${BUNDLE_INSTALL_DIR}/compass.app/Contents/Resources)
+    install(DIRECTORY ${CMAKE_BINARY_DIR}/bin/plugins DESTINATION ${BUNDLE_INSTALL_DIR}/compass.app/Contents/Resources)
 endif ()
 
 if (CMAKE_SYSTEM_NAME MATCHES FreeBSD OR CMAKE_SYSTEM_NAME MATCHES OpenBSD)
-    target_link_libraries(falkon execinfo)
+    target_link_libraries(compass execinfo)
 endif()
 
 if (UNIX AND NOT APPLE)
-    install(TARGETS falkon ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
-    install(DIRECTORY ${CMAKE_SOURCE_DIR}/themes DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/falkon)
+    install(TARGETS compass ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+    install(DIRECTORY ${CMAKE_SOURCE_DIR}/themes DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/compass)
     if (KF6I18n_FOUND)
         ki18n_install(${CMAKE_SOURCE_DIR}/po)
     endif()
     ecm_install_po_files_as_qm(${CMAKE_SOURCE_DIR}/poqm)
 
-    install(PROGRAMS ../../linux/applications/org.kde.falkon.desktop DESTINATION ${KDE_INSTALL_APPDIR})
+    install(PROGRAMS ../../linux/applications/id.bungamungil.compass.desktop DESTINATION ${KDE_INSTALL_APPDIR})
 
     ecm_install_icons(ICONS
-        ../../linux/hicolor/16-apps-falkon.png
-        ../../linux/hicolor/32-apps-falkon.png
-        ../../linux/hicolor/48-apps-falkon.png
-        ../../linux/hicolor/64-apps-falkon.png
-        ../../linux/hicolor/128-apps-falkon.png
-        ../../linux/hicolor/256-apps-falkon.png
-        ../../linux/hicolor/sc-apps-falkon.svg
+        ../../linux/hicolor/16-apps-compass.png
+        ../../linux/hicolor/32-apps-compass.png
+        ../../linux/hicolor/48-apps-compass.png
+        ../../linux/hicolor/64-apps-compass.png
+        ../../linux/hicolor/128-apps-compass.png
+        ../../linux/hicolor/256-apps-compass.png
+        ../../linux/hicolor/sc-apps-compass.svg
         DESTINATION ${KDE_INSTALL_ICONDIR} THEME hicolor)
 
-    install(FILES ../../linux/completion/falkon DESTINATION ${KDE_INSTALL_DATADIR}/bash-completion/completions)
-    install(FILES ../../linux/appdata/org.kde.falkon.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
+    install(FILES ../../linux/completion/compass DESTINATION ${KDE_INSTALL_DATADIR}/bash-completion/completions)
+    install(FILES ../../linux/appdata/id.bungamungil.compass.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
 elseif (WIN32)
-    install(TARGETS falkon ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
-    install(DIRECTORY ${CMAKE_SOURCE_DIR}/themes DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/falkon)
+    install(TARGETS compass ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+    install(DIRECTORY ${CMAKE_SOURCE_DIR}/themes DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/compass)
     if (KF6I18n_FOUND)
         ki18n_install(${CMAKE_SOURCE_DIR}/po)
     endif()
     ecm_install_po_files_as_qm(${CMAKE_SOURCE_DIR}/poqm)
 
     ecm_install_icons(ICONS
-        ../../linux/hicolor/16-apps-falkon.png
-        ../../linux/hicolor/32-apps-falkon.png
-        ../../linux/hicolor/48-apps-falkon.png
-        ../../linux/hicolor/64-apps-falkon.png
-        ../../linux/hicolor/128-apps-falkon.png
-        ../../linux/hicolor/256-apps-falkon.png
-        ../../linux/hicolor/sc-apps-falkon.svg
+        ../../linux/hicolor/16-apps-compass.png
+        ../../linux/hicolor/32-apps-compass.png
+        ../../linux/hicolor/48-apps-compass.png
+        ../../linux/hicolor/64-apps-compass.png
+        ../../linux/hicolor/128-apps-compass.png
+        ../../linux/hicolor/256-apps-compass.png
+        ../../linux/hicolor/sc-apps-compass.svg
         DESTINATION ${KDE_INSTALL_ICONDIR} THEME hicolor)
 endif()

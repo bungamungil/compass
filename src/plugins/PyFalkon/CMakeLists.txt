@@ -26,8 +26,8 @@ set(INCLUDES "")
 foreach(INCLUDE_DIR ${QT_INCLUDE_DIRS})
     list(APPEND INCLUDES "-I${INCLUDE_DIR}")
 endforeach()
-get_property(FalkonPrivate_INCLUDE_DIRS TARGET FalkonPrivate PROPERTY INCLUDE_DIRECTORIES)
-foreach(INCLUDE_DIR ${FalkonPrivate_INCLUDE_DIRS})
+get_property(CompassPrivate_INCLUDE_DIRS TARGET CompassPrivate PROPERTY INCLUDE_DIRECTORIES)
+foreach(INCLUDE_DIR ${CompassPrivate_INCLUDE_DIRS})
     list(APPEND INCLUDES "-I${INCLUDE_DIR}")
 endforeach()
 
@@ -182,7 +182,7 @@ target_include_directories(PyFalkon
 
 target_link_libraries(PyFalkon
     PRIVATE
-    FalkonPrivate
+    CompassPrivate
     Shiboken${PYSIDE_VERSION}::libshiboken
     PySide${PYSIDE_VERSION}::pyside${PYSIDE_VERSION}
     Python3::Python

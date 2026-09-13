@@ -19,7 +19,7 @@ qt_add_resources(RSCS ${KDEFrameworksIntegration_RSCS})
 add_library(KDEFrameworksIntegration MODULE ${KDEFrameworksIntegration_SRCS} ${RSCS})
 install(TARGETS KDEFrameworksIntegration DESTINATION ${FALKON_INSTALL_PLUGINDIR})
 target_link_libraries(KDEFrameworksIntegration
-    FalkonPrivate
+    CompassPrivate
     KF6::Wallet
     KF6::KIOCore
     KF6::KIOWidgets

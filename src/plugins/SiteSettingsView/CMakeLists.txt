@@ -11,4 +11,4 @@ ecm_create_qm_loader( SiteSettingsView_SRCS falkon_sitesettingsview_qt )
 
 add_library(SiteSettingsView MODULE ${SiteSettingsView_SRCS} ${RSCS})
 install(TARGETS SiteSettingsView DESTINATION ${FALKON_INSTALL_PLUGINDIR})
-target_link_libraries(SiteSettingsView FalkonPrivate)
+target_link_libraries(SiteSettingsView CompassPrivate)

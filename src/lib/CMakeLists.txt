@@ -597,13 +597,13 @@ qt_add_resources(SRCS
     adblock/adblock.qrc
 )
 
-add_library(FalkonPrivate SHARED ${SRCS} ${LOGGING_SRCS})
+add_library(CompassPrivate SHARED ${SRCS} ${LOGGING_SRCS})
 
 get_property(QT_WEBENGINE_INCLUDE_DIRS TARGET Qt6::WebEngineCore PROPERTY INTERFACE_INCLUDE_DIRECTORIES)
 
-target_include_directories(FalkonPrivate SYSTEM PUBLIC ${QT_WEBENGINE_INCLUDE_DIRS})
+target_include_directories(CompassPrivate SYSTEM PUBLIC ${QT_WEBENGINE_INCLUDE_DIRS})
 
-target_link_libraries(FalkonPrivate
+target_link_libraries(CompassPrivate
     Qt6::Widgets
     Qt6::WebEngineWidgets
     Qt6::Network
@@ -617,32 +617,32 @@ target_link_libraries(FalkonPrivate
 )
 
 if (BUILD_TESTING)
-    target_link_libraries(FalkonPrivate Qt6::Test)
+    target_link_libraries(CompassPrivate Qt6::Test)
 endif()
 
 if (HAVE_LIBINTL)
-    target_include_directories(FalkonPrivate SYSTEM PUBLIC ${Intl_INCLUDE_DIRS})
-    target_link_libraries(FalkonPrivate ${Intl_LIBRARIES})
+    target_include_directories(CompassPrivate SYSTEM PUBLIC ${Intl_INCLUDE_DIRS})
+    target_link_libraries(CompassPrivate ${Intl_LIBRARIES})
 endif()
 
 if (UNIX AND NOT APPLE)
     if (NOT NO_X11)
-        target_link_libraries(FalkonPrivate XCB::XCB)
+        target_link_libraries(CompassPrivate XCB::XCB)
     endif()
 
-    set_target_properties(FalkonPrivate PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION "3")
-    install(TARGETS FalkonPrivate ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_SKIP)
+    set_target_properties(CompassPrivate PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION "3")
+    install(TARGETS CompassPrivate ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_SKIP)
 
 elseif (WIN32)
 
-    set_target_properties(FalkonPrivate PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION "3")
-    install(TARGETS FalkonPrivate ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_SKIP)
+    set_target_properties(CompassPrivate PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION "3")
+    install(TARGETS CompassPrivate ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_SKIP)
 endif()
 
 if (APPLE)
-    target_link_libraries(FalkonPrivate "-framework CoreServices -framework AppKit")
+    target_link_libraries(CompassPrivate "-framework CoreServices -framework AppKit")
 endif()
 
 if (NOT DISABLE_DBUS)
-    target_link_libraries(FalkonPrivate Qt::DBus)
+    target_link_libraries(CompassPrivate Qt::DBus)
 endif()

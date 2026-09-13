@@ -32,5 +32,5 @@ qt_add_resources(RSCS ${GreaseMonkey_RSCS})
 
 add_library(GreaseMonkey MODULE ${GreaseMonkey_SRCS} ${UIS} ${RSCS})
 install(TARGETS GreaseMonkey DESTINATION ${FALKON_INSTALL_PLUGINDIR})
-target_link_libraries(GreaseMonkey FalkonPrivate)
+target_link_libraries(GreaseMonkey CompassPrivate)
 

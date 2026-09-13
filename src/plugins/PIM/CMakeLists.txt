@@ -18,5 +18,5 @@ qt_add_resources(RSCS ${PIM_RSCS})
 
 add_library(PIM MODULE ${PIM_SRCS} ${UIS} ${RSCS})
 install(TARGETS PIM DESTINATION ${FALKON_INSTALL_PLUGINDIR})
-target_link_libraries(PIM FalkonPrivate)
+target_link_libraries(PIM CompassPrivate)
 

@@ -22,5 +22,5 @@ qt_add_resources(RSCS ${FlashCookieManager_RSCS})
 
 add_library(FlashCookieManager MODULE ${FlashCookieManager_SRCS} ${UIS} ${RSCS})
 install(TARGETS FlashCookieManager DESTINATION ${FALKON_INSTALL_PLUGINDIR})
-target_link_libraries(FlashCookieManager FalkonPrivate)
+target_link_libraries(FlashCookieManager CompassPrivate)
 

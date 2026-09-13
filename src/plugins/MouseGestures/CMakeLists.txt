@@ -30,5 +30,5 @@ KDE_ENABLE_EXCEPTIONS()
 
 add_library(MouseGestures MODULE ${MouseGestures_SRCS} ${UIS} ${RSCS})
 install(TARGETS MouseGestures DESTINATION ${FALKON_INSTALL_PLUGINDIR})
-target_link_libraries(MouseGestures FalkonPrivate)
+target_link_libraries(MouseGestures CompassPrivate)
 

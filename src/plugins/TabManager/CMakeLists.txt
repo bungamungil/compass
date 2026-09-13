@@ -29,5 +29,5 @@ qt_add_resources(RSCS ${TabManager_RSCS})
 
 add_library(TabManager MODULE ${TabManager_SRCS} ${UIS} ${RSCS})
 install(TARGETS TabManager DESTINATION ${FALKON_INSTALL_PLUGINDIR})
-target_link_libraries(TabManager FalkonPrivate)
+target_link_libraries(TabManager CompassPrivate)
 
