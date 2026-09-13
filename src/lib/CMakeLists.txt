@@ -271,6 +271,8 @@ set(SRCS ${SRCS}
     verticaltabs/tabfiltermodel.cpp
     verticaltabs/loadinganimator.cpp
     verticaltabs/verticaltabswidget.cpp
+    verticaltabs/tabsearchmodel.cpp
+    verticaltabs/tabsearchpopup.cpp
     webengine/javascript/autofilljsobject.cpp
     webengine/javascript/externaljsobject.cpp
     webengine/loadrequest.cpp
@@ -514,6 +516,8 @@ set(SRCS ${SRCS}
     verticaltabs/tabfiltermodel.h
     verticaltabs/loadinganimator.h
     verticaltabs/verticaltabswidget.h
+    verticaltabs/tabsearchmodel.h
+    verticaltabs/tabsearchpopup.h
     webengine/javascript/autofilljsobject.h
     webengine/javascript/externaljsobject.h
     webengine/loadrequest.h

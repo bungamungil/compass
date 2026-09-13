@@ -23,6 +23,7 @@ falkon_tests(
     webviewtest
     webtabtest
     sqldatabasetest
+    tabsearchmodeltest
 )
 
 if (BUILD_TESTING_ONLINE)
