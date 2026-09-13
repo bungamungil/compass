@@ -1,12 +1,10 @@
-# Falkon
+# Compass
 
-Falkon is a KDE web browser. It uses QtWebEngine rendering engine.
-
-![image](https://www.falkon.org/images/screenshot.png)
+Compass is a web browser forked from [KDE Falkon](https://www.falkon.org/), using the QtWebEngine rendering engine.
 
 ## Downloads
 
-Falkon downloads are available from [homepage](https://www.falkon.org/download/).
+See the [GitHub repository](https://github.com/bungamungil/compass) for source and releases.
 
 ## Building
 
@@ -18,29 +16,27 @@ make && make install
 
 ### Install to custom prefix
 
-When installing Falkon to custom prefix, you may need to adjust `XDG_DATA_DIRS` environment variable.
+When installing Compass to a custom prefix, you may need to adjust the `XDG_DATA_DIRS` environment variable.
 
 ```sh
 # Build
-cmake -DCMAKE_INSTALL_PREFIX=$HOME/falkon
+cmake -DCMAKE_INSTALL_PREFIX=$HOME/compass
 
 # Run
-export XDG_DATA_DIRS="$HOME/falkon/share:$XDG_DATA_DIRS"
-$HOME/falkon/bin/falkon
+export XDG_DATA_DIRS="$HOME/compass/share:$XDG_DATA_DIRS"
+$HOME/compass/bin/compass
 ```
 
 ## Contributing
 
-Want to contribute? Great!
-
-[KDE Community Wiki](https://community.kde.org/Get_Involved)
-
-Code review is done on [Phabricator](https://community.kde.org/Infrastructure/Phabricator). When sending patches, add Falkon project (`#Falkon`) as a reviewer.
+Want to contribute? Open an issue or pull request on [GitHub](https://github.com/bungamungil/compass).
 
 #### Reporting bugs
 
-You can report any bugs or feature request in KDE [bugzilla](https://bugs.kde.org/enter_bug.cgi?product=Falkon). Before reporting, please make sure your issue isn’t already reported ([open issues](https://bugs.kde.org/buglist.cgi?bug_status=UNCONFIRMED&bug_status=CONFIRMED&bug_status=ASSIGNED&bug_status=REOPENED&component=extensions&component=general&list_id=1597725&product=Falkon)).
+You can report bugs or feature requests on the [GitHub issue tracker](https://github.com/bungamungil/compass/issues). Before reporting, please make sure your issue isn't already reported.
 
-#### Contact
+## Credits
 
-You can get in contact with developers using [mailing list](https://mail.kde.org/mailman/listinfo/falkon) or __IRC__ `#falkon` at `irc.libera.chat`.
+Compass is forked from [KDE Falkon](https://www.falkon.org/), licensed under GPL-3.0-or-later. See `src/lib/data/html/copyright` for full third-party attributions.
+
+The Compass application icon is from the [Papirus Icon Theme](https://github.com/PapirusDevelopmentTeam/papirus-icon-theme), licensed under GPL-3.0.

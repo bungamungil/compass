@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2010-2017 David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -64,8 +65,7 @@ void SpeedDial::loadSettings()
     settings.endGroup();
 
     if (allPages.isEmpty()) {
-        allPages = QL1S("url:\"https://www.falkon.org\"|title:\"Falkon\";"
-                        "url:\"https://store.falkon.org\"|title:\"Falkon Store\";"
+        allPages = QL1S("url:\"https://github.com/bungamungil/compass\"|title:\"Compass\";"
                         "url:\"https://www.kde.org\"|title:\"KDE Planet\";"
                         "url:\"https://planet.kde.org\"|title:\"KDE Community\";");
     }

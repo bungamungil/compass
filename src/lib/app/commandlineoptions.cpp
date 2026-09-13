@@ -2,6 +2,7 @@
 * Falkon - Qt web browser
 * Copyright (C) 2010-2016 David Rosca <nowrep@gmail.com>
 * Copyright (C) 2020-2025 Juraj Oravec <jurajoravec@mailo.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -135,7 +136,7 @@ void CommandLineOptions::parseActions()
 
     if (parser.isSet(profileOption)) {
         const QString profileName = parser.value(profileOption);
-        std::cout << "Falkon: Starting with profile '" << profileName.toUtf8().data() << "'" << std::endl;
+        std::cout << "Compass: Starting with profile '" << profileName.toUtf8().data() << "'" << std::endl;
 
         ActionPair pair;
         pair.action = Qz::CL_StartWithProfile;

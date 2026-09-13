@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2010-2018 David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -101,7 +102,7 @@ void DesktopNotificationsFactory::showNotification(const QPixmap &icon, const QS
 
         QDBusInterface dbus(QSL("org.freedesktop.Notifications"), QSL("/org/freedesktop/Notifications"), QSL("org.freedesktop.Notifications"), QDBusConnection::sessionBus());
         QVariantList args;
-        args.append(QLatin1String("Falkon"));
+        args.append(QLatin1String("Compass"));
         args.append(m_uint);
         args.append(iconFileName);
         args.append(heading);

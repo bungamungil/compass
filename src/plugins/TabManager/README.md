@@ -1,6 +1,6 @@
-TabManager extension for Falkon
+TabManager extension for Compass
 -------------------------------------------------
-This extension adds the ability to manage tabs and windows in Falkon.
+This extension adds the ability to manage tabs and windows in Compass.
 
 ![tbm3](http://i.imgur.com/Gh8bEXo.png)
 

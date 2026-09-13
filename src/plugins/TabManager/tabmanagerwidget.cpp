@@ -112,7 +112,7 @@ QString TabManagerWidget::domainFromUrl(const QUrl &url, bool useHostName)
         return tr("Local File System:");
     }
     else if (url.scheme() == QSL("compass") || urlString.isEmpty()) {
-        return tr("Falkon:");
+        return tr("Compass:");
     }
     else if (url.scheme() == QSL("ftp")) {
         appendString.prepend(tr(" [FTP]"));

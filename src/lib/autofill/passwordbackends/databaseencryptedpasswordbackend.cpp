@@ -579,7 +579,7 @@ void MasterPasswordDialog::reject()
         // master password not set
         QMessageBox::information(this, AutoFill::tr("Warning!"),
                                  AutoFill::tr("This backend needs a master password to be set! "
-                                              "Falkon just switches to its default backend"));
+                                              "Compass just switches to its default backend"));
         // active default backend
         mApp->autoFill()->passwordManager()->switchBackend(QSL("database"));
         return;

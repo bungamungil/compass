@@ -1,4 +1,4 @@
-FlashCookieManager extension for Falkon
+FlashCookieManager extension for Compass
 -------------------------------------------------
 An extension to manage flash cookies.
 

@@ -50,7 +50,7 @@ void ProfileManager::initConfigDir()
         return;
     }
 
-    std::cout << "Falkon: Creating new profile directory" << std::endl;
+    std::cout << "Compass: Creating new profile directory" << std::endl;
 
     if (!dir.exists()) {
         dir.mkpath(dir.absolutePath());
@@ -218,7 +218,7 @@ void ProfileManager::updateProfile(const QString &current, const QString &profil
     }
 
     if (prof < Updater::Version(QStringLiteral("1.9.0"))) {
-        std::cout << "Falkon: Using profile from QupZilla " << qPrintable(profile) << " is not supported!" << std::endl;
+        std::cout << "Compass: Using profile from QupZilla " << qPrintable(profile) << " is not supported!" << std::endl;
         return;
     }
 
@@ -326,7 +326,7 @@ void ProfileManager::migrateFromQupZilla()
         return;
     }
 
-    std::cout << "Falkon: Migrating config from QupZilla..." << std::endl;
+    std::cout << "Compass: Migrating config from QupZilla..." << std::endl;
 
     QzTools::copyRecursively(qzConfig, DataPaths::path(DataPaths::Config));
 }
@@ -392,7 +392,7 @@ void ProfileManager::updateDatabase()
 
     /* Do not try to update database of too old profile */
     if (prof < Updater::Version(QStringLiteral("1.9.0"))) {
-        std::cout << "Falkon: Using profile from QupZilla " << qPrintable(profileVersion) << " is not supported!" << std::endl;
+        std::cout << "Compass: Using profile from QupZilla " << qPrintable(profileVersion) << " is not supported!" << std::endl;
         return;
     }
 

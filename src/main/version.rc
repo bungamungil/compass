@@ -20,7 +20,7 @@ BEGIN
             VALUE "CompanyName", "KDE"
             VALUE "FileDescription", "Compass"
             VALUE "FileVersion", FALKON_VERSION_STRING
-            VALUE "LegalCopyright", "Copyright (C) 2010-2018 David Rosca"
+            VALUE "LegalCopyright", "Copyright (C) 2010-2018 David Rosca, 2026 Bunga Mungil / Compass Browser Developer"
             VALUE "InternalName", "compass"
             VALUE "OriginalFilename", "compass.exe"
             VALUE "ProductName", "Compass"

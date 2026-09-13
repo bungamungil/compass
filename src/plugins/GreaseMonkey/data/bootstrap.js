@@ -12,7 +12,7 @@ var GM = {
             version: ""
         },
         scriptMetaStr: "",
-        scriptHandler: "Falkon GreaseMonkey",
+        scriptHandler: "Compass GreaseMonkey",
         version: "4.0"
     }
 };

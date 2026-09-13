@@ -2,6 +2,7 @@
 * Copyright (C) 2012-2017  S. Razi Alavizadeh <s.r.alavizadeh@gmail.com>
 * This file is part of Falkon - Qt web browser 2010-2014
 * by  David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -109,7 +110,7 @@ bool RegisterQAppAssociation::registerAppCapabilities()
 
         if (capabilitiesKey.isEmpty()) {
             QMessageBox::warning(mApp->getWindow(), tr("Warning!"),
-                                 tr("There are some problems. Please, reinstall Falkon.\n"
+                                 tr("There are some problems. Please, reinstall Compass.\n"
                                     "Maybe relaunch with administrator right do a magic for you! ;)"));
             return false;
         }
