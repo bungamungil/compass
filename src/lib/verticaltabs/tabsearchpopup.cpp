@@ -24,7 +24,6 @@
 #include "lineedit.h"
 
 #include <QAction>
-#include <QCoreApplication>
 #include <QKeyEvent>
 #include <QListView>
 #include <QPainter>
@@ -219,9 +218,29 @@ void TabSearchPopup::keyPressEvent(QKeyEvent *event)
     case Qt::Key_Down:
     case Qt::Key_Up:
     case Qt::Key_PageDown:
-    case Qt::Key_PageUp:
-        QCoreApplication::sendEvent(m_listView, event);
+    case Qt::Key_PageUp: {
+        const int rowCount = m_model->rowCount();
+        if (rowCount == 0) {
+            return;
+        }
+        int row = m_listView->currentIndex().isValid() ? m_listView->currentIndex().row() : 0;
+        switch (event->key()) {
+        case Qt::Key_Down:
+            row = qMin(row + 1, rowCount - 1);
+            break;
+        case Qt::Key_Up:
+            row = qMax(row - 1, 0);
+            break;
+        case Qt::Key_PageDown:
+            row = qMin(row + 5, rowCount - 1);
+            break;
+        case Qt::Key_PageUp:
+            row = qMax(row - 5, 0);
+            break;
+        }
+        m_listView->setCurrentIndex(m_model->index(row, 0));
         return;
+    }
     case Qt::Key_Return:
     case Qt::Key_Enter:
         activateIndex(m_listView->currentIndex());
