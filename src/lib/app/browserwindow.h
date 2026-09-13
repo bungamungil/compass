@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2010-2018 David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -53,6 +54,7 @@ class ClickableLabel;
 class LocationBar;
 class TabModel;
 class TabMruModel;
+class VerticalTabsWidget;
 
 class FALKON_EXPORT BrowserWindow : public QMainWindow
 {
@@ -103,6 +105,10 @@ public:
 
     SideBar* addSideBar();
     void saveSideBarSettings();
+
+    VerticalTabsWidget* verticalTabs() const;
+    bool isVerticalTabsVisible() const;
+    void showVerticalTabs(bool enable);
 
     int tabCount() const;
     TabbedWebView* weView() const;
@@ -197,6 +203,7 @@ private:
 
     QHash<QString, QVariant> saveUiState();
     void restoreUiState(const QHash<QString, QVariant> &state);
+    void applySplitterSizes();
 
     QList<QUrl> m_startUrls;
     QUrl m_homepage;
@@ -209,6 +216,7 @@ private:
 
     TabWidget* m_tabWidget;
     QPointer<SideBar> m_sideBar;
+    QPointer<VerticalTabsWidget> m_verticalTabs;
     SideBarManager* m_sideBarManager;
     StatusBar* m_statusBar;
 
@@ -227,6 +235,7 @@ private:
 
     int m_sideBarWidth;
     int m_webViewWidth;
+    int m_verticalTabsWidth;
 
     // Shortcuts
     bool m_useTabNumberShortcuts;
