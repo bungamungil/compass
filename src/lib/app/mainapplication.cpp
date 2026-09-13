@@ -994,11 +994,8 @@ void MainApplication::downloadRequested(QWebEngineDownloadRequest *download)
 void MainApplication::loadSettings()
 {
     Settings settings;
-    settings.beginGroup(QSL("Themes"));
-    QString activeTheme = settings.value(QSL("activeTheme"), DEFAULT_THEME_NAME).toString();
-    settings.endGroup();
 
-    loadTheme(activeTheme);
+    loadUserStyleSheet();
 
     QWebEngineSettings* webSettings = m_webProfile->settings();
 
@@ -1103,37 +1100,9 @@ void MainApplication::loadSettings()
     networkManager()->loadSettings();
 }
 
-void MainApplication::loadTheme(const QString &name)
+void MainApplication::loadUserStyleSheet()
 {
-    QString activeThemePath = DataPaths::locate(DataPaths::Themes, name);
-
-    if (activeThemePath.isEmpty()) {
-        qWarning() << "Cannot load theme " << name;
-        activeThemePath = QSL("%1/%2").arg(DataPaths::path(DataPaths::Themes), DEFAULT_THEME_NAME);
-    }
-
-    QString qss = QzTools::readAllFileContents(activeThemePath + QLatin1String("/main.css"));
-
-#if defined(Q_OS_MACOS)
-    qss.append(QzTools::readAllFileContents(activeThemePath + QLatin1String("/mac.css")));
-#elif defined(Q_OS_UNIX)
-    qss.append(QzTools::readAllFileContents(activeThemePath + QLatin1String("/linux.css")));
-#elif defined(Q_OS_WIN) || defined(Q_OS_OS2)
-    qss.append(QzTools::readAllFileContents(activeThemePath + QLatin1String("/windows.css")));
-#endif
-
-    if (isRightToLeft()) {
-        qss.append(QzTools::readAllFileContents(activeThemePath + QLatin1String("/rtl.css")));
-    }
-
-    if (isPrivate()) {
-        qss.append(QzTools::readAllFileContents(activeThemePath + QLatin1String("/private.css")));
-    }
-
-    qss.append(QzTools::readAllFileContents(DataPaths::currentProfilePath() + QL1S("/userChrome.css")));
-
-    QString relativePath = QDir::current().relativeFilePath(activeThemePath);
-    qss.replace(QRegularExpression(QSL("url\\s*\\(\\s*([^\\*:\\);]+)\\s*\\)")), QSL("url(%1/\\1)").arg(relativePath));
+    const QString qss = QzTools::readAllFileContents(DataPaths::currentProfilePath() + QL1S("/userChrome.css"));
     setStyleSheet(qss);
 }
 
