@@ -109,7 +109,7 @@ void CommandLineOptions::parseActions()
     }
 
     if (parser.isSet(QSL("help-all"))) {
-        parser.process({QSL("falkon"), QSL("--help-all")});
+        parser.process({QSL("compass"), QSL("--help-all")});
     }
 
     if (parser.isSet(versionOption)) {

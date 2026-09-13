@@ -17,7 +17,7 @@ BEGIN
     BEGIN
         BLOCK "000004b0"
         BEGIN
-            VALUE "CompanyName", "KDE"
+            VALUE "CompanyName", "Compass"
             VALUE "FileDescription", "Compass"
             VALUE "FileVersion", FALKON_VERSION_STRING
             VALUE "LegalCopyright", "Copyright (C) 2010-2018 David Rosca, 2026 Bunga Mungil / Compass Browser Developer"

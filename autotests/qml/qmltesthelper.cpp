@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2018 Anmol Gautam <tarptaeya@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -23,10 +24,10 @@
 QmlTestHelper::QmlTestHelper()
 {
     QmlPlugins::registerQmlTypes();
-    qmlRegisterType<QmlTestItem>("org.kde.falkon.test", 1, 0, "TestItem");
+    qmlRegisterType<QmlTestItem>("id.bungamungil.compass.test", 1, 0, "TestItem");
     QQmlComponent component(&engine);
-    component.setData("import org.kde.falkon 1.0 as Falkon\n"
-                      "import org.kde.falkon.test 1.0 as FalkonTest\n"
+    component.setData("import id.bungamungil.compass 1.0 as Falkon\n"
+                      "import id.bungamungil.compass.test 1.0 as FalkonTest\n"
                       "import QtQuick 2.7\n"
                       "FalkonTest.TestItem {"
                       "    evalFunc: function(source) {"

@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2018 David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -23,7 +24,7 @@
 #define FALKONTEST_MAIN(Test) \
     int main(int argc, char **argv) \
     { \
-        QzTools::removeRecursively(QDir::tempPath() + QSL("/Falkon-test")); \
+        QzTools::removeRecursively(QDir::tempPath() + QSL("/Compass-test")); \
         MainApplication::setTestModeEnabled(true); \
         MainApplication app(argc, argv); \
         Test test; \

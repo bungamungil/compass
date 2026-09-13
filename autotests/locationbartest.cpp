@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2018 David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -75,9 +76,9 @@ void LocationBarTest::loadActionBasicTest()
     action = LocationBar::loadAction(QSL("not url with spaces"));
     QCOMPARE(action.type, LocationBar::LoadAction::Search);
 
-    action = LocationBar::loadAction(QSL("falkon:about"));
+    action = LocationBar::loadAction(QSL("compass:about"));
     QCOMPARE(action.type, LocationBar::LoadAction::Url);
-    QCOMPARE(action.loadRequest.url(), QUrl(QSL("falkon:about")));
+    QCOMPARE(action.loadRequest.url(), QUrl(QSL("compass:about")));
 }
 
 void LocationBarTest::loadActionBookmarksTest()
@@ -161,9 +162,9 @@ void LocationBarTest::loadActionSpecialSchemesTest()
     QCOMPARE(action.type, LocationBar::LoadAction::Url);
     QCOMPARE(action.loadRequest.url(), QUrl(QSL("data:image/png;base64,xxxxx")));
 
-    action = LocationBar::loadAction(QSL("falkon:about"));
+    action = LocationBar::loadAction(QSL("compass:about"));
     QCOMPARE(action.type, LocationBar::LoadAction::Url);
-    QCOMPARE(action.loadRequest.url(), QUrl(QSL("falkon:about")));
+    QCOMPARE(action.loadRequest.url(), QUrl(QSL("compass:about")));
 
     action = LocationBar::loadAction(QSL("file:test.html"));
     QCOMPARE(action.type, LocationBar::LoadAction::Url);
