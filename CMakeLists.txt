@@ -197,6 +197,7 @@ include_directories(
      ${CMAKE_SOURCE_DIR}/src/lib/sidebar
      ${CMAKE_SOURCE_DIR}/src/lib/tabwidget
      ${CMAKE_SOURCE_DIR}/src/lib/tools
+     ${CMAKE_SOURCE_DIR}/src/lib/verticaltabs
      ${CMAKE_SOURCE_DIR}/src/lib/webengine
      ${CMAKE_SOURCE_DIR}/src/lib/webtab
 )

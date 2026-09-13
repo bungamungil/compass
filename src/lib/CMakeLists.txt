@@ -235,6 +235,10 @@ set(SRCS ${SRCS}
     tabwidget/tabstackedwidget.cpp
     tabwidget/tabwidget.cpp
     tabwidget/tabcontextmenu.cpp
+    verticaltabs/tablistview.cpp
+    verticaltabs/tablistdelegate.cpp
+    verticaltabs/tabfiltermodel.cpp
+    verticaltabs/loadinganimator.cpp
     tools/abstractbuttoninterface.cpp
     tools/aesinterface.cpp
     tools/animatedwidget.cpp
@@ -473,6 +477,10 @@ set(SRCS ${SRCS}
     tabwidget/tabstackedwidget.h
     tabwidget/tabwidget.h
     tabwidget/tabcontextmenu.h
+    verticaltabs/tablistview.h
+    verticaltabs/tablistdelegate.h
+    verticaltabs/tabfiltermodel.h
+    verticaltabs/loadinganimator.h
     tools/abstractbuttoninterface.h
     tools/aesinterface.h
     tools/animatedwidget.h
