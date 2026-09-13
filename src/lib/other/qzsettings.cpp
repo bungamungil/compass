@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2010-2016  David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -65,6 +66,8 @@ void QzSettings::loadSettings()
     openPopupsInTabs = settings.value(QSL("OpenPopupsInTabs"), false).toBool();
     blockAutomaticPopups = settings.value(QSL("BlockAutomaticPopups"), false).toBool();
     alwaysSwitchTabsWithWheel = settings.value(QSL("AlwaysSwitchTabsWithWheel"), false).toBool();
+    verticalTabsEnabled = settings.value(QSL("VerticalTabsEnabled"), false).toBool();
+    verticalTabsIconOnly = settings.value(QSL("VerticalTabsIconOnly"), false).toBool();
     settings.endGroup();
 
     settings.beginGroup(QSL("Browser-View-Settings"));
@@ -85,5 +88,7 @@ void QzSettings::saveSettings()
 
     settings.beginGroup(QSL("Browser-Tabs-Settings"));
     settings.setValue(QSL("TabsOnTop"), tabsOnTop);
+    settings.setValue(QSL("VerticalTabsEnabled"), verticalTabsEnabled);
+    settings.setValue(QSL("VerticalTabsIconOnly"), verticalTabsIconOnly);
     settings.endGroup();
 }
