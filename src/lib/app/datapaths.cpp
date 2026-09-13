@@ -55,7 +55,6 @@ void DataPaths::setPortableVersion()
     d->m_paths[Cache] = QStringList{appDir + QSL("/cache")};
     d->m_paths[Profiles] = QStringList{appDir + QSL("/config/profiles")};
 
-    d->m_paths[Themes].clear();
     d->m_paths[Plugins].clear();
     d->initAssetsIn(appDir);
 
@@ -152,6 +151,5 @@ void DataPaths::initCurrentProfile(const QString &profilePath)
 
 void DataPaths::initAssetsIn(const QString &path)
 {
-    m_paths[Themes].append(path + QLatin1String("/themes"));
     m_paths[Plugins].append(path + QLatin1String("/plugins"));
 }

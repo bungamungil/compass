@@ -2,6 +2,7 @@
 * Falkon - Qt web browser
 * Copyright (C) 2010-2018 David Rosca <nowrep@gmail.com>
 * Copyright (C) 2020-2025 Juraj Oravec <jurajoravec@mailo.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -130,16 +131,6 @@ enum ColorScheme {
 };
 
 }
-
-#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
-#define DEFAULT_THEME_NAME QSL("windows")
-#elif defined(Q_OS_MACOS)
-#define DEFAULT_THEME_NAME QSL("mac")
-#elif defined(Q_OS_UNIX)
-#define DEFAULT_THEME_NAME QSL("linux")
-#else
-#define DEFAULT_THEME_NAME QSL("default")
-#endif
 
 #ifdef Q_OS_WIN
 #define DISABLE_CHECK_UPDATES false

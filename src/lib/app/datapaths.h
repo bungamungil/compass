@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2014  David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -29,7 +30,6 @@ class FALKON_EXPORT DataPaths
 public:
     enum Path {
         AppData = 0,
-        Themes,
         Plugins,
         Config,
         Profiles,
@@ -48,9 +48,9 @@ public:
     // Set Config path to $AppData/data
     static void setPortableVersion();
 
-    // Returns main path (Themes -> /usr/share/themes)
+    // Returns main path
     static QString path(Path type);
-    // Returns all paths (Themes -> /usr/share/themes, ~/.config/falkon/themes)
+    // Returns all paths
     static QStringList allPaths(Path type);
     // Returns full path of existing file
     static QString locate(Path type, const QString &file);
