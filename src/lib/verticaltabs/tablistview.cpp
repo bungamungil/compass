@@ -88,6 +88,19 @@ void TabListView::setIconOnly(bool enable)
     viewport()->update();
 }
 
+void TabListView::setAutoHeight(bool enable)
+{
+    m_autoHeight = enable;
+    setVerticalScrollBarPolicy(enable ? Qt::ScrollBarAlwaysOff : Qt::ScrollBarAsNeeded);
+    setSizeAdjustPolicy(enable ? QAbstractScrollArea::AdjustToContents : QAbstractScrollArea::AdjustIgnored);
+    if (!enable) {
+        // Undo any fixed height previously applied by updateHeight()
+        setMinimumHeight(0);
+        setMaximumHeight(QWIDGETSIZE_MAX);
+    }
+    updateHeight();
+}
+
 void TabListView::adjustStyleOption(QStyleOptionViewItem *option)
 {
     const QModelIndex index = option->index;
@@ -257,6 +270,10 @@ void TabListView::updateVisibility()
 
 void TabListView::updateHeight()
 {
+    if (!m_autoHeight) {
+        return;
+    }
+
     QStyleOptionViewItem option;
     initViewItemOption(&option);
 

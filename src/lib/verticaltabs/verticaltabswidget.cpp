@@ -49,8 +49,8 @@ VerticalTabsWidget::VerticalTabsWidget(BrowserWindow *window, QWidget *parent)
     collapseButton->setObjectName(QSL("verticaltabs-button-collapse"));
     collapseButton->setAutoRaise(true);
     collapseButton->setFocusPolicy(Qt::NoFocus);
-    collapseButton->setToolTip(tr("Collapse Sidebar"));
-    collapseButton->setIcon(QIcon::fromTheme(QSL("sidebar-collapse")));
+    collapseButton->setToolTip(tr("Collapse tab panel"));
+    collapseButton->setIcon(QIcon::fromTheme(QSL("sidebar-collapse"), QIcon::fromTheme(QSL("go-previous"))));
     m_collapseButton = collapseButton;
     connect(collapseButton, &QAbstractButton::clicked, this, [this]() {
         setIconOnly(!m_iconOnly);
@@ -82,6 +82,7 @@ VerticalTabsWidget::VerticalTabsWidget(BrowserWindow *window, QWidget *parent)
     m_pinnedView->setHideWhenEmpty(true);
 
     m_normalView = new TabListView(m_window, this);
+    m_normalView->setAutoHeight(false);
     auto *normalModel = new TabFilterModel(m_normalView);
     normalModel->setFilterPinnedTabs(true);
     normalModel->setSourceModel(m_window->tabModel());
@@ -123,6 +124,7 @@ void VerticalTabsWidget::setIconOnly(bool enable)
 
     m_collapseButton->setIcon(enable ? QIcon::fromTheme(QSL("sidebar-expand"), QIcon::fromTheme(QSL("go-next")))
                                       : QIcon::fromTheme(QSL("sidebar-collapse"), QIcon::fromTheme(QSL("go-previous"))));
+    m_collapseButton->setToolTip(enable ? tr("Expand tab panel") : tr("Collapse tab panel"));
 
     qzSettings->verticalTabsIconOnly = enable;
     qzSettings->saveSettings();

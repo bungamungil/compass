@@ -41,6 +41,10 @@ public:
 
     void setIconOnly(bool enable);
 
+    // When disabled, the view keeps its layout-assigned height and scrolls
+    // instead of growing to fit every row (needed for the unbounded tab list).
+    void setAutoHeight(bool enable);
+
     QModelIndex indexAfter(const QModelIndex &index) const;
     QModelIndex indexBefore(const QModelIndex &index) const;
 
@@ -65,4 +69,5 @@ private:
     DelegateButton m_pressedButton = NoButton;
     QModelIndex m_pressedIndex;
     bool m_hideWhenEmpty = false;
+    bool m_autoHeight = true;
 };

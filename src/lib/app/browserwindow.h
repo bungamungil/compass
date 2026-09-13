@@ -236,7 +236,7 @@ private:
 
     int m_sideBarWidth;
     int m_webViewWidth;
-    int m_verticalTabsWidth;
+    int m_verticalTabsWidth = 250;
 
     // Shortcuts
     bool m_useTabNumberShortcuts;

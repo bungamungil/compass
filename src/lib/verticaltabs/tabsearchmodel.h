@@ -21,6 +21,7 @@
 
 #include <QAbstractListModel>
 #include <QIcon>
+#include <QPointer>
 #include <QUrl>
 #include <QVector>
 
@@ -65,7 +66,7 @@ private:
         QString title;
         QUrl url;
         QIcon icon;
-        WebTab *webTab = nullptr;      // valid only for OpenTabs rows
+        QPointer<WebTab> webTab;       // valid only for OpenTabs rows
         int closedIndex = -1;          // valid only for RecentlyClosed rows
     };
 

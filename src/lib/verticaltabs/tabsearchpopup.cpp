@@ -24,6 +24,7 @@
 #include "lineedit.h"
 
 #include <QAction>
+#include <QCoreApplication>
 #include <QKeyEvent>
 #include <QListView>
 #include <QPainter>
@@ -177,6 +178,14 @@ TabSearchPopup::TabSearchPopup(BrowserWindow *window, QWidget *parent)
     connect(m_lineEdit, &QLineEdit::textChanged, m_model, &TabSearchModel::setFilter);
     connect(m_listView, &QListView::activated, this, &TabSearchPopup::activateIndex);
     connect(m_listView, &QListView::clicked, this, &TabSearchPopup::activateIndex);
+
+    // Keep a valid current row at all times so Enter always has a target.
+    // TabSearchModel resets itself on every filter change.
+    auto selectFirstRow = [this]() {
+        m_listView->setCurrentIndex(m_model->rowCount() > 0 ? m_model->index(0, 0) : QModelIndex());
+    };
+    connect(m_model, &QAbstractItemModel::modelReset, this, selectFirstRow);
+    selectFirstRow();
 }
 
 void TabSearchPopup::activateIndex(const QModelIndex &index)
@@ -203,9 +212,22 @@ void TabSearchPopup::activateIndex(const QModelIndex &index)
 
 void TabSearchPopup::keyPressEvent(QKeyEvent *event)
 {
-    if (event->key() == Qt::Key_Escape) {
+    switch (event->key()) {
+    case Qt::Key_Escape:
         close();
         return;
+    case Qt::Key_Down:
+    case Qt::Key_Up:
+    case Qt::Key_PageDown:
+    case Qt::Key_PageUp:
+        QCoreApplication::sendEvent(m_listView, event);
+        return;
+    case Qt::Key_Return:
+    case Qt::Key_Enter:
+        activateIndex(m_listView->currentIndex());
+        return;
+    default:
+        break;
     }
     QFrame::keyPressEvent(event);
 }

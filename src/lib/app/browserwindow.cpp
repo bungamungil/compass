@@ -934,10 +934,16 @@ void BrowserWindow::showVerticalTabs(bool enable)
     if (enable == !m_verticalTabs.isNull())
         return;
 
+    // Must be set before anything that can trigger qzSettings->saveSettings()
+    // (e.g. VerticalTabsWidget::setIconOnly), otherwise the stale value is
+    // written back to disk and the setting never survives a restart.
+    qzSettings->verticalTabsEnabled = enable;
+
     if (enable) {
         m_verticalTabs = new VerticalTabsWidget(this, this);
         m_verticalTabs->setIconOnly(qzSettings->verticalTabsIconOnly);
         connect(m_verticalTabs.data(), &VerticalTabsWidget::searchRequested, this, &BrowserWindow::searchTabs);
+        m_webViewWidth = qMax(100, width() - m_verticalTabsWidth - (m_sideBar ? m_sideBarWidth : 0));
         m_mainSplitter->insertWidget(0, m_verticalTabs.data());
         m_mainSplitter->setCollapsible(0, false);
         m_tabWidget->tabBar()->setForceHidden(true);
@@ -946,10 +952,10 @@ void BrowserWindow::showVerticalTabs(bool enable)
         m_verticalTabsWidth = m_mainSplitter->sizes().at(0) + 1;
         delete m_verticalTabs.data();
         m_verticalTabs = nullptr;
+        m_webViewWidth = width() - (m_sideBar ? m_sideBarWidth : 0);
         m_tabWidget->tabBar()->setForceHidden(false);
         applySplitterSizes();
     }
-    qzSettings->verticalTabsEnabled = enable;
 }
 
 void BrowserWindow::searchTabs()

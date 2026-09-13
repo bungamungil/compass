@@ -26,6 +26,19 @@ void TabSearchModelTest::matching()
     QVERIFY(tabSearchMatches(QSL("KDE Konsole"), QSL("https://invent.kde.org/konsole"), QSL("konsole")));
     QVERIFY(tabSearchMatches(QSL("KDE Konsole"), QSL("https://invent.kde.org/konsole"), QSL("kde invent")));
     QVERIFY(!tabSearchMatches(QSL("KDE Konsole"), QSL("https://invent.kde.org/konsole"), QSL("firefox")));
+
+    // Regex metacharacters in the filter must be escaped (literal '.', not "any character")
+    QVERIFY(tabSearchMatches(QSL("Test"), QSL("https://kde.org/page"), QSL("kde.org")));
+    QVERIFY(!tabSearchMatches(QSL("Test"), QSL("https://kdeXorg/page"), QSL("kde.org")));
+
+    // Case-insensitive matching
+    QVERIFY(tabSearchMatches(QSL("KDE Konsole"), QSL("https://invent.kde.org/konsole"), QSL("KONSOLE")));
+
+    // Match via URL alone, when the title doesn't contain the filter term at all
+    QVERIFY(tabSearchMatches(QSL("Home Page"), QSL("https://phabricator.kde.org"), QSL("phabricator")));
+
+    // Whitespace-only filter matches everything (trims to empty)
+    QVERIFY(tabSearchMatches(QSL("Anything"), QSL("https://example.com"), QSL("   ")));
 }
 
 QTEST_GUILESS_MAIN(TabSearchModelTest)

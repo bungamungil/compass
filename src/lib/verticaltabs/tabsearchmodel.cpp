@@ -88,7 +88,7 @@ QVariant TabSearchModel::data(const QModelIndex &index, int role) const
     case SectionRole:
         return static_cast<int>(row.section);
     case WebTabRole:
-        return QVariant::fromValue(row.webTab);
+        return QVariant::fromValue(row.webTab.data());
     case ClosedIndexRole:
         return row.closedIndex;
     default:

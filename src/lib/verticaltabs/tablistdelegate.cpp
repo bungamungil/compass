@@ -37,6 +37,11 @@ TabListDelegate::TabListDelegate(TabListView *view)
 
 QRect TabListDelegate::audioButtonRect(const QModelIndex &index) const
 {
+    // In icon-only mode the audio button is not drawn, and its hit-target would
+    // overlap the centered favicon - clicking a tab would toggle mute instead.
+    if (m_iconOnly) {
+        return QRect();
+    }
     if (!index.data(TabModel::AudioPlayingRole).toBool() && !index.data(TabModel::AudioMutedRole).toBool()) {
         return QRect();
     }
