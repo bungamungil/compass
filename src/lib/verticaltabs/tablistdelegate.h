@@ -35,8 +35,11 @@ public:
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
+    void setIconOnly(bool enable) { m_iconOnly = enable; }
+
 private:
     TabListView *m_view;
     LoadingAnimator *m_loadingAnimator;
     int m_padding;
+    bool m_iconOnly = false;
 };

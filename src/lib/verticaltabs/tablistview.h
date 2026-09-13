@@ -39,6 +39,8 @@ public:
     void updateIndex(const QModelIndex &index);
     void adjustStyleOption(QStyleOptionViewItem *option);
 
+    void setIconOnly(bool enable);
+
     QModelIndex indexAfter(const QModelIndex &index) const;
     QModelIndex indexBefore(const QModelIndex &index) const;
 

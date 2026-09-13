@@ -83,6 +83,19 @@ void TabListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &optio
     // Draw background
     style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, w);
 
+    if (m_iconOnly) {
+        const int iconSize = 16;
+        const QRect iconRect(opt.rect.center().x() - iconSize / 2, center - iconSize / 2, iconSize, iconSize);
+        QPixmap pixmap;
+        if (index.data(TabModel::LoadingRole).toBool()) {
+            pixmap = m_loadingAnimator->pixmap(index);
+        } else {
+            pixmap = index.data(Qt::DecorationRole).value<QIcon>().pixmap(iconSize);
+        }
+        painter->drawPixmap(iconRect, pixmap);
+        return;
+    }
+
     // Draw icon
     const int iconSize = 16;
     const int iconYPos = center - (iconSize / 2);
@@ -118,6 +131,10 @@ QSize TabListDelegate::sizeHint(const QStyleOptionViewItem &option, const QModel
 {
     QStyleOptionViewItem opt(option);
     initStyleOption(&opt, index);
+
+    if (m_iconOnly) {
+        return QSize(m_padding * 2 + 16, m_padding * 2 + 16);
+    }
 
     return QSize(m_padding * 4 + 16, m_padding * 2 + opt.fontMetrics.height());
 }

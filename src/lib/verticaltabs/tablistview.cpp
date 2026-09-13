@@ -74,6 +74,20 @@ void TabListView::updateIndex(const QModelIndex &index)
     viewport()->update(rect);
 }
 
+void TabListView::setIconOnly(bool enable)
+{
+    m_delegate->setIconOnly(enable);
+    if (enable) {
+        setFixedWidth(40);
+    } else {
+        setMinimumWidth(0);
+        setMaximumWidth(QWIDGETSIZE_MAX);
+    }
+    updateHeight();
+    doItemsLayout();
+    viewport()->update();
+}
+
 void TabListView::adjustStyleOption(QStyleOptionViewItem *option)
 {
     const QModelIndex index = option->index;

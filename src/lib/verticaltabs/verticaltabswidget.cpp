@@ -52,6 +52,9 @@ VerticalTabsWidget::VerticalTabsWidget(BrowserWindow *window, QWidget *parent)
     collapseButton->setToolTip(tr("Collapse Sidebar"));
     collapseButton->setIcon(QIcon::fromTheme(QSL("sidebar-collapse")));
     m_collapseButton = collapseButton;
+    connect(collapseButton, &QAbstractButton::clicked, this, [this]() {
+        setIconOnly(!m_iconOnly);
+    });
 
     auto *searchButton = new ToolButton(this);
     searchButton->setObjectName(QSL("verticaltabs-button-search"));
@@ -106,6 +109,23 @@ VerticalTabsWidget::VerticalTabsWidget(BrowserWindow *window, QWidget *parent)
 void VerticalTabsWidget::setIconOnly(bool enable)
 {
     m_iconOnly = enable;
+    m_pinnedView->setIconOnly(enable);
+    m_normalView->setIconOnly(enable);
+
+    if (enable) {
+        setFixedWidth(40);
+        m_searchButton->setVisible(false);
+    } else {
+        setMinimumWidth(0);
+        setMaximumWidth(QWIDGETSIZE_MAX);
+        m_searchButton->setVisible(true);
+    }
+
+    m_collapseButton->setIcon(enable ? QIcon::fromTheme(QSL("go-next"), QIcon::fromTheme(QSL("sidebar-expand")))
+                                      : QIcon::fromTheme(QSL("go-previous"), QIcon::fromTheme(QSL("sidebar-collapse"))));
+
+    qzSettings->verticalTabsIconOnly = enable;
+    qzSettings->saveSettings();
 }
 
 bool VerticalTabsWidget::isIconOnly() const
