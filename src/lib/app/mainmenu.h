@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2014-2018 David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -82,6 +83,7 @@ private Q_SLOTS:
     void zoomReset();
     void showPageSource();
     void showFullScreen();
+    void searchTabs();
 
     // Tools menu
     void webSearch();

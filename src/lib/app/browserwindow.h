@@ -109,6 +109,7 @@ public:
     VerticalTabsWidget* verticalTabs() const;
     bool isVerticalTabsVisible() const;
     void showVerticalTabs(bool enable);
+    void searchTabs();
 
     int tabCount() const;
     TabbedWebView* weView() const;

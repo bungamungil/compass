@@ -28,6 +28,7 @@
 #include "pluginproxy.h"
 #include "sidebar.h"
 #include "verticaltabswidget.h"
+#include "tabsearchpopup.h"
 #include "cookiejar.h"
 #include "cookiemanager.h"
 #include "bookmarkstoolbar.h"
@@ -63,6 +64,7 @@
 
 #include <algorithm>
 
+#include <QAbstractButton>
 #include <QKeyEvent>
 #include <QSplitter>
 #include <QMenuBar>
@@ -935,6 +937,7 @@ void BrowserWindow::showVerticalTabs(bool enable)
     if (enable) {
         m_verticalTabs = new VerticalTabsWidget(this, this);
         m_verticalTabs->setIconOnly(qzSettings->verticalTabsIconOnly);
+        connect(m_verticalTabs.data(), &VerticalTabsWidget::searchRequested, this, &BrowserWindow::searchTabs);
         m_mainSplitter->insertWidget(0, m_verticalTabs.data());
         m_mainSplitter->setCollapsible(0, false);
         m_tabWidget->tabBar()->setForceHidden(true);
@@ -947,6 +950,25 @@ void BrowserWindow::showVerticalTabs(bool enable)
         applySplitterSizes();
     }
     qzSettings->verticalTabsEnabled = enable;
+}
+
+void BrowserWindow::searchTabs()
+{
+    auto *popup = new TabSearchPopup(this, this);
+    popup->setAttribute(Qt::WA_DeleteOnClose);
+    if (m_verticalTabs && m_verticalTabs->searchButton()) {
+        // TabSearchPopup::showAt() takes the popup's desired top-right corner.
+        // The search button lives in the left-hand vertical tabs panel, so
+        // anchoring via the button's own bottom-right corner (as if it were a
+        // right-aligned toolbar button) would push the whole popup off the
+        // left edge of the screen. Anchor via the button's bottom-left corner
+        // instead, so the popup hangs down and to the right of the button.
+        QAbstractButton *b = m_verticalTabs->searchButton();
+        const QPoint bottomLeft = b->mapToGlobal(QPoint(0, b->height()));
+        popup->showAt(QPoint(bottomLeft.x() + popup->width(), bottomLeft.y()));
+    } else {
+        popup->showAt(mapToGlobal(QPoint((width() + popup->width()) / 2, 0)));
+    }
 }
 
 void BrowserWindow::toggleShowMenubar()

@@ -293,6 +293,13 @@ void MainMenu::showFullScreen()
     }
 }
 
+void MainMenu::searchTabs()
+{
+    if (m_window) {
+        m_window->searchTabs();
+    }
+}
+
 void MainMenu::webSearch()
 {
     callSlot("webSearch");
@@ -569,6 +576,7 @@ void MainMenu::init()
     ADD_ACTION("View/PageSource", m_menuView, QIcon::fromTheme(QSL("text-html")), tr("&Page Source"), SLOT(showPageSource()), "Ctrl+U");
     action->setShortcutContext(Qt::WidgetShortcut);
     ADD_CHECKABLE_ACTION("View/FullScreen", m_menuView, QIcon::fromTheme(QSL("view-fullscreen")), tr("&FullScreen"), SLOT(showFullScreen()), "F11");
+    ADD_ACTION("View/SearchTabs", m_menuView, QIcon::fromTheme(QSL("edit-find")), tr("Search Tabs"), SLOT(searchTabs()), "Ctrl+Shift+A");
 
     // Tools menu
     m_menuTools = new QMenu(tr("&Tools"));
