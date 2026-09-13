@@ -81,7 +81,7 @@ bool FalkonSchemeHandler::handleRequest(QWebEngineUrlRequestJob *job)
             }
         }
         mApp->destroyRestoreManager();
-        job->redirect(QUrl(QSL("falkon:start")));
+        job->redirect(QUrl(QSL("compass:start")));
         return true;
     } else if (job->requestUrl().path() == QL1S("reportbug")) {
         job->redirect(QUrl(QString::fromLatin1(Qz::BUGSADDRESS)));

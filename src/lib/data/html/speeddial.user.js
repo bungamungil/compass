@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name     _falkon_speeddial
 // @run-at   document-end
-// @include  falkon:speeddial
+// @include  compass:speeddial
 // ==/UserScript==
 
 var scriptData = {};

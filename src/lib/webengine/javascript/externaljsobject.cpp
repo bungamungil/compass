@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2014-2018 David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -63,8 +64,8 @@ void ExternalJsObject::unregisterExtraObject(QObject *object)
 
 QObject *ExternalJsObject::speedDial() const
 {
-    if (m_page->url().toString() != QL1S("falkon:speeddial")
-      && (m_page->requestedUrl().toString() != QL1S("falkon:speeddial") && !m_page->url().toString().isEmpty())) {
+    if (m_page->url().toString() != QL1S("compass:speeddial")
+      && (m_page->requestedUrl().toString() != QL1S("compass:speeddial") && !m_page->url().toString().isEmpty())) {
         return nullptr;
     }
 
@@ -78,7 +79,7 @@ QObject *ExternalJsObject::autoFill() const
 
 QObject *ExternalJsObject::recovery() const
 {
-    if (!mApp->restoreManager() || m_page->url().toString() != QL1S("falkon:restore"))
+    if (!mApp->restoreManager() || m_page->url().toString() != QL1S("compass:restore"))
         return nullptr;
 
     return mApp->restoreManager()->recoveryObject(m_page);

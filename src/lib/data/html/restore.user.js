@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name     _falkon_restore
 // @run-at   document-end
-// @include  falkon:restore
+// @include  compass:restore
 // ==/UserScript==
 
 (function() {

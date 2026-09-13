@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2014-2018 David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -84,7 +85,7 @@ void TabIcon::updateIcon()
 {
     m_sitePixmap = m_tab->icon(/*allowNull*/ true).pixmap(16);
     if (m_sitePixmap.isNull()) {
-        if (m_tab->url().isEmpty() || m_tab->url().scheme() == QL1S("falkon")) {
+        if (m_tab->url().isEmpty() || m_tab->url().scheme() == QL1S("compass")) {
             hide();
         } else {
             m_hideTimer->start();

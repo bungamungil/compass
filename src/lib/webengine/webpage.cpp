@@ -436,7 +436,7 @@ bool WebPage::acceptNavigationRequest(const QUrl &url, QWebEnginePage::Navigatio
     if (!mApp->plugins()->acceptNavigationRequest(this, url, type, isMainFrame))
         return false;
 
-    if (url.scheme() == QL1S("falkon")) {
+    if (url.scheme() == QL1S("compass")) {
         if (url.path() == QL1S("AddSearchProvider")) {
             QUrlQuery query(url);
             mApp->searchEnginesManager()->addEngine(QUrl(query.queryItemValue(QSL("url"))));

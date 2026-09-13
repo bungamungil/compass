@@ -1223,13 +1223,13 @@ void MainApplication::setupUserScripts()
     script.setSourceCode(Scripts::setupWebChannel());
     m_webProfile->scripts()->insert(script);
 
-    // falkon:restore
+    // compass:restore
     QWebEngineScript falkonRestore;
     falkonRestore.setWorldId(WebPage::SafeJsWorld);
     falkonRestore.setSourceCode(QzTools::readAllFileContents(QSL(":html/restore.user.js")));
     m_webProfile->scripts()->insert(falkonRestore);
 
-    // falkon:speeddial
+    // compass:speeddial
     QWebEngineScript falkonSpeedDial;
     falkonSpeedDial.setWorldId(WebPage::SafeJsWorld);
     falkonSpeedDial.setSourceCode(Scripts::setupSpeedDial());

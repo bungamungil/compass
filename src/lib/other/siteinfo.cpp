@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2010-2018 David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -181,7 +182,7 @@ bool SiteInfo::canShowSiteInfo(const QUrl &url)
     if (LocationBar::convertUrlToText(url).isEmpty())
         return false;
 
-    if (url.scheme() == QL1S("falkon") || url.scheme() == QL1S("view-source") || url.scheme() == QL1S("extension"))
+    if (url.scheme() == QL1S("compass") || url.scheme() == QL1S("view-source") || url.scheme() == QL1S("extension"))
         return false;
 
     return true;

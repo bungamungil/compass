@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2010-2018 David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -140,8 +141,8 @@ Preferences::Preferences(BrowserWindow* window)
     Settings settings;
     //GENERAL URLs
     settings.beginGroup(QSL("Web-URL-Settings"));
-    m_homepage = settings.value(QSL("homepage"), QUrl(QSL("falkon:start"))).toUrl();
-    m_newTabUrl = settings.value(QSL("newTabUrl"), QUrl(QSL("falkon:speeddial"))).toUrl();
+    m_homepage = settings.value(QSL("homepage"), QUrl(QSL("compass:start"))).toUrl();
+    m_newTabUrl = settings.value(QSL("newTabUrl"), QUrl(QSL("compass:speeddial"))).toUrl();
     ui->homepage->setText(QString::fromUtf8(m_homepage.toEncoded()));
     ui->newTabUrl->setText(QString::fromUtf8(m_newTabUrl.toEncoded()));
     settings.endGroup();
@@ -182,7 +183,7 @@ Preferences::Preferences(BrowserWindow* window)
     else if (m_newTabUrl == m_homepage) {
         ui->newTab->setCurrentIndex(1);
     }
-    else if (m_newTabUrl.toString() == QL1S("falkon:speeddial")) {
+    else if (m_newTabUrl.toString() == QL1S("compass:speeddial")) {
         ui->newTab->setCurrentIndex(2);
     }
     else {
@@ -956,7 +957,7 @@ void Preferences::saveSettings()
         break;
 
     case 2:
-        settings.setValue(QSL("newTabUrl"), QUrl(QSL("falkon:speeddial")));
+        settings.setValue(QSL("newTabUrl"), QUrl(QSL("compass:speeddial")));
         break;
 
     case 3:

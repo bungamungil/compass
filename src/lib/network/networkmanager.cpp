@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2010-2018 David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -49,9 +50,9 @@ NetworkManager::NetworkManager(QObject *parent)
     // Create scheme handlers
     m_extensionScheme = new ExtensionSchemeManager();
 
-    mApp->webProfile()->installUrlSchemeHandler(QByteArrayLiteral("falkon"), new FalkonSchemeHandler());
+    mApp->webProfile()->installUrlSchemeHandler(QByteArrayLiteral("compass"), new FalkonSchemeHandler());
     mApp->webProfile()->installUrlSchemeHandler(QByteArrayLiteral("extension"), m_extensionScheme);
-    WebPage::addSupportedScheme(QSL("falkon"));
+    WebPage::addSupportedScheme(QSL("compass"));
     WebPage::addSupportedScheme(QSL("extension"));
 
     // Create url interceptor
@@ -386,7 +387,7 @@ QString NetworkManager::sslErrorDescription(const QWebEngineCertificateError::Ty
 // static
 void NetworkManager::registerSchemes()
 {
-    QWebEngineUrlScheme falkonScheme("falkon");
+    QWebEngineUrlScheme falkonScheme("compass");
     falkonScheme.setFlags(QWebEngineUrlScheme::SecureScheme | QWebEngineUrlScheme::ContentSecurityPolicyIgnored);
     falkonScheme.setSyntax(QWebEngineUrlScheme::Syntax::Path);
     QWebEngineUrlScheme::registerScheme(falkonScheme);

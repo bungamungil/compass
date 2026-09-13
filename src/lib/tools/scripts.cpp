@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2015-2018 David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -177,7 +178,7 @@ QString Scripts::setupWindowObject()
     QString source = QL1S("(function() {"
                           "var external = {};"
                           "external.AddSearchProvider = function(url) {"
-                          "    window.location = 'falkon:AddSearchProvider?url=' + url;"
+                          "    window.location = 'compass:AddSearchProvider?url=' + url;"
                           "};"
                           "external.IsSearchProviderInstalled = function(url) {"
                           "    console.warn('NOT IMPLEMENTED: IsSearchProviderInstalled()');"

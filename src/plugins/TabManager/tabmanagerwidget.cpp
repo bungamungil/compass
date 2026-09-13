@@ -2,6 +2,7 @@
 * TabManager plugin for Falkon
 * Copyright (C) 2013-2017  S. Razi Alavizadeh <s.r.alavizadeh@gmail.com>
 * Copyright (C)      2018 David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -110,7 +111,7 @@ QString TabManagerWidget::domainFromUrl(const QUrl &url, bool useHostName)
     if (url.scheme() == QSL("file")) {
         return tr("Local File System:");
     }
-    else if (url.scheme() == QSL("falkon") || urlString.isEmpty()) {
+    else if (url.scheme() == QSL("compass") || urlString.isEmpty()) {
         return tr("Falkon:");
     }
     else if (url.scheme() == QSL("ftp")) {

@@ -555,7 +555,7 @@ void WebView::openActionUrl()
 void WebView::showSource()
 {
     // view-source: doesn't work on itself and custom schemes
-    if (url().scheme() == QL1S("view-source") || url().scheme() == QL1S("falkon") || url().scheme() == QL1S("qrc")) {
+    if (url().scheme() == QL1S("view-source") || url().scheme() == QL1S("compass") || url().scheme() == QL1S("qrc")) {
         page()->toHtml([](const QString &html) {
             std::cout << html.toLocal8Bit().constData() << std::endl;
         });
@@ -763,7 +763,7 @@ void WebView::createPageContextMenu(QMenu* menu)
     action->setEnabled(history()->canGoForward());
 
     // Special menu for Speed Dial page
-    if (url().toString() == QL1S("falkon:speeddial")) {
+    if (url().toString() == QL1S("compass:speeddial")) {
         menu->addSeparator();
         menu->addAction(QIcon::fromTheme(QSL("list-add")), tr("&Add New Page"), this, &WebView::addSpeedDial);
         menu->addAction(IconProvider::settingsIcon(), tr("&Configure Speed Dial"), this, &WebView::configureSpeedDial);

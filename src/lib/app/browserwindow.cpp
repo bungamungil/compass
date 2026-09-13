@@ -260,7 +260,7 @@ void BrowserWindow::postLaunch()
         break;
 
     case MainApplication::OpenSpeedDial:
-        startUrl = QUrl(QSL("falkon:speeddial"));
+        startUrl = QUrl(QSL("compass:speeddial"));
         break;
 
     case MainApplication::OpenHomePage:
@@ -282,7 +282,7 @@ void BrowserWindow::postLaunch()
         if (mApp->isStartingAfterCrash()) {
             addTab = false;
             startUrl.clear();
-            m_tabWidget->addView(QUrl(QSL("falkon:restore")), Qz::NT_CleanSelectedTabAtTheEnd);
+            m_tabWidget->addView(QUrl(QSL("compass:restore")), Qz::NT_CleanSelectedTabAtTheEnd);
         }
         else if (mApp->afterLaunch() == MainApplication::SelectSession || mApp->afterLaunch() == MainApplication::RestoreSession) {
             addTab = m_tabWidget->count() <= 0;
@@ -322,7 +322,7 @@ void BrowserWindow::postLaunch()
             m_tabWidget->addView(url, Qz::NT_NotSelectedTabAtTheEnd);
         }
 
-        if (startUrl.isEmpty() || startUrl.toString() == QLatin1String("falkon:speeddial")) {
+        if (startUrl.isEmpty() || startUrl.toString() == QLatin1String("compass:speeddial")) {
             locationBar()->setFocus();
         }
     }
@@ -581,7 +581,7 @@ void BrowserWindow::loadSettings()
 
     //Url settings
     settings.beginGroup(QSL("Web-URL-Settings"));
-    m_homepage = settings.value(QSL("homepage"), QSL("falkon:start")).toUrl();
+    m_homepage = settings.value(QSL("homepage"), QSL("compass:start")).toUrl();
     settings.endGroup();
 
     //Browser Window settings

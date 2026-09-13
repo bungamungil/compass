@@ -339,21 +339,21 @@ void MainMenu::aboutQt()
 void MainMenu::showInfoAboutApp()
 {
     if (m_window) {
-        m_window->tabWidget()->addView(QUrl(QSL("falkon:about")), Qz::NT_CleanSelectedTab);
+        m_window->tabWidget()->addView(QUrl(QSL("compass:about")), Qz::NT_CleanSelectedTab);
     }
 }
 
 void MainMenu::showConfigInfo()
 {
     if (m_window) {
-        m_window->tabWidget()->addView(QUrl(QSL("falkon:config")), Qz::NT_CleanSelectedTab);
+        m_window->tabWidget()->addView(QUrl(QSL("compass:config")), Qz::NT_CleanSelectedTab);
     }
 }
 
 void MainMenu::reportIssue()
 {
     if (m_window) {
-        m_window->tabWidget()->addView(QUrl(QSL("falkon:reportbug")), Qz::NT_CleanSelectedTab);
+        m_window->tabWidget()->addView(QUrl(QSL("compass:reportbug")), Qz::NT_CleanSelectedTab);
     }
 }
 
