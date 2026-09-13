@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2010-2018 David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -388,7 +389,7 @@ void WebView::printPage()
     Q_ASSERT(m_page);
 
     m_printer = new QPrinter();
-    m_printer->setCreator(tr("Falkon %1 (%2)").arg(QString::fromLatin1(Qz::VERSION), QString::fromLatin1(Qz::WWWADDRESS)));
+    m_printer->setCreator(tr("Compass %1 (%2)").arg(QString::fromLatin1(Qz::VERSION), QString::fromLatin1(Qz::WWWADDRESS)));
     m_printer->setDocName(QzTools::filterCharsFromFilename(title()));
 
     auto *dialog = new QPrintDialog(m_printer, this);

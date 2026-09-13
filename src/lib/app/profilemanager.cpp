@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2010-2018 David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -303,7 +304,7 @@ void ProfileManager::copyDataToProfile()
 
         const QString text = QSL("Incompatible profile version has been detected. To avoid losing your profile data, they were "
                              "backed up in following file:<br/><br/><b>") + browseDataBackup + QSL("<br/></b>");
-        QMessageBox::warning(nullptr, QStringLiteral("Falkon: Incompatible profile version"), text);
+        QMessageBox::warning(nullptr, QStringLiteral("Compass: Incompatible profile version"), text);
     }
 }
 

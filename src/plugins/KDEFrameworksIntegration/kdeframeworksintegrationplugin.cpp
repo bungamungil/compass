@@ -2,6 +2,7 @@
 * KDEFrameworksIntegration - KDE support plugin for Falkon
 * Copyright (C) 2013-2018 David Rosca <nowrep@gmail.com>
 * Copyright (C) 2021-2025 Juraj Oravec <jurajoravec@mailo.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -121,7 +122,7 @@ void KDEFrameworksIntegrationPlugin::init(InitState state, const QString &settin
     });
     m_sharePageMenu->model()->setPluginType(QStringLiteral("ShareUrl"));
 
-    KAboutData aboutData(QSL("falkon"), QSL("Falkon"), QCoreApplication::applicationVersion());
+    KAboutData aboutData(QSL("compass"), QSL("Compass"), QCoreApplication::applicationVersion());
     KAboutData::setApplicationData(aboutData);
 
     KCrash::initialize();

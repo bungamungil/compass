@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2014-2018 David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -469,7 +470,7 @@ void MainMenu::init()
     m_actions[QSL(name)] = action
 
     // Standard actions - needed on Mac to be placed correctly in "application" menu
-    auto* action = new QAction(QIcon::fromTheme(QSL("help-about")), tr("&About Falkon"), this);
+    auto* action = new QAction(QIcon::fromTheme(QSL("help-about")), tr("&About Compass"), this);
     action->setMenuRole(QAction::AboutRole);
     connect(action, &QAction::triggered, this, &MainMenu::showAboutDialog);
     m_actions[QSL("Standard/About")] = action;

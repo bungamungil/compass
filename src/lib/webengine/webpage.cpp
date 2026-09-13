@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2010-2018 David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -332,8 +333,8 @@ void WebPage::handleUnknownProtocol(const QUrl &url)
     dialog.setDefaultButton(QMessageBox::Yes);
 
     const QString wrappedUrl = QzTools::alignTextToWidth(url.toString(), QSL("<br/>"), dialog.fontMetrics(), 450);
-    const QString text = tr("Falkon cannot handle <b>%1:</b> links. The requested link "
-                            "is <ul><li>%2</li></ul>Do you want Falkon to try "
+    const QString text = tr("Compass cannot handle <b>%1:</b> links. The requested link "
+                            "is <ul><li>%2</li></ul>Do you want Compass to try "
                             "open this link in system application?").arg(protocol, wrappedUrl);
 
     dialog.setText(text);

@@ -2,6 +2,7 @@
 * Falkon - Qt web browser
 * Copyright (C) 2010-2018 David Rosca <nowrep@gmail.com>
 * Copyright (C) 2020-2025 Juraj Oravec <jurajoravec@mailo.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -164,7 +165,7 @@ QString FalkonSchemeReply::startPage()
     sPage.replace(QLatin1String("%BUTTON-LABEL%"), tr("Search on Web"));
     sPage.replace(QLatin1String("%SEARCH-BY%"), tr("Search results provided by DuckDuckGo"));
     sPage.replace(QLatin1String("%WWW%"), QString::fromLatin1(Qz::WIKIADDRESS));
-    sPage.replace(QLatin1String("%ABOUT-FALKON%"), tr("About Falkon"));
+    sPage.replace(QLatin1String("%ABOUT-FALKON%"), tr("About Compass"));
     sPage.replace(QLatin1String("%PRIVATE-BROWSING%"), mApp->isPrivate() ? tr("<h1>Private Browsing</h1>") : QString());
     sPage = QzTools::applyDirectionToPage(sPage);
 
@@ -181,8 +182,8 @@ QString FalkonSchemeReply::aboutPage()
         aPage.replace(QLatin1String("%ABOUT-IMG-DARK%"), QSL("qrc:icons/other/about-dark.svg"));
         aPage.replace(QLatin1String("%COPYRIGHT-INCLUDE%"), QzTools::readAllFileContents(QSL(":html/copyright")).toHtmlEscaped());
 
-        aPage.replace(QLatin1String("%TITLE%"), tr("About Falkon"));
-        aPage.replace(QLatin1String("%ABOUT-FALKON%"), tr("About Falkon"));
+        aPage.replace(QLatin1String("%TITLE%"), tr("About Compass"));
+        aPage.replace(QLatin1String("%ABOUT-FALKON%"), tr("About Compass"));
         aPage.replace(QLatin1String("%INFORMATIONS-ABOUT-VERSION%"), tr("Information about version"));
         aPage.replace(QLatin1String("%COPYRIGHT%"), tr("Copyright"));
 
@@ -274,7 +275,7 @@ QString FalkonSchemeReply::restorePage()
         rPage.append(QzTools::readAllFileContents(QSL(":html/restore.html")));
         rPage.replace(QLatin1String("%IMAGE%"), QzTools::pixmapToDataUrl(IconProvider::standardIcon(QStyle::SP_MessageBoxWarning).pixmap(45)).toString());
         rPage.replace(QLatin1String("%TITLE%"), tr("Restore Session"));
-        rPage.replace(QLatin1String("%OOPS%"), tr("Oops, Falkon crashed."));
+        rPage.replace(QLatin1String("%OOPS%"), tr("Oops, Compass crashed."));
         rPage.replace(QLatin1String("%APOLOGIZE%"), tr("We apologize for this. Would you like to restore the last saved state?"));
         rPage.replace(QLatin1String("%TRY-REMOVING%"), tr("Try removing one or more tabs that you think cause troubles"));
         rPage.replace(QLatin1String("%START-NEW%"), tr("Or you can start completely new session"));
@@ -301,7 +302,7 @@ QString FalkonSchemeReply::configPage()
         cPage.replace(QLatin1String("%TITLE%"), tr("Configuration Information"));
         cPage.replace(QLatin1String("%CONFIG%"), tr("Configuration Information"));
         cPage.replace(QLatin1String("%INFORMATIONS-ABOUT-VERSION%"), tr("Information about version"));
-        cPage.replace(QLatin1String("%CONFIG-ABOUT%"), tr("This page contains information about Falkon's current configuration - relevant for troubleshooting. Please include this information when submitting bug reports."));
+        cPage.replace(QLatin1String("%CONFIG-ABOUT%"), tr("This page contains information about Compass's current configuration - relevant for troubleshooting. Please include this information when submitting bug reports."));
         cPage.replace(QLatin1String("%BROWSER-IDENTIFICATION%"), tr("Browser Identification"));
         cPage.replace(QLatin1String("%PATHS%"), tr("Paths"));
         cPage.replace(QLatin1String("%BUILD-CONFIG%"), tr("Build Configuration"));

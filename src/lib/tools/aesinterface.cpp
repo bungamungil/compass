@@ -2,6 +2,7 @@
 * Falkon - Qt web browser
 * Copyright (C) 2013-2014 S. Razi Alavizadeh <s.r.alavizadeh@gmail.com>
 * Copyright (C) 2013-2017 David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This is based on a work by Saju Pillai <saju.pillai@gmail.com>
 *
@@ -153,8 +154,8 @@ QByteArray AesInterface::decrypt(const QByteArray &cipherData, const QByteArray 
     }
 
     if (cipherSections.at(0).toInt() > AesInterface::VERSION) {
-        QMessageBox::information(nullptr, tr("Warning!"), tr("Data has been encrypted with a newer version of Falkon."
-                                 "\nPlease install latest version of Falkon."));
+        QMessageBox::information(nullptr, tr("Warning!"), tr("Data has been encrypted with a newer version of Compass."
+                                 "\nPlease install latest version of Compass."));
         return {};
     }
 

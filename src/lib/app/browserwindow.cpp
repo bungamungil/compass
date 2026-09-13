@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2010-2018 David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -202,7 +203,7 @@ BrowserWindow::BrowserWindow(Qz::BrowserWindowType type, const QList<QUrl> start
     setAttribute(Qt::WA_DontCreateNativeAncestors);
 
     setObjectName(QSL("mainwindow"));
-    setWindowTitle(tr("Falkon"));
+    setWindowTitle(tr("Compass"));
     setProperty("private", mApp->isPrivate());
 
     setupUi();
@@ -218,10 +219,10 @@ BrowserWindow::BrowserWindow(Qz::BrowserWindowType type, const QList<QUrl> start
     QTimer::singleShot(0, this, &BrowserWindow::postLaunch);
 
     if (mApp->isPrivate()) {
-        QzTools::setWmClass(QSL("Falkon Browser (Private Window)"), this);
+        QzTools::setWmClass(QSL("Compass Browser (Private Window)"), this);
     }
     else {
-        QzTools::setWmClass(QSL("Falkon Browser"), this);
+        QzTools::setWmClass(QSL("Compass Browser"), this);
     }
 }
 
@@ -1011,9 +1012,9 @@ void BrowserWindow::currentTabChanged()
 
     const QString title = view->webTab()->title(/*allowEmpty*/true);
     if (title.isEmpty()) {
-        setWindowTitle(tr("Falkon"));
+        setWindowTitle(tr("Compass"));
     } else {
-        setWindowTitle(tr("%1 - Falkon").arg(title));
+        setWindowTitle(tr("%1 - Compass").arg(title));
     }
     m_ipLabel->setText(view->getIp());
     view->setFocus();

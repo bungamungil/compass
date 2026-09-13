@@ -1156,8 +1156,8 @@ void MainApplication::checkDefaultWebBrowser()
     if (!associationManager()->isDefaultForAllCapabilities()) {
         CheckBoxDialog dialog(QMessageBox::Yes | QMessageBox::No, getWindow());
         dialog.setDefaultButton(QMessageBox::Yes);
-        dialog.setText(tr("Falkon is not currently your default browser. Would you like to make it your default browser?"));
-        dialog.setCheckBoxText(tr("Always perform this check when starting Falkon."));
+        dialog.setText(tr("Compass is not currently your default browser. Would you like to make it your default browser?"));
+        dialog.setCheckBoxText(tr("Always perform this check when starting Compass."));
         dialog.setDefaultCheckState(Qt::Checked);
         dialog.setWindowTitle(tr("Default Browser"));
         dialog.setIcon(QMessageBox::Warning);
@@ -1294,7 +1294,7 @@ void MainApplication::initPulseSupport()
 RegisterQAppAssociation* MainApplication::associationManager()
 {
     if (!m_registerQAppAssociation) {
-        QString desc = tr("Falkon is a new and very fast Qt web browser. Falkon is licensed under GPL version 3 or (at your option) any later version. It is based on QtWebEngine and Qt Framework.");
+        QString desc = tr("Compass is a new and very fast Qt web browser. Compass is licensed under GPL version 3 or (at your option) any later version. It is based on QtWebEngine and Qt Framework.");
         QString fileIconPath = QApplication::applicationFilePath() + QSL(",1");
         QString appIconPath = QApplication::applicationFilePath() + QSL(",0");
         m_registerQAppAssociation = new RegisterQAppAssociation(QSL("Falkon"), QApplication::applicationFilePath(), appIconPath, desc, this);

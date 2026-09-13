@@ -2,6 +2,7 @@
 * Falkon - Qt web browser
 * Copyright (C) 2014-2018 David Rosca <nowrep@gmail.com>
 * Copyright (C) 2020-2025 Juraj Oravec <jurajoravec@mailo.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -23,15 +24,16 @@ namespace Qz
 {
 const int sessionVersion = 0x0004;
 
-FALKON_EXPORT const char *APPNAME = "Falkon";
+FALKON_EXPORT const char *APPNAME = "Compass";
 FALKON_EXPORT const char *VERSION = FALKON_VERSION;
-FALKON_EXPORT const char *AUTHOR = "Juraj Oravec";
-FALKON_EXPORT const char *COPYRIGHT = "2020-2025";
-FALKON_EXPORT const char *WWWADDRESS = "https://falkon.org";
-FALKON_EXPORT const char *BUGSADDRESS = "https://bugs.kde.org/describecomponents.cgi?product=Falkon";
-FALKON_EXPORT const char *WIKIADDRESS = "https://userbase.kde.org/Falkon";
+FALKON_EXPORT const char *AUTHOR = "Bunga Mungil / Compass Browser Developer";
+FALKON_EXPORT const char *COPYRIGHT = "2026";
+FALKON_EXPORT const char *WWWADDRESS = "https://github.com/bungamungil/compass";
+FALKON_EXPORT const char *BUGSADDRESS = "https://github.com/bungamungil/compass/issues";
+FALKON_EXPORT const char *WIKIADDRESS = "https://github.com/bungamungil/compass/wiki";
 
 const QList<AuthorInfo> AUTHORS = {
+    {QSL("Bunga Mungil / Compass Browser Developer"), QSL(""), 2026, 2026},
     {QSL("Juraj Oravec"), QSL("jurajoravec@mailo.com"), 2020, 2025},
     {QSL("David Rosca"), QSL("nowrep@gmail.com"), 2010, 2019},
 };
