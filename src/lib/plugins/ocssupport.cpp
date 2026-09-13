@@ -75,7 +75,7 @@ bool OcsSupport::handleUrl(const QUrl &url)
         return false;
     }
 
-    if (fileType != QL1S("compass_themes") && fileType != QL1S("compass_extensions")) {
+    if (fileType != QL1S("compass_extensions")) {
         qWarning() << "Unsupported type" << fileType;
         return false;
     }
@@ -101,12 +101,7 @@ bool OcsSupport::handleUrl(const QUrl &url)
             qWarning() << "Failed to open archive";
             return;
         }
-        QString notifyMessage;
-        if (fileType == QL1S("compass_themes")) {
-            installTheme(zip.directory());
-        } else if (fileType == QL1S("compass_extensions")) {
-            installExtension(zip.directory());
-        }
+        installExtension(zip.directory());
     });
 
     return true;
@@ -116,48 +111,6 @@ bool OcsSupport::handleUrl(const QUrl &url)
 OcsSupport *OcsSupport::instance()
 {
     return qz_ocs_support();
-}
-
-void OcsSupport::installTheme(const KArchiveDirectory *directory)
-{
-    auto showError = []() {
-        mApp->desktopNotifications()->showNotification(tr("Installation failed"), tr("Failed to install theme"));
-    };
-
-    if (directory->entries().size() != 1) {
-        qWarning() << "Invalid archive format";
-        showError();
-        return;
-    }
-
-    const QString name = directory->entries().at(0);
-    const KArchiveEntry *entry = directory->entry(name);
-    if (!entry || !entry->isDirectory()) {
-        qWarning() << "Invalid archive format";
-        showError();
-        return;
-    }
-
-    const DesktopFile metaData = readMetaData(static_cast<const KArchiveDirectory*>(entry));
-
-    const QString targetDir = DataPaths::path(DataPaths::Config) + QL1S("/themes");
-    QDir().mkpath(targetDir);
-
-    if (QFileInfo::exists(targetDir + QL1C('/') + name)) {
-        qWarning() << "Theme" << name << "already exists";
-        mApp->desktopNotifications()->showNotification(tr("Installation failed"), tr("Theme is already installed"));
-        return;
-    }
-
-    if (!directory->copyTo(targetDir)) {
-        qWarning() << "Failed to copy theme to" << targetDir;
-        showError();
-        return;
-    }
-
-    qInfo() << "Theme installed to" << targetDir;
-
-    mApp->desktopNotifications()->showNotification(tr("Theme installed"), tr("'%1' was successfully installed").arg(metaData.name()));
 }
 
 void OcsSupport::installExtension(const KArchiveDirectory *directory)

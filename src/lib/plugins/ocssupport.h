@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2019 David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -35,6 +36,5 @@ public:
     static OcsSupport *instance();
 
 private:
-    void installTheme(const KArchiveDirectory *directory);
     void installExtension(const KArchiveDirectory *directory);
 };
