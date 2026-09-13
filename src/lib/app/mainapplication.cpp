@@ -61,11 +61,9 @@
 #include <QSettings>
 #include <QProcess>
 #include <QTimer>
-#include <QDir>
 #include <QStandardPaths>
 #include <QWebEngineProfile>
 #include <QWebEngineScriptCollection>
-#include <QRegularExpression>
 #include <QtWebEngineWidgetsVersion>
 #include <QtWebEngineCoreVersion>
 #include <QtGuiVersion>
@@ -995,7 +993,7 @@ void MainApplication::loadSettings()
 {
     Settings settings;
 
-    loadUserStyleSheet();
+    loadUserChromeStyleSheet();
 
     QWebEngineSettings* webSettings = m_webProfile->settings();
 
@@ -1100,7 +1098,7 @@ void MainApplication::loadSettings()
     networkManager()->loadSettings();
 }
 
-void MainApplication::loadUserStyleSheet()
+void MainApplication::loadUserChromeStyleSheet()
 {
     const QString qss = QzTools::readAllFileContents(DataPaths::currentProfilePath() + QL1S("/userChrome.css"));
     setStyleSheet(qss);

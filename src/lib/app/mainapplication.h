@@ -162,7 +162,7 @@ private:
     };
 
     void loadSettings();
-    void loadUserStyleSheet();
+    void loadUserChromeStyleSheet();
 
     void setupUserScripts();
     void setUserStyleSheet(const QString &filePath);
