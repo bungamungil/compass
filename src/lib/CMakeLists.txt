@@ -218,7 +218,6 @@ set(SRCS ${SRCS}
     preferences/sitesettingsattributesitem.cpp
     preferences/sitesettingsbrowsedialog.cpp
     preferences/sitesettingshtml5item.cpp
-    preferences/thememanager.cpp
     preferences/useragentdialog.cpp
     session/recoveryjsobject.cpp
     session/restoremanager.cpp
@@ -457,7 +456,6 @@ set(SRCS ${SRCS}
     preferences/sitesettingsattributesitem.h
     preferences/sitesettingsbrowsedialog.h
     preferences/sitesettingshtml5item.h
-    preferences/thememanager.h
     preferences/useragentdialog.h
     session/recoveryjsobject.h
     session/restoremanager.h
@@ -575,7 +573,6 @@ qt_wrap_ui(SRCS
     preferences/sitesettingsattributesitem.ui
     preferences/sitesettingsbrowsedialog.ui
     preferences/sitesettingshtml5item.ui
-    preferences/thememanager.ui
     preferences/useragentdialog.ui
     session/sessionmanagerdialog.ui
     sidebar/bookmarkssidebar.ui

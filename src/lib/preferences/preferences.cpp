@@ -33,7 +33,6 @@
 #include "networkmanager.h"
 #include "desktopnotificationsfactory.h"
 #include "desktopnotification.h"
-#include "thememanager.h"
 #include "acceptlanguage.h"
 #include "qztools.h"
 #include "autofill.h"
@@ -111,7 +110,6 @@ Preferences::Preferences(BrowserWindow* window)
     ui->setupUi(this);
     QzTools::centerWidgetOnScreen(this);
 
-    m_themesManager = new ThemeManager(ui->themesWidget, this);
     m_pluginsList = new PluginsManager(this);
     ui->pluginsFrame->addWidget(m_pluginsList);
 
@@ -1172,7 +1170,6 @@ void Preferences::saveSettings()
     ProfileManager::setStartingProfile(ui->startProfile->currentText());
 
     m_pluginsList->save();
-    m_themesManager->save();
     mApp->cookieJar()->loadSettings();
     mApp->siteSettingsManager()->loadSettings();
     mApp->history()->loadSettings();
