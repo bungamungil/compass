@@ -114,14 +114,14 @@ MainApplication::MainApplication(int &argc, char** argv)
 {
     setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);
 
-    setApplicationName(QStringLiteral("falkon"));
-    setOrganizationDomain(QStringLiteral("org.kde"));
+    setApplicationName(QStringLiteral("compass"));
+    setOrganizationDomain(QStringLiteral("bungamungil.id"));
 #if defined(Q_OS_WIN)
     QIcon::setFallbackThemeName(QStringLiteral("breeze"));
     setStyle(QStringLiteral("breeze"));
 #endif
     setWindowIcon(QIcon::fromTheme(QSL("compass"), QIcon(QSL(":icons/compass.svg"))));
-    setDesktopFileName(QSL("org.kde.falkon"));
+    setDesktopFileName(QSL("id.bungamungil.compass"));
 
 #ifdef GIT_REVISION
     setApplicationVersion(QSL("%1 (%2)").arg(QString::fromLatin1(Qz::VERSION), GIT_REVISION));
@@ -218,7 +218,7 @@ MainApplication::MainApplication(int &argc, char** argv)
     }
 
     if (!isPortable()) {
-        QSettings falkonConf(QSL("%1/falkon.conf").arg(applicationDirPath()), QSettings::IniFormat);
+        QSettings falkonConf(QSL("%1/compass.conf").arg(applicationDirPath()), QSettings::IniFormat);
         m_isPortable = falkonConf.value(QSL("Config/Portable")).toBool();
     }
 
@@ -229,7 +229,7 @@ MainApplication::MainApplication(int &argc, char** argv)
 
     // Don't start single application in private browsing
     if (!isPrivate()) {
-        QString appId = QStringLiteral("org.kde.Falkon");
+        QString appId = QStringLiteral("id.bungamungil.compass");
 
         if (isPortable()) {
             appId.append(QLatin1String(".Portable"));
@@ -1285,9 +1285,9 @@ void MainApplication::setUserStyleSheet(const QString &filePath)
 
 void MainApplication::initPulseSupport()
 {
-    qputenv("PULSE_PROP_OVERRIDE_application.name", "Falkon");
-    qputenv("PULSE_PROP_OVERRIDE_application.icon_name", "falkon");
-    qputenv("PULSE_PROP_OVERRIDE_media.icon_name", "falkon");
+    qputenv("PULSE_PROP_OVERRIDE_application.name", "Compass");
+    qputenv("PULSE_PROP_OVERRIDE_application.icon_name", "compass");
+    qputenv("PULSE_PROP_OVERRIDE_media.icon_name", "compass");
 }
 
 #if defined(Q_OS_WIN) && !defined(Q_OS_OS2)
@@ -1297,11 +1297,11 @@ RegisterQAppAssociation* MainApplication::associationManager()
         QString desc = tr("Compass is a new and very fast Qt web browser. Compass is licensed under GPL version 3 or (at your option) any later version. It is based on QtWebEngine and Qt Framework.");
         QString fileIconPath = QApplication::applicationFilePath() + QSL(",1");
         QString appIconPath = QApplication::applicationFilePath() + QSL(",0");
-        m_registerQAppAssociation = new RegisterQAppAssociation(QSL("Falkon"), QApplication::applicationFilePath(), appIconPath, desc, this);
-        m_registerQAppAssociation->addCapability(QSL(".html"), QSL("FalkonHTML"), QSL("Falkon HTML Document"), fileIconPath, RegisterQAppAssociation::FileAssociation);
-        m_registerQAppAssociation->addCapability(QSL(".htm"), QSL("FalkonHTML"), QSL("Falkon HTML Document"), fileIconPath, RegisterQAppAssociation::FileAssociation);
-        m_registerQAppAssociation->addCapability(QSL("http"), QSL("FalkonURL"), QSL("Falkon URL"), appIconPath, RegisterQAppAssociation::UrlAssociation);
-        m_registerQAppAssociation->addCapability(QSL("https"), QSL("FalkonURL"), QSL("Falkon URL"), appIconPath, RegisterQAppAssociation::UrlAssociation);
+        m_registerQAppAssociation = new RegisterQAppAssociation(QSL("Compass"), QApplication::applicationFilePath(), appIconPath, desc, this);
+        m_registerQAppAssociation->addCapability(QSL(".html"), QSL("CompassHTML"), QSL("Compass HTML Document"), fileIconPath, RegisterQAppAssociation::FileAssociation);
+        m_registerQAppAssociation->addCapability(QSL(".htm"), QSL("CompassHTML"), QSL("Compass HTML Document"), fileIconPath, RegisterQAppAssociation::FileAssociation);
+        m_registerQAppAssociation->addCapability(QSL("http"), QSL("CompassURL"), QSL("Compass URL"), appIconPath, RegisterQAppAssociation::UrlAssociation);
+        m_registerQAppAssociation->addCapability(QSL("https"), QSL("CompassURL"), QSL("Compass URL"), appIconPath, RegisterQAppAssociation::UrlAssociation);
     }
     return m_registerQAppAssociation;
 }
