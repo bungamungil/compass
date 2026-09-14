@@ -26,6 +26,7 @@
 #include "passwordmanager.h"
 #include "sslerrordialog.h"
 #include "networkurlinterceptor.h"
+#include "securedns.h"
 #include "schemehandlers/falkonschemehandler.h"
 #include "schemehandlers/extensionschemehandler.h"
 #include "webpage.h"
@@ -300,6 +301,7 @@ void NetworkManager::loadSettings()
         QNetworkProxyFactory::setUseSystemConfiguration(false);
     }
 
+    SecureDns::apply(SecureDns::loadConfig());
     m_urlInterceptor->loadSettings();
 
     settings.beginGroup(QSL("Web-Browser-Settings"));

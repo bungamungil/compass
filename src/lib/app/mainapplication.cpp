@@ -34,6 +34,7 @@
 #include "browserwindow.h"
 #include "checkboxdialog.h"
 #include "networkmanager.h"
+#include "securedns.h"
 #include "profilemanager.h"
 #include "browsinglibrary.h"
 #include "downloadmanager.h"
@@ -291,6 +292,7 @@ MainApplication::MainApplication(int &argc, char** argv)
     Settings::createSettings(DataPaths::currentProfilePath() + QLatin1String("/settings.ini"));
 
     setChromiumFlags();
+    SecureDns::apply(SecureDns::loadConfig());
     NetworkManager::registerSchemes();
     registerAllowedSchemes();
 
