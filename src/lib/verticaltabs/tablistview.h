@@ -21,6 +21,7 @@
 #include "qzcommon.h"
 
 #include <QListView>
+#include <QPersistentModelIndex>
 
 class BrowserWindow;
 
@@ -57,7 +58,8 @@ private:
 
     enum DelegateButton {
         NoButton,
-        AudioButton
+        AudioButton,
+        CloseButton
     };
 
     DelegateButton buttonAt(const QPoint &pos, const QModelIndex &index) const;
@@ -68,6 +70,7 @@ private:
     TabListDelegate *m_delegate;
     DelegateButton m_pressedButton = NoButton;
     QModelIndex m_pressedIndex;
+    QPersistentModelIndex m_hoveredIndex;
     bool m_hideWhenEmpty = false;
     bool m_autoHeight = true;
 };

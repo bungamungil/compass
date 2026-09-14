@@ -19,6 +19,7 @@
 #include "verticaltabswidget.h"
 #include "tablistview.h"
 #include "tabfiltermodel.h"
+#include "tablistdelegate.h"
 
 #include "webtab.h"
 #include "tabmodel.h"
@@ -35,13 +36,15 @@
 #include <QVBoxLayout>
 #include <QWheelEvent>
 
+static constexpr int PanelHMargin = 6;
+
 VerticalTabsWidget::VerticalTabsWidget(BrowserWindow *window, QWidget *parent)
     : QWidget(parent)
     , m_window(window)
 {
     auto *layout = new QVBoxLayout(this);
     layout->setSpacing(0);
-    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setContentsMargins(PanelHMargin, 0, PanelHMargin, 0);
 
     auto *toolBarLayout = new QHBoxLayout();
 
@@ -95,16 +98,23 @@ VerticalTabsWidget::VerticalTabsWidget(BrowserWindow *window, QWidget *parent)
     newTabButton->setFocusPolicy(Qt::NoFocus);
     newTabButton->setToolTip(tr("New Tab"));
     newTabButton->setIcon(IconProvider::newTabIcon());
-    newTabButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    newTabButton->setFixedSize(TabListDelegate::IconOnlyCell, TabListDelegate::IconOnlyCell);
     connect(newTabButton, &QAbstractButton::clicked, this, [this]() {
         m_window->tabWidget()->addView(QUrl(), Qz::NT_SelectedNewEmptyTab);
     });
     m_newTabButton = newTabButton;
 
+    auto *newTabLayout = new QHBoxLayout();
+    newTabLayout->setContentsMargins(0, 0, 0, 0);
+    newTabLayout->addStretch();
+    newTabLayout->addWidget(newTabButton);
+    newTabLayout->addStretch();
+
     layout->addLayout(toolBarLayout);
     layout->addWidget(m_pinnedView);
-    layout->addWidget(m_normalView, 1);
-    layout->addWidget(newTabButton);
+    layout->addWidget(m_normalView);
+    layout->addLayout(newTabLayout);
+    layout->addStretch(1);
 }
 
 void VerticalTabsWidget::setIconOnly(bool enable)
@@ -114,7 +124,7 @@ void VerticalTabsWidget::setIconOnly(bool enable)
     m_normalView->setIconOnly(enable);
 
     if (enable) {
-        setFixedWidth(40);
+        setFixedWidth(TabListDelegate::IconOnlyCell + 2 * PanelHMargin);
         m_searchButton->setVisible(false);
     } else {
         setMinimumWidth(0);

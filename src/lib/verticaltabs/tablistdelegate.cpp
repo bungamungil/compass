@@ -24,6 +24,9 @@
 #include "tabicon.h"
 
 #include <QPainter>
+#include <QApplication>
+#include <QStyleOptionButton>
+#include <QCursor>
 
 TabListDelegate::TabListDelegate(TabListView *view)
     : QStyledItemDelegate()
@@ -48,6 +51,37 @@ QRect TabListDelegate::audioButtonRect(const QModelIndex &index) const
     const QRect rect = m_view->visualRect(index);
     const int center = rect.height() / 2 + rect.top();
     return QRect(rect.right() - 16, center - 16 / 2, 16, 16);
+}
+
+QRect TabListDelegate::closeButtonRect(const QModelIndex &index) const
+{
+    const QRect rect = m_view->visualRect(index);
+    if (!rect.isValid()) {
+        return QRect();
+    }
+    const QStyle *style = m_view->style();
+    const int w = qMax(16, style->pixelMetric(QStyle::PM_TabCloseIndicatorWidth, nullptr, m_view));
+    const int h = qMax(16, style->pixelMetric(QStyle::PM_TabCloseIndicatorHeight, nullptr, m_view));
+    const int center = rect.height() / 2 + rect.top();
+    if (m_iconOnly) {
+        return QRect(rect.center().x() - w / 2, center - h / 2, w, h);
+    }
+    return QRect(rect.right() - m_padding - w, center - h / 2, w, h);
+}
+
+void TabListDelegate::drawCloseButton(QPainter *painter, const QRect &rect) const
+{
+    const QStyle *style = m_view->style();
+    QStyleOptionButton o;
+    o.initFrom(m_view->viewport());
+    o.rect = rect;
+    const bool cursorOver = rect.contains(m_view->viewport()->mapFromGlobal(QCursor::pos()));
+    const bool pressed = cursorOver && QApplication::mouseButtons() == Qt::LeftButton;
+    o.state = QStyle::State_AutoRaise | QStyle::State_Enabled;
+    o.state.setFlag(QStyle::State_Raised, cursorOver && !pressed);
+    o.state.setFlag(QStyle::State_Sunken, pressed);
+    o.state.setFlag(QStyle::State_MouseOver, cursorOver);
+    style->drawPrimitive(QStyle::PE_IndicatorTabClose, &o, painter, nullptr);
 }
 
 void TabListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -89,6 +123,10 @@ void TabListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &optio
     style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, w);
 
     if (m_iconOnly) {
+        if (opt.state & QStyle::State_MouseOver) {
+            drawCloseButton(painter, closeButtonRect(index));
+            return;
+        }
         const int iconSize = 16;
         const QRect iconRect(opt.rect.center().x() - iconSize / 2, center - iconSize / 2, iconSize, iconSize);
         QPixmap pixmap;
@@ -114,6 +152,10 @@ void TabListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &optio
     painter->drawPixmap(iconRect, pixmap);
     leftPosition += iconRect.width() + m_padding;
 
+    // Reserve the close-button column so the title does not re-elide on hover.
+    const int closeW = qMax(16, style->pixelMetric(QStyle::PM_TabCloseIndicatorWidth, nullptr, w));
+    rightPosition -= closeW + m_padding;
+
     // Draw audio icon
     const bool audioMuted = index.data(TabModel::AudioMutedRole).toBool();
     const bool audioPlaying = index.data(TabModel::AudioPlayingRole).toBool();
@@ -130,6 +172,11 @@ void TabListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &optio
     titleRect.setRight(rightPosition - m_padding);
     QString title = opt.fontMetrics.elidedText(index.data().toString(), Qt::ElideRight, titleRect.width());
     style->drawItemText(painter, titleRect, Qt::AlignLeft, textPalette, true, title, colorRole);
+
+    // Draw the close indicator on hover or on the current tab.
+    if (opt.state & (QStyle::State_MouseOver | QStyle::State_Selected)) {
+        drawCloseButton(painter, closeButtonRect(index));
+    }
 }
 
 QSize TabListDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -138,7 +185,7 @@ QSize TabListDelegate::sizeHint(const QStyleOptionViewItem &option, const QModel
     initStyleOption(&opt, index);
 
     if (m_iconOnly) {
-        return QSize(m_padding * 2 + 16, m_padding * 2 + 16);
+        return QSize(IconOnlyCell, IconOnlyCell);
     }
 
     return QSize(m_padding * 4 + 16, m_padding * 2 + opt.fontMetrics.height());

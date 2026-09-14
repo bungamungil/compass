@@ -37,6 +37,7 @@ TabListView::TabListView(BrowserWindow *window, QWidget *parent)
     setUniformItemSizes(true);
     setDropIndicatorShown(true);
     setMouseTracking(true);
+    viewport()->setAttribute(Qt::WA_Hover);
     setFlow(QListView::TopToBottom);
     setFocusPolicy(Qt::NoFocus);
     setFrameShape(QFrame::NoFrame);
@@ -78,7 +79,7 @@ void TabListView::setIconOnly(bool enable)
 {
     m_delegate->setIconOnly(enable);
     if (enable) {
-        setFixedWidth(40);
+        setFixedWidth(TabListDelegate::IconOnlyCell);
     } else {
         setMinimumWidth(0);
         setMaximumWidth(QWIDGETSIZE_MAX);
@@ -177,6 +178,26 @@ void TabListView::rowsAboutToBeRemoved(const QModelIndex &parent, int start, int
 bool TabListView::viewportEvent(QEvent *event)
 {
     switch (event->type()) {
+    case QEvent::HoverEnter:
+    case QEvent::HoverLeave:
+    case QEvent::HoverMove: {
+        auto *he = static_cast<QHoverEvent*>(event);
+        updateIndex(m_hoveredIndex);
+        m_hoveredIndex = indexAt(he->position().toPoint());
+        updateIndex(m_hoveredIndex);
+        break;
+    }
+
+    case QEvent::MouseMove: {
+        auto *me = static_cast<QMouseEvent*>(event);
+        updateIndex(indexAt(me->pos()));
+        if (m_pressedButton == CloseButton) {
+            me->accept();
+            return true;
+        }
+        break;
+    }
+
     case QEvent::MouseButtonPress: {
         auto *me = static_cast<QMouseEvent*>(event);
         const QModelIndex index = indexAt(me->pos());
@@ -194,6 +215,10 @@ bool TabListView::viewportEvent(QEvent *event)
         if (m_pressedButton == NoButton && tab) {
             tab->makeCurrentTab();
         }
+        if (m_pressedButton == CloseButton) {
+            me->accept();
+            return true;
+        }
         break;
     }
 
@@ -203,15 +228,22 @@ bool TabListView::viewportEvent(QEvent *event)
             break;
         }
         const QModelIndex index = indexAt(me->pos());
+        updateIndex(index);
         if (m_pressedIndex != index) {
             break;
         }
         DelegateButton button = buttonAt(me->pos(), index);
         if (m_pressedButton == button) {
             auto *tab = index.data(TabModel::WebTabRole).value<WebTab*>();
-            if (tab && m_pressedButton == AudioButton) {
+            if (tab && m_pressedButton == CloseButton) {
+                tab->closeTab();
+            } else if (tab && m_pressedButton == AudioButton) {
                 tab->toggleMuted();
             }
+        }
+        if (m_pressedButton == CloseButton) {
+            me->accept();
+            return true;
         }
         break;
     }
@@ -223,6 +255,10 @@ bool TabListView::viewportEvent(QEvent *event)
         if (button == AudioButton) {
             const bool muted = index.data(TabModel::AudioMutedRole).toBool();
             QToolTip::showText(he->globalPos(), muted ? tr("Unmute Tab") : tr("Mute Tab"), this, visualRect(index));
+            he->accept();
+            return true;
+        } else if (button == CloseButton) {
+            QToolTip::showText(he->globalPos(), tr("Close Tab"), this, visualRect(index));
             he->accept();
             return true;
         } else if (button == NoButton) {
@@ -238,7 +274,7 @@ bool TabListView::viewportEvent(QEvent *event)
         const QModelIndex index = indexAt(ce->pos());
         auto *tab = index.data(TabModel::WebTabRole).value<WebTab*>();
         const int tabIndex = tab ? tab->tabIndex() : -1;
-        TabContextMenu::Options options = TabContextMenu::HorizontalTabs | TabContextMenu::ShowDetachTabAction;
+        TabContextMenu::Options options = TabContextMenu::VerticalTabs | TabContextMenu::ShowDetachTabAction;
         TabContextMenu menu(tabIndex, m_window, options);
         menu.exec(ce->globalPos());
         break;
@@ -256,6 +292,9 @@ bool TabListView::viewportEvent(QEvent *event)
 
 TabListView::DelegateButton TabListView::buttonAt(const QPoint &pos, const QModelIndex &index) const
 {
+    if (m_delegate->closeButtonRect(index).contains(pos)) {
+        return CloseButton;
+    }
     if (m_delegate->audioButtonRect(index).contains(pos)) {
         return AudioButton;
     }
@@ -270,17 +309,23 @@ void TabListView::updateVisibility()
 
 void TabListView::updateHeight()
 {
-    if (!m_autoHeight) {
+    if (!model()) {
         return;
     }
 
     QStyleOptionViewItem option;
     initViewItemOption(&option);
+    const int rowHeight = m_delegate->sizeHint(option, QModelIndex()).height();
+
+    if (!m_autoHeight) {
+        setMinimumHeight(0);
+        setMaximumHeight(rowHeight * qMax(0, model()->rowCount()));
+        return;
+    }
 
     if (isVisible() && model()->rowCount() > 0) {
-        setFixedHeight(m_delegate->sizeHint(option, QModelIndex()).height() * model()->rowCount());
-    }
-    else {
-        setFixedHeight(m_delegate->sizeHint(option, QModelIndex()).height());
+        setFixedHeight(rowHeight * model()->rowCount());
+    } else {
+        setFixedHeight(rowHeight);
     }
 }

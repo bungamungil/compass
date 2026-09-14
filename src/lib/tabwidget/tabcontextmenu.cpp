@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2010-2018 David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -25,6 +26,9 @@
 #include "mainapplication.h"
 #include "iconprovider.h"
 #include "checkboxdialog.h"
+#include "qzsettings.h"
+
+#include <QTimer>
 
 
 TabContextMenu::TabContextMenu(int index, BrowserWindow *window, Options options)
@@ -147,6 +151,9 @@ void TabContextMenu::init()
             addSeparator();
         }
 
+        addSeparator();
+        addAction(m_options & VerticalTabs ? tr("Show Tabs Horizontally") : tr("Show Tabs Vertically"),
+                  this, &TabContextMenu::toggleVerticalTabs);
         addAction(m_window->action(QSL("Other/RestoreClosedTab")));
         addAction(QIcon::fromTheme(QSL("window-close")), tr("Cl&ose Tab"), this, &TabContextMenu::closeTab);
     } else {
@@ -155,6 +162,8 @@ void TabContextMenu::init()
         addAction(tr("Reloa&d All Tabs"), tabWidget, &TabWidget::reloadAllTabs);
         addAction(tr("Bookmark &All Tabs"), m_window, &BrowserWindow::bookmarkAllTabs);
         addSeparator();
+        addAction(m_options & VerticalTabs ? tr("Show Tabs Horizontally") : tr("Show Tabs Vertically"),
+                  this, &TabContextMenu::toggleVerticalTabs);
         addAction(m_window->action(QSL("Other/RestoreClosedTab")));
     }
 
@@ -178,4 +187,16 @@ void TabContextMenu::muteTab()
     if (webTab) {
         webTab->toggleMuted();
     }
+}
+
+void TabContextMenu::toggleVerticalTabs()
+{
+    const bool enable = !(m_options & VerticalTabs);
+    QTimer::singleShot(0, mApp, [enable]() {
+        const auto windows = mApp->windows();
+        for (BrowserWindow *window : windows) {
+            window->showVerticalTabs(enable);
+        }
+        qzSettings->saveSettings();
+    });
 }

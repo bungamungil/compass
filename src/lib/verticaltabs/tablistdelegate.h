@@ -28,9 +28,12 @@ class TabListDelegate : public QStyledItemDelegate
     Q_OBJECT
 
 public:
+    static constexpr int IconOnlyCell = 32;
+
     explicit TabListDelegate(TabListView *view);
 
     QRect audioButtonRect(const QModelIndex &index) const;
+    QRect closeButtonRect(const QModelIndex &index) const;
 
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
@@ -38,6 +41,8 @@ public:
     void setIconOnly(bool enable) { m_iconOnly = enable; }
 
 private:
+    void drawCloseButton(QPainter *painter, const QRect &rect) const;
+
     TabListView *m_view;
     LoadingAnimator *m_loadingAnimator;
     int m_padding;
