@@ -581,19 +581,17 @@ Preferences::Preferences(BrowserWindow* window)
     settings.endGroup();
 
     // Secure DNS (DNS-over-HTTPS)
-    settings.beginGroup(QSL("Secure-DNS"));
-    ui->secureDnsEnabled->setChecked(settings.value(QSL("Enabled"), false).toBool());
-    const int secureDnsProvider = settings.value(QSL("Provider"), 0).toInt();
-    if (secureDnsProvider == SecureDns::Google) {
+    const SecureDns::Config dohConfig = SecureDns::loadConfig();
+    ui->secureDnsEnabled->setChecked(dohConfig.enabled);
+    if (dohConfig.provider == SecureDns::Google) {
         ui->secureDnsGoogle->setChecked(true);
-    } else if (secureDnsProvider == SecureDns::Custom) {
+    } else if (dohConfig.provider == SecureDns::Custom) {
         ui->secureDnsCustom->setChecked(true);
     } else {
         ui->secureDnsCloudflare->setChecked(true);
     }
-    ui->secureDnsCustomUrl->setText(settings.value(QSL("CustomUrl"), QString()).toString());
-    ui->secureDnsFallback->setChecked(settings.value(QSL("FallbackToSystem"), true).toBool());
-    settings.endGroup();
+    ui->secureDnsCustomUrl->setText(dohConfig.customUrl);
+    ui->secureDnsFallback->setChecked(dohConfig.fallbackToSystem);
 
 #if QTWEBENGINECORE_VERSION >= QT_VERSION_CHECK(6, 6, 0)
     ui->secureDnsUnsupported->hide();
@@ -798,6 +796,7 @@ void Preferences::setManualProxyConfigurationEnabled(bool state)
 
 void Preferences::setSecureDnsConfigurationEnabled(bool state)
 {
+    ui->secureDnsProviderLabel->setEnabled(state);
     ui->secureDnsCloudflare->setEnabled(state);
     ui->secureDnsGoogle->setEnabled(state);
     ui->secureDnsCustom->setEnabled(state);
@@ -1226,18 +1225,18 @@ bool Preferences::saveSettings()
     settings.endGroup();
 
 #if QTWEBENGINECORE_VERSION >= QT_VERSION_CHECK(6, 6, 0)
-    int secureDnsProvider = SecureDns::Cloudflare;
+    SecureDns::Config dohConfig;
+    dohConfig.enabled = ui->secureDnsEnabled->isChecked();
     if (ui->secureDnsGoogle->isChecked()) {
-        secureDnsProvider = SecureDns::Google;
+        dohConfig.provider = SecureDns::Google;
     } else if (ui->secureDnsCustom->isChecked()) {
-        secureDnsProvider = SecureDns::Custom;
+        dohConfig.provider = SecureDns::Custom;
+    } else {
+        dohConfig.provider = SecureDns::Cloudflare;
     }
-    settings.beginGroup(QSL("Secure-DNS"));
-    settings.setValue(QSL("Enabled"), ui->secureDnsEnabled->isChecked());
-    settings.setValue(QSL("Provider"), secureDnsProvider);
-    settings.setValue(QSL("CustomUrl"), ui->secureDnsCustomUrl->text().trimmed());
-    settings.setValue(QSL("FallbackToSystem"), ui->secureDnsFallback->isChecked());
-    settings.endGroup();
+    dohConfig.customUrl = ui->secureDnsCustomUrl->text().trimmed();
+    dohConfig.fallbackToSystem = ui->secureDnsFallback->isChecked();
+    SecureDns::saveConfig(dohConfig);
 #endif
 
     //SiteSettings

@@ -54,6 +54,9 @@ FALKON_EXPORT QStringList serverTemplates(const Config &config);
 // Reads the "Secure-DNS" Settings group.
 FALKON_EXPORT Config loadConfig();
 
+// Writes the config to the "Secure-DNS" Settings group.
+FALKON_EXPORT void saveConfig(const Config &config);
+
 // Applies the config via QWebEngineGlobalSettings::setDnsMode. Returns false on failure.
 FALKON_EXPORT bool apply(const Config &config);
 }

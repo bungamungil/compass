@@ -292,7 +292,6 @@ MainApplication::MainApplication(int &argc, char** argv)
     Settings::createSettings(DataPaths::currentProfilePath() + QLatin1String("/settings.ini"));
 
     setChromiumFlags();
-    SecureDns::apply(SecureDns::loadConfig());
     NetworkManager::registerSchemes();
     registerAllowedSchemes();
 

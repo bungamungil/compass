@@ -20,16 +20,27 @@
 #define SECUREDNSTEST_H
 
 #include <QObject>
+#include <QTemporaryDir>
+#include <memory>
 
 class SecureDnsTest : public QObject
 {
     Q_OBJECT
 
+private:
+    std::unique_ptr<QTemporaryDir> m_tempDir;
+
 private Q_SLOTS:
+    void initTestCase();
+    void cleanupTestCase();
     void validCustomUrl_data();
     void validCustomUrl();
     void providerTemplates();
     void serverTemplatesForConfig();
+    void customUrlTemplatePassthrough();
+    void cloudflareTemplateContent();
+    void fallbackModeMapping();
+    void loadConfigRoundTrip();
 };
 
 #endif // SECUREDNSTEST_H

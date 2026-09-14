@@ -44,8 +44,9 @@ bool SecureDns::isValidCustomUrl(const QString &url)
     }
 
     // Strip a trailing RFC 6570 "{?dns}" GET-template expression before parsing.
-    if (trimmed.endsWith(QL1S("{?dns}"))) {
-        trimmed.chop(6);
+    static const QLatin1String dnsTemplate("{?dns}");
+    if (trimmed.endsWith(dnsTemplate)) {
+        trimmed.chop(dnsTemplate.size());
     }
 
     // Any remaining template braces are not a valid endpoint URL.
@@ -103,11 +104,24 @@ SecureDns::Config SecureDns::loadConfig()
     Settings settings;
     settings.beginGroup(QSL("Secure-DNS"));
     config.enabled = settings.value(QSL("Enabled"), false).toBool();
-    config.provider = static_cast<Provider>(settings.value(QSL("Provider"), 0).toInt());
+    const int rawProvider = settings.value(QSL("Provider"), 0).toInt();
+    config.provider = (rawProvider == Google || rawProvider == Custom)
+        ? static_cast<Provider>(rawProvider) : Cloudflare;
     config.customUrl = settings.value(QSL("CustomUrl"), QString()).toString();
     config.fallbackToSystem = settings.value(QSL("FallbackToSystem"), true).toBool();
     settings.endGroup();
     return config;
+}
+
+void SecureDns::saveConfig(const Config &config)
+{
+    Settings settings;
+    settings.beginGroup(QSL("Secure-DNS"));
+    settings.setValue(QSL("Enabled"), config.enabled);
+    settings.setValue(QSL("Provider"), static_cast<int>(config.provider));
+    settings.setValue(QSL("CustomUrl"), config.customUrl);
+    settings.setValue(QSL("FallbackToSystem"), config.fallbackToSystem);
+    settings.endGroup();
 }
 
 bool SecureDns::apply(const Config &config)
@@ -115,15 +129,22 @@ bool SecureDns::apply(const Config &config)
 #if QTWEBENGINECORE_VERSION >= QT_VERSION_CHECK(6, 6, 0)
     using namespace QWebEngineGlobalSettings;
 
-    if (!config.enabled || !isSupported()) {
+    if (!config.enabled) {
         setDnsMode(DnsMode{SecureDnsMode::SystemOnly, {}});
         return true;
+    }
+
+    const QStringList templates = serverTemplates(config);
+    if (templates.isEmpty()) {
+        // serverTemplates validates custom URLs; empty means invalid config.
+        setDnsMode(DnsMode{SecureDnsMode::SystemOnly, {}});
+        return false;
     }
 
     DnsMode mode;
     mode.secureMode = config.fallbackToSystem ? SecureDnsMode::SecureWithFallback
                                               : SecureDnsMode::SecureOnly;
-    mode.serverTemplates = serverTemplates(config);
+    mode.serverTemplates = templates;  // use pre-validated list
 
     const bool ok = setDnsMode(mode);
     if (!ok) {

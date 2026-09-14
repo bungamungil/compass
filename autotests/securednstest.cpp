@@ -18,8 +18,23 @@
 
 #include "securednstest.h"
 #include "securedns.h"
+#include "settings.h"
 
 #include <QTest>
+#include <QTemporaryDir>
+
+void SecureDnsTest::initTestCase()
+{
+    // Initialize a temporary settings file so loadConfig/saveConfig can be tested.
+    m_tempDir = std::make_unique<QTemporaryDir>();
+    QVERIFY(m_tempDir->isValid());
+    Settings::createSettings(m_tempDir->filePath(QSL("settings.ini")));
+}
+
+void SecureDnsTest::cleanupTestCase()
+{
+    m_tempDir.reset();
+}
 
 void SecureDnsTest::validCustomUrl_data()
 {
@@ -79,6 +94,60 @@ void SecureDnsTest::serverTemplatesForConfig()
     cloudflare.enabled = true;
     cloudflare.provider = SecureDns::Cloudflare;
     QCOMPARE(SecureDns::serverTemplates(cloudflare).size(), 1);
+}
+
+void SecureDnsTest::customUrlTemplatePassthrough()
+{
+    // A custom URL with {?dns} suffix must survive into serverTemplates unchanged.
+    SecureDns::Config cfg;
+    cfg.enabled = true;
+    cfg.provider = SecureDns::Custom;
+    cfg.customUrl = QSL("https://dns.example/dns-query{?dns}");
+    const QStringList tmpl = SecureDns::serverTemplates(cfg);
+    QCOMPARE(tmpl.size(), 1);
+    QCOMPARE(tmpl.first(), QSL("https://dns.example/dns-query{?dns}"));
+}
+
+void SecureDnsTest::cloudflareTemplateContent()
+{
+    SecureDns::Config cfg;
+    cfg.enabled = true;
+    cfg.provider = SecureDns::Cloudflare;
+    const QStringList tmpl = SecureDns::serverTemplates(cfg);
+    QCOMPARE(tmpl.size(), 1);
+    QCOMPARE(tmpl.first(), QSL("https://cloudflare-dns.com/dns-query{?dns}"));
+}
+
+void SecureDnsTest::fallbackModeMapping()
+{
+    // serverTemplates returns the template regardless of fallbackToSystem;
+    // the mode flag is consumed by apply(), not serverTemplates().
+    SecureDns::Config withFallback;
+    withFallback.enabled = true;
+    withFallback.provider = SecureDns::Google;
+    withFallback.fallbackToSystem = true;
+    QCOMPARE(SecureDns::serverTemplates(withFallback).size(), 1);
+
+    SecureDns::Config noFallback = withFallback;
+    noFallback.fallbackToSystem = false;
+    QCOMPARE(SecureDns::serverTemplates(noFallback).size(), 1);
+}
+
+void SecureDnsTest::loadConfigRoundTrip()
+{
+    // Write a config via saveConfig(), read it back via loadConfig().
+    SecureDns::Config original;
+    original.enabled = true;
+    original.provider = SecureDns::Google;
+    original.customUrl = QSL("https://dns.example/dns-query");
+    original.fallbackToSystem = false;
+    SecureDns::saveConfig(original);
+
+    const SecureDns::Config loaded = SecureDns::loadConfig();
+    QCOMPARE(loaded.enabled, original.enabled);
+    QCOMPARE(static_cast<int>(loaded.provider), static_cast<int>(original.provider));
+    QCOMPARE(loaded.customUrl, original.customUrl);
+    QCOMPARE(loaded.fallbackToSystem, original.fallbackToSystem);
 }
 
 QTEST_GUILESS_MAIN(SecureDnsTest)
