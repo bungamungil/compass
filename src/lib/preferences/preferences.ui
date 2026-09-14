@@ -1674,6 +1674,138 @@
                </item>
               </layout>
              </widget>
+             <widget class="QWidget" name="tab_4">
+              <attribute name="title">
+               <string>Secure DNS</string>
+              </attribute>
+              <layout class="QVBoxLayout" name="secureDnsLayout">
+               <item>
+                <widget class="QCheckBox" name="secureDnsEnabled">
+                 <property name="text">
+                  <string>Enable Secure DNS (DNS-over-HTTPS)</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="secureDnsIndentLayout">
+                 <item>
+                  <spacer name="secureDnsIndentSpacer">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeType">
+                    <enum>QSizePolicy::Fixed</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
+                  <layout class="QVBoxLayout" name="secureDnsProviderLayout">
+                   <item>
+                    <widget class="QLabel" name="secureDnsProviderLabel">
+                     <property name="text">
+                      <string>Provider:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QRadioButton" name="secureDnsCloudflare">
+                     <property name="text">
+                      <string>Cloudflare (1.1.1.1)</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QRadioButton" name="secureDnsGoogle">
+                     <property name="text">
+                      <string>Google (Public DNS)</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QRadioButton" name="secureDnsCustom">
+                     <property name="text">
+                      <string>Custom</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="secureDnsCustomUrl">
+                     <property name="inputMethodHints">
+                      <set>Qt::ImhUrlCharactersOnly</set>
+                     </property>
+                     <property name="placeholderText">
+                      <string>https://example.com/dns-query</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="secureDnsUrlStatus">
+                     <property name="visible">
+                      <bool>false</bool>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">color: red;</string>
+                     </property>
+                     <property name="text">
+                      <string>Enter a valid HTTPS URL</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QCheckBox" name="secureDnsFallback">
+                     <property name="text">
+                      <string>Fall back to system DNS if the secure resolver fails</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <widget class="QLabel" name="secureDnsNote">
+                 <property name="wordWrap">
+                  <bool>true</bool>
+                 </property>
+                 <property name="text">
+                  <string>Applies to web page traffic. Update checks, adblock list downloads and search suggestions use system DNS.</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="secureDnsUnsupported">
+                 <property name="visible">
+                  <bool>false</bool>
+                 </property>
+                 <property name="wordWrap">
+                  <bool>true</bool>
+                 </property>
+                 <property name="text">
+                  <string>Secure DNS requires Qt WebEngine 6.6 or newer.</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="secureDnsVerticalSpacer">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </widget>
             </widget>
            </item>
           </layout>
@@ -3090,6 +3222,12 @@
   <tabstop>showStatusbar</tabstop>
   <tabstop>showNavigationToolbar</tabstop>
   <tabstop>showBookmarksToolbar</tabstop>
+  <tabstop>secureDnsEnabled</tabstop>
+  <tabstop>secureDnsCloudflare</tabstop>
+  <tabstop>secureDnsGoogle</tabstop>
+  <tabstop>secureDnsCustom</tabstop>
+  <tabstop>secureDnsCustomUrl</tabstop>
+  <tabstop>secureDnsFallback</tabstop>
  </tabstops>
  <resources/>
  <connections>

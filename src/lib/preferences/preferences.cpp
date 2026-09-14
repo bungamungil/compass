@@ -54,6 +54,7 @@
 #include "sitesettingshtml5item.h"
 #include "autoopenprotocolsdialog.h"
 #include "qzsettings.h"
+#include "securedns.h"
 
 #include <QSettings>
 #include <QInputDialog>
@@ -579,6 +580,34 @@ Preferences::Preferences(BrowserWindow* window)
     ui->proxyPassword->setText(settings.value(QSL("Password"), QSL("")).toString());
     settings.endGroup();
 
+    // Secure DNS (DNS-over-HTTPS)
+    settings.beginGroup(QSL("Secure-DNS"));
+    ui->secureDnsEnabled->setChecked(settings.value(QSL("Enabled"), false).toBool());
+    const int secureDnsProvider = settings.value(QSL("Provider"), 0).toInt();
+    if (secureDnsProvider == SecureDns::Google) {
+        ui->secureDnsGoogle->setChecked(true);
+    } else if (secureDnsProvider == SecureDns::Custom) {
+        ui->secureDnsCustom->setChecked(true);
+    } else {
+        ui->secureDnsCloudflare->setChecked(true);
+    }
+    ui->secureDnsCustomUrl->setText(settings.value(QSL("CustomUrl"), QString()).toString());
+    ui->secureDnsFallback->setChecked(settings.value(QSL("FallbackToSystem"), true).toBool());
+    settings.endGroup();
+
+#if QTWEBENGINECORE_VERSION >= QT_VERSION_CHECK(6, 6, 0)
+    ui->secureDnsUnsupported->hide();
+#else
+    ui->secureDnsUnsupported->show();
+    ui->secureDnsEnabled->setChecked(false);
+    ui->secureDnsEnabled->setEnabled(false);
+#endif
+
+    setSecureDnsConfigurationEnabled(ui->secureDnsEnabled->isChecked());
+    connect(ui->secureDnsEnabled, &QAbstractButton::toggled, this, &Preferences::setSecureDnsConfigurationEnabled);
+    connect(ui->secureDnsCustom, &QAbstractButton::toggled, this, &Preferences::updateSecureDnsCustomUrlState);
+    connect(ui->secureDnsCustomUrl, &QLineEdit::textChanged, this, &Preferences::updateSecureDnsCustomUrlState);
+
     setManualProxyConfigurationEnabled(ui->manualProxy->isChecked());
     connect(ui->manualProxy, &QAbstractButton::toggled, this, &Preferences::setManualProxyConfigurationEnabled);
 
@@ -767,6 +796,23 @@ void Preferences::setManualProxyConfigurationEnabled(bool state)
     ui->proxyPassword->setEnabled(state);
 }
 
+void Preferences::setSecureDnsConfigurationEnabled(bool state)
+{
+    ui->secureDnsCloudflare->setEnabled(state);
+    ui->secureDnsGoogle->setEnabled(state);
+    ui->secureDnsCustom->setEnabled(state);
+    ui->secureDnsFallback->setEnabled(state);
+    updateSecureDnsCustomUrlState();
+}
+
+void Preferences::updateSecureDnsCustomUrlState()
+{
+    const bool customActive = ui->secureDnsEnabled->isChecked() && ui->secureDnsCustom->isChecked();
+    ui->secureDnsCustomUrl->setEnabled(customActive);
+    const bool invalid = customActive && !SecureDns::isValidCustomUrl(ui->secureDnsCustomUrl->text());
+    ui->secureDnsUrlStatus->setVisible(invalid);
+}
+
 void Preferences::searchFromAddressBarChanged(bool stat)
 {
     ui->searchWithDefaultEngine->setEnabled(stat);
@@ -870,8 +916,9 @@ void Preferences::buttonClicked(QAbstractButton* button)
         break;
 
     case QDialogButtonBox::AcceptRole:
-        saveSettings();
-        close();
+        if (saveSettings()) {
+            close();
+        }
         break;
 
     default:
@@ -936,9 +983,22 @@ void Preferences::closeEvent(QCloseEvent* event)
     event->accept();
 }
 
-void Preferences::saveSettings()
+bool Preferences::saveSettings()
 {
     Settings settings;
+
+#if QTWEBENGINECORE_VERSION >= QT_VERSION_CHECK(6, 6, 0)
+    if (ui->secureDnsEnabled->isChecked() && ui->secureDnsCustom->isChecked()
+        && !SecureDns::isValidCustomUrl(ui->secureDnsCustomUrl->text())) {
+        ui->listWidget->setCurrentRow(3); // Browsing page
+        ui->tabWidget->setCurrentWidget(ui->tab_4);
+        ui->secureDnsCustomUrl->setFocus();
+        QMessageBox::warning(this, tr("Secure DNS"),
+                             tr("The custom DNS-over-HTTPS URL must be a valid HTTPS URL."));
+        return false;
+    }
+#endif
+
     //GENERAL URLs
     QUrl homepage = QUrl::fromUserInput(ui->homepage->text());
 
@@ -1165,6 +1225,21 @@ void Preferences::saveSettings()
     settings.setValue(QSL("Password"), ui->proxyPassword->text());
     settings.endGroup();
 
+#if QTWEBENGINECORE_VERSION >= QT_VERSION_CHECK(6, 6, 0)
+    int secureDnsProvider = SecureDns::Cloudflare;
+    if (ui->secureDnsGoogle->isChecked()) {
+        secureDnsProvider = SecureDns::Google;
+    } else if (ui->secureDnsCustom->isChecked()) {
+        secureDnsProvider = SecureDns::Custom;
+    }
+    settings.beginGroup(QSL("Secure-DNS"));
+    settings.setValue(QSL("Enabled"), ui->secureDnsEnabled->isChecked());
+    settings.setValue(QSL("Provider"), secureDnsProvider);
+    settings.setValue(QSL("CustomUrl"), ui->secureDnsCustomUrl->text().trimmed());
+    settings.setValue(QSL("FallbackToSystem"), ui->secureDnsFallback->isChecked());
+    settings.endGroup();
+#endif
+
     //SiteSettings
     settings.beginGroup(QSL("Site-Settings"));
     /* HTML5 Features */
@@ -1186,6 +1261,8 @@ void Preferences::saveSettings()
     mApp->networkManager()->loadSettings();
 
     WebScrollBarManager::instance()->loadSettings();
+
+    return true;
 }
 
 Preferences::~Preferences()

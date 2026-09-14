@@ -47,7 +47,7 @@ public:
     ~Preferences() override;
 
 private Q_SLOTS:
-    void saveSettings();
+    bool saveSettings();
 
     void buttonClicked(QAbstractButton* button);
     void showStackedPage(QListWidgetItem* item);
@@ -74,6 +74,8 @@ private Q_SLOTS:
     void downLocChanged(bool state);
     void allowCacheChanged(bool state);
     void setManualProxyConfigurationEnabled(bool state);
+    void setSecureDnsConfigurationEnabled(bool state);
+    void updateSecureDnsCustomUrlState();
     void useExternalDownManagerChanged(bool state);
     void changeCachePathClicked();
     void allowPluginsToggled(bool checked);
