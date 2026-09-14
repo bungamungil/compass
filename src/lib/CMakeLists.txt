@@ -133,6 +133,7 @@ set(SRCS ${SRCS}
     navigation/websearchbar.cpp
     navigation/zoomlabel.cpp
     network/networkmanager.cpp
+    network/securedns.cpp
     network/networkurlinterceptor.cpp
     network/schemehandlers/extensionschemehandler.cpp
     network/schemehandlers/falkonschemehandler.cpp
@@ -378,6 +379,7 @@ set(SRCS ${SRCS}
     navigation/websearchbar.h
     navigation/zoomlabel.h
     network/networkmanager.h
+    network/securedns.h
     network/networkurlinterceptor.h
     network/schemehandlers/extensionschemehandler.h
     network/schemehandlers/falkonschemehandler.h

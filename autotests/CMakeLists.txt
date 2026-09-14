@@ -24,6 +24,7 @@ falkon_tests(
     webtabtest
     sqldatabasetest
     tabsearchmodeltest
+    securednstest
 )
 
 if (BUILD_TESTING_ONLINE)
