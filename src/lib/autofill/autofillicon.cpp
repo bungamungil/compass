@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2013-2018 David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -28,6 +29,8 @@ AutoFillIcon::AutoFillIcon(QWidget* parent)
     setCursor(Qt::PointingHandCursor);
     setToolTip(AutoFillWidget::tr("Choose username to login"));
     setFocusPolicy(Qt::ClickFocus);
+    setThemeIcon(QSL("user-identity"));
+    setFallbackIcon(QIcon(QSL(":/icons/other/login.png")));
 
     connect(this, &ClickableLabel::clicked, this, &AutoFillIcon::iconClicked);
 }

@@ -30,6 +30,7 @@
 #include "qzsettings.h"
 #include "qztools.h"
 #include "tabicon.h"
+#include "iconprovider.h"
 #include "pluginproxy.h"
 
 #include <QFile>
@@ -46,6 +47,7 @@ AddTabButton::AddTabButton(TabWidget* tabWidget, TabBar* tabBar)
     , m_tabWidget(tabWidget)
 {
     setObjectName("tabwidget-button-addtab");
+    setIcon(IconProvider::newTabIcon());
     setAutoRaise(true);
     setFocusPolicy(Qt::NoFocus);
     setAcceptDrops(true);
@@ -122,6 +124,7 @@ TabWidget::TabWidget(BrowserWindow *window, QWidget *parent)
     // ClosedTabs button displayed as a permanent corner widget
     m_buttonClosedTabs = new ToolButton(m_tabBar);
     m_buttonClosedTabs->setObjectName("tabwidget-button-closedtabs");
+    m_buttonClosedTabs->setIcon(QIcon::fromTheme(QSL("user-trash-full")));
     m_buttonClosedTabs->setMenu(m_menuClosedTabs);
     m_buttonClosedTabs->setPopupMode(QToolButton::InstantPopup);
     m_buttonClosedTabs->setToolTip(tr("Closed tabs"));
@@ -133,6 +136,7 @@ TabWidget::TabWidget(BrowserWindow *window, QWidget *parent)
     // ListTabs button is showed only when tabbar overflows
     m_buttonListTabs = new ToolButton(m_tabBar);
     m_buttonListTabs->setObjectName("tabwidget-button-opentabs");
+    m_buttonListTabs->setIcon(QIcon::fromTheme(QSL("arrow-down"), QIcon::fromTheme(QSL("go-down"))));
     m_buttonListTabs->setMenu(m_menuTabs);
     m_buttonListTabs->setPopupMode(QToolButton::InstantPopup);
     m_buttonListTabs->setToolTip(tr("List of tabs"));

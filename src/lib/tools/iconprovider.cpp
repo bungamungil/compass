@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2010-2018 David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -38,6 +39,7 @@ static QByteArray encodeUrl(const QUrl &url)
 IconProvider::IconProvider()
     : QWidget()
 {
+    m_bookmarkIcon = QIcon(QSL(":/icons/other/bigstar-selected.svg"));
     m_autoSaver = new AutoSaver(this);
     connect(m_autoSaver, &AutoSaver::save, this, &IconProvider::saveIconsToDatabase);
 }

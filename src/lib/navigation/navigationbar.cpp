@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2010-2018 David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -75,6 +76,7 @@ NavigationBar::NavigationBar(BrowserWindow* window)
 
     m_buttonBack = new ToolButton(this);
     m_buttonBack->setObjectName("navigation-button-back");
+    m_buttonBack->setIcon(QIcon::fromTheme(QSL("go-previous")));
     m_buttonBack->setToolTip(tr("Back"));
     m_buttonBack->setToolButtonStyle(Qt::ToolButtonIconOnly);
     m_buttonBack->setToolbarButtonLook(true);
@@ -85,6 +87,7 @@ NavigationBar::NavigationBar(BrowserWindow* window)
 
     m_buttonForward = new ToolButton(this);
     m_buttonForward->setObjectName("navigation-button-next");
+    m_buttonForward->setIcon(QIcon::fromTheme(QSL("go-next")));
     m_buttonForward->setToolTip(tr("Forward"));
     m_buttonForward->setToolButtonStyle(Qt::ToolButtonIconOnly);
     m_buttonForward->setToolbarButtonLook(true);
@@ -105,6 +108,7 @@ NavigationBar::NavigationBar(BrowserWindow* window)
 
     auto *buttonHome = new ToolButton(this);
     buttonHome->setObjectName("navigation-button-home");
+    buttonHome->setIcon(QIcon::fromTheme(QSL("go-home")));
     buttonHome->setToolTip(tr("Home"));
     buttonHome->setToolButtonStyle(Qt::ToolButtonIconOnly);
     buttonHome->setToolbarButtonLook(true);
@@ -113,6 +117,7 @@ NavigationBar::NavigationBar(BrowserWindow* window)
 
     auto *buttonAddTab = new ToolButton(this);
     buttonAddTab->setObjectName("navigation-button-addtab");
+    buttonAddTab->setIcon(IconProvider::newTabIcon());
     buttonAddTab->setToolTip(tr("New Tab"));
     buttonAddTab->setToolButtonStyle(Qt::ToolButtonIconOnly);
     buttonAddTab->setToolbarButtonLook(true);
@@ -131,6 +136,7 @@ NavigationBar::NavigationBar(BrowserWindow* window)
 
     auto *buttonTools = new ToolButton(this);
     buttonTools->setObjectName("navigation-button-tools");
+    buttonTools->setIcon(QIcon::fromTheme(QSL("arrow-right-double")));
     buttonTools->setPopupMode(QToolButton::InstantPopup);
     buttonTools->setToolbarButtonLook(true);
     buttonTools->setToolTip(tr("Tools"));
@@ -144,6 +150,7 @@ NavigationBar::NavigationBar(BrowserWindow* window)
 
     m_supMenu = new ToolButton(this);
     m_supMenu->setObjectName("navigation-button-supermenu");
+    m_supMenu->setIcon(QIcon::fromTheme(QSL("application-menu"), QIcon::fromTheme(QSL("configure"))));
     m_supMenu->setPopupMode(QToolButton::InstantPopup);
     m_supMenu->setToolbarButtonLook(true);
     m_supMenu->setToolTip(tr("Main Menu"));
@@ -163,6 +170,7 @@ NavigationBar::NavigationBar(BrowserWindow* window)
 
     m_exitFullscreen = new ToolButton(this);
     m_exitFullscreen->setObjectName("navigation-button-exitfullscreen");
+    m_exitFullscreen->setIcon(QIcon::fromTheme(QSL("view-restore")));
     m_exitFullscreen->setToolTip(tr("Exit Fullscreen"));
     m_exitFullscreen->setToolButtonStyle(Qt::ToolButtonIconOnly);
     m_exitFullscreen->setToolbarButtonLook(true);

@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2010-2017 David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -25,6 +26,8 @@ GoIcon::GoIcon(QWidget* parent)
     setObjectName("locationbar-goicon");
     setCursor(Qt::PointingHandCursor);
     setFocusProxy(parent);
+    setThemeIcon(QSL("go-jump-locationbar"));
+    setFallbackIcon(QIcon::fromTheme(QSL("go-next")));
 }
 
 void GoIcon::contextMenuEvent(QContextMenuEvent* ev)

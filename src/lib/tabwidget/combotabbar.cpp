@@ -2,6 +2,7 @@
 * Falkon - Qt web browser
 * Copyright (C) 2013-2014 S. Razi Alavizadeh <s.r.alavizadeh@gmail.com>
 * Copyright (C) 2014-2018 David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -1553,6 +1554,7 @@ TabBarScrollWidget::TabBarScrollWidget(QTabBar* tabBar, QWidget* parent)
     m_leftScrollButton->setFocusPolicy(Qt::NoFocus);
     m_leftScrollButton->setAutoRaise(true);
     m_leftScrollButton->setObjectName("tabbar-button-left");
+    m_leftScrollButton->setIcon(QIcon::fromTheme(QSL("arrow-left"), QIcon::fromTheme(QSL("go-previous"))));
     m_leftScrollButton->setAutoRepeat(true);
     m_leftScrollButton->setAutoRepeatDelay(200);
     m_leftScrollButton->setAutoRepeatInterval(200);
@@ -1564,6 +1566,7 @@ TabBarScrollWidget::TabBarScrollWidget(QTabBar* tabBar, QWidget* parent)
     m_rightScrollButton->setFocusPolicy(Qt::NoFocus);
     m_rightScrollButton->setAutoRaise(true);
     m_rightScrollButton->setObjectName("tabbar-button-right");
+    m_rightScrollButton->setIcon(QIcon::fromTheme(QSL("arrow-right"), QIcon::fromTheme(QSL("go-next"))));
     m_rightScrollButton->setAutoRepeat(true);
     m_rightScrollButton->setAutoRepeatDelay(200);
     m_rightScrollButton->setAutoRepeatInterval(200);

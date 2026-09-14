@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2010-2014  David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -16,6 +17,7 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 * ============================================================ */
 #include "reloadstopbutton.h"
+#include "iconprovider.h"
 
 #include <QTimer>
 #include <QStyle>
@@ -56,10 +58,12 @@ void ReloadStopButton::updateButton()
     if (m_loadInProgress) {
         setToolTip(tr("Stop"));
         setObjectName(QSL("navigation-button-stop"));
+        setIcon(IconProvider::standardIcon(QStyle::SP_BrowserStop));
     }
     else {
         setToolTip(tr("Reload"));
         setObjectName(QSL("navigation-button-reload"));
+        setIcon(IconProvider::standardIcon(QStyle::SP_BrowserReload));
     }
 
     // Update the stylesheet for the changed object name

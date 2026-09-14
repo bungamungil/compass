@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2010-2018 David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -43,6 +44,7 @@ WebSearchBar_Button::WebSearchBar_Button(QWidget* parent)
     setObjectName("websearchbar-searchbutton");
     setCursor(QCursor(Qt::PointingHandCursor));
     setFocusPolicy(Qt::ClickFocus);
+    setThemeIcon(QSL("edit-find"));
 }
 
 void WebSearchBar_Button::contextMenuEvent(QContextMenuEvent* event)

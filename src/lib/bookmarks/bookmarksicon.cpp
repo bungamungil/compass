@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2010-2014  David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -24,6 +25,7 @@
 #include "pluginproxy.h"
 #include "speeddial.h"
 
+#include <QIcon>
 #include <QStyle>
 #include <QContextMenuEvent>
 
@@ -95,6 +97,8 @@ void BookmarksIcon::iconClicked()
 void BookmarksIcon::setBookmarkSaved()
 {
     setProperty("bookmarked", QVariant(true));
+    setThemeIcon(QSL("rating"));
+    setFallbackIcon(QIcon(QSL(":/icons/other/bigstar-selected.svg")));
     style()->unpolish(this);
     style()->polish(this);
     setToolTip(tr("Edit this bookmark"));
@@ -103,6 +107,8 @@ void BookmarksIcon::setBookmarkSaved()
 void BookmarksIcon::setBookmarkDisabled()
 {
     setProperty("bookmarked", QVariant(false));
+    setThemeIcon(QSL("rating-unrated"));
+    setFallbackIcon(QIcon(QSL(":/icons/other/bigstar.svg")));
     style()->unpolish(this);
     style()->polish(this);
     setToolTip(tr("Bookmark this Page"));
