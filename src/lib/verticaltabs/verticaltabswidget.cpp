@@ -32,11 +32,13 @@
 #include <QIcon>
 #include <QUrl>
 #include <QScrollBar>
+#include <QBoxLayout>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QFrame>
 #include <QWheelEvent>
 
-static constexpr int PanelHMargin = 6;
+static constexpr int PanelHMargin = 8;
 
 VerticalTabsWidget::VerticalTabsWidget(BrowserWindow *window, QWidget *parent)
     : QWidget(parent)
@@ -45,8 +47,6 @@ VerticalTabsWidget::VerticalTabsWidget(BrowserWindow *window, QWidget *parent)
     auto *layout = new QVBoxLayout(this);
     layout->setSpacing(0);
     layout->setContentsMargins(PanelHMargin, 0, PanelHMargin, 0);
-
-    auto *toolBarLayout = new QHBoxLayout();
 
     auto *collapseButton = new ToolButton(this);
     collapseButton->setObjectName(QSL("verticaltabs-button-collapse"));
@@ -71,10 +71,6 @@ VerticalTabsWidget::VerticalTabsWidget(BrowserWindow *window, QWidget *parent)
     searchButton->setIcon(searchIcon);
     m_searchButton = searchButton;
     connect(searchButton, &QAbstractButton::clicked, this, &VerticalTabsWidget::searchRequested);
-
-    toolBarLayout->addWidget(collapseButton);
-    toolBarLayout->addStretch();
-    toolBarLayout->addWidget(searchButton);
 
     m_pinnedView = new TabListView(m_window, this);
     auto *pinnedModel = new TabFilterModel(m_pinnedView);
@@ -104,16 +100,22 @@ VerticalTabsWidget::VerticalTabsWidget(BrowserWindow *window, QWidget *parent)
     });
     m_newTabButton = newTabButton;
 
-    auto *newTabLayout = new QHBoxLayout();
-    newTabLayout->setContentsMargins(0, 0, 0, 0);
-    newTabLayout->addStretch();
-    newTabLayout->addWidget(newTabButton);
-    newTabLayout->addStretch();
+    m_headerLayout = new QBoxLayout(QBoxLayout::LeftToRight);
+    m_headerLayout->addWidget(m_collapseButton);
+    m_headerLayout->addStretch();
+    m_headerLayout->addWidget(m_searchButton);
 
-    layout->addLayout(toolBarLayout);
+    m_separator = new QFrame(this);
+    m_separator->setObjectName(QSL("verticaltabs-separator"));
+    m_separator->setFrameShape(QFrame::HLine);
+    m_separator->setFrameShadow(QFrame::Sunken);
+
+    layout->addLayout(m_headerLayout);
+    layout->addWidget(m_separator);
     layout->addWidget(m_pinnedView);
     layout->addWidget(m_normalView);
-    layout->addLayout(newTabLayout);
+    layout->addSpacing(4);
+    layout->addWidget(m_newTabButton);
     layout->addStretch(1);
 }
 
@@ -125,16 +127,54 @@ void VerticalTabsWidget::setIconOnly(bool enable)
 
     if (enable) {
         setFixedWidth(TabListDelegate::IconOnlyCell + 2 * PanelHMargin);
-        m_searchButton->setVisible(false);
     } else {
         setMinimumWidth(0);
         setMaximumWidth(QWIDGETSIZE_MAX);
-        m_searchButton->setVisible(true);
     }
 
     m_collapseButton->setIcon(enable ? QIcon::fromTheme(QSL("sidebar-expand"), QIcon::fromTheme(QSL("go-next")))
                                       : QIcon::fromTheme(QSL("sidebar-collapse"), QIcon::fromTheme(QSL("go-previous"))));
     m_collapseButton->setToolTip(enable ? tr("Expand tab panel") : tr("Collapse tab panel"));
+
+    const int cell = TabListDelegate::IconOnlyCell;
+    if (enable) {
+        m_headerLayout->setDirection(QBoxLayout::TopToBottom);
+        // remove the middle stretch: rebuild as [collapse, search] centred
+        while (m_headerLayout->count() > 0) {
+            QLayoutItem *item = m_headerLayout->takeAt(0);
+            delete item; // items are stretches or widget-items; widgets survive
+        }
+        m_collapseButton->setFixedSize(cell, cell);
+        m_searchButton->setFixedSize(cell, cell);
+        m_headerLayout->addWidget(m_collapseButton, 0, Qt::AlignHCenter);
+        m_headerLayout->addWidget(m_searchButton, 0, Qt::AlignHCenter);
+
+        m_newTabButton->setFixedSize(cell, cell);
+        static_cast<ToolButton*>(m_newTabButton)->setToolButtonStyle(Qt::ToolButtonIconOnly);
+        m_newTabButton->setText(QString());
+    } else {
+        m_headerLayout->setDirection(QBoxLayout::LeftToRight);
+        while (m_headerLayout->count() > 0) {
+            QLayoutItem *item = m_headerLayout->takeAt(0);
+            delete item;
+        }
+        m_collapseButton->setMinimumSize(0, 0);
+        m_collapseButton->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
+        m_searchButton->setMinimumSize(0, 0);
+        m_searchButton->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
+        m_headerLayout->addWidget(m_collapseButton);
+        m_headerLayout->addStretch();
+        m_headerLayout->addWidget(m_searchButton);
+
+        auto *tb = static_cast<ToolButton*>(m_newTabButton);
+        tb->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+        tb->setText(tr("New Tab"));
+        const int rowHeight = qMax(cell, fontMetrics().height() + 2 * TabListDelegate::CellPadding);
+        m_newTabButton->setMinimumSize(0, 0);
+        m_newTabButton->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
+        m_newTabButton->setFixedHeight(rowHeight);
+        m_newTabButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    }
 
     qzSettings->verticalTabsIconOnly = enable;
     qzSettings->saveSettings();

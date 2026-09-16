@@ -28,6 +28,8 @@ class TabListView;
 class WebTab;
 
 class QAbstractButton;
+class QBoxLayout;
+class QFrame;
 
 class FALKON_EXPORT VerticalTabsWidget : public QWidget
 {
@@ -60,6 +62,8 @@ private:
     QAbstractButton *m_collapseButton;
     QAbstractButton *m_searchButton;
     QAbstractButton *m_newTabButton;
+    QBoxLayout *m_headerLayout;
+    QFrame *m_separator;
     WheelHelper m_wheelHelper;
     bool m_iconOnly = false;
 };
