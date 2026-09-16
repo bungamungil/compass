@@ -25,6 +25,7 @@
 
 #include "webtab.h"
 #include "qzcommon.h"
+#include "verticaltabswidget.h"
 
 class QLabel;
 class QVBoxLayout;
@@ -54,7 +55,6 @@ class ClickableLabel;
 class LocationBar;
 class TabModel;
 class TabMruModel;
-class VerticalTabsWidget;
 
 class FALKON_EXPORT BrowserWindow : public QMainWindow
 {
@@ -238,7 +238,7 @@ private:
 
     int m_sideBarWidth;
     int m_webViewWidth;
-    int m_verticalTabsWidth = 300;
+    int m_verticalTabsWidth = VerticalTabsWidget::ExpandedDefaultWidth;
 
     // Shortcuts
     bool m_useTabNumberShortcuts;

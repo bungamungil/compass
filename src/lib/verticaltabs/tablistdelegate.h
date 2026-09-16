@@ -29,7 +29,6 @@ class TabListDelegate : public QStyledItemDelegate
 
 public:
     static constexpr int IconOnlyCell = 40;
-    static constexpr int CellPadding = 4;
 
     explicit TabListDelegate(TabListView *view);
 

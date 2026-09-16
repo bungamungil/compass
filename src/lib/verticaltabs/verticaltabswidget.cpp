@@ -128,7 +128,7 @@ void VerticalTabsWidget::setIconOnly(bool enable)
     if (enable) {
         setFixedWidth(TabListDelegate::IconOnlyCell + 2 * PanelHMargin);
     } else {
-        setMinimumWidth(0);
+        setMinimumWidth(ExpandedMinWidth);
         setMaximumWidth(QWIDGETSIZE_MAX);
     }
 
@@ -137,6 +137,10 @@ void VerticalTabsWidget::setIconOnly(bool enable)
     m_collapseButton->setToolTip(enable ? tr("Expand tab panel") : tr("Collapse tab panel"));
 
     const int cell = TabListDelegate::IconOnlyCell;
+    // Collapse, search and "+" are all square/cell-height in both modes, matching
+    // the tab row height (Chrome-like uniform cell size).
+    m_collapseButton->setFixedSize(cell, cell);
+    m_searchButton->setFixedSize(cell, cell);
     if (enable) {
         m_headerLayout->setDirection(QBoxLayout::TopToBottom);
         // remove the middle stretch: rebuild as [collapse, search] centred
@@ -144,8 +148,6 @@ void VerticalTabsWidget::setIconOnly(bool enable)
             QLayoutItem *item = m_headerLayout->takeAt(0);
             delete item; // items are stretches or widget-items; widgets survive
         }
-        m_collapseButton->setFixedSize(cell, cell);
-        m_searchButton->setFixedSize(cell, cell);
         m_headerLayout->addWidget(m_collapseButton, 0, Qt::AlignHCenter);
         m_headerLayout->addWidget(m_searchButton, 0, Qt::AlignHCenter);
 
@@ -158,10 +160,6 @@ void VerticalTabsWidget::setIconOnly(bool enable)
             QLayoutItem *item = m_headerLayout->takeAt(0);
             delete item;
         }
-        m_collapseButton->setMinimumSize(0, 0);
-        m_collapseButton->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
-        m_searchButton->setMinimumSize(0, 0);
-        m_searchButton->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
         m_headerLayout->addWidget(m_collapseButton);
         m_headerLayout->addStretch();
         m_headerLayout->addWidget(m_searchButton);
@@ -169,10 +167,9 @@ void VerticalTabsWidget::setIconOnly(bool enable)
         auto *tb = static_cast<ToolButton*>(m_newTabButton);
         tb->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
         tb->setText(tr("New Tab"));
-        const int rowHeight = qMax(cell, fontMetrics().height() + 2 * TabListDelegate::CellPadding);
         m_newTabButton->setMinimumSize(0, 0);
         m_newTabButton->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
-        m_newTabButton->setFixedHeight(rowHeight);
+        m_newTabButton->setFixedHeight(cell);
         m_newTabButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     }
 

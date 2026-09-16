@@ -93,13 +93,32 @@ void TabListView::setAutoHeight(bool enable)
 {
     m_autoHeight = enable;
     setVerticalScrollBarPolicy(enable ? Qt::ScrollBarAlwaysOff : Qt::ScrollBarAsNeeded);
-    setSizeAdjustPolicy(enable ? QAbstractScrollArea::AdjustToContents : QAbstractScrollArea::AdjustIgnored);
+    setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
+    // Non-auto: the reported hint is a ceiling the list may shrink below and scroll.
+    setSizePolicy(sizePolicy().horizontalPolicy(), enable ? QSizePolicy::Preferred : QSizePolicy::Maximum);
     if (!enable) {
         // Undo any fixed height previously applied by updateHeight()
         setMinimumHeight(0);
         setMaximumHeight(QWIDGETSIZE_MAX);
     }
     updateHeight();
+}
+
+QSize TabListView::viewportSizeHint() const
+{
+    const QSize base = QListView::viewportSizeHint();
+    if (!model()) {
+        return base;
+    }
+    return QSize(base.width(), rowHeight() * model()->rowCount());
+}
+
+QSize TabListView::minimumSizeHint() const
+{
+    if (!m_autoHeight) {
+        return QSize(QListView::minimumSizeHint().width(), rowHeight());
+    }
+    return QListView::minimumSizeHint();
 }
 
 void TabListView::adjustStyleOption(QStyleOptionViewItem *option)
@@ -313,19 +332,24 @@ void TabListView::updateHeight()
         return;
     }
 
-    QStyleOptionViewItem option;
-    initViewItemOption(&option);
-    const int rowHeight = m_delegate->sizeHint(option, QModelIndex()).height();
-
     if (!m_autoHeight) {
-        setMinimumHeight(0);
-        setMaximumHeight(rowHeight * qMax(0, model()->rowCount()));
+        // Re-read the (now stale) size hint so the parent layout grows/shrinks
+        // the list to fit its rows instead of leaving it at its old size.
+        updateGeometry();
         return;
     }
 
+    const int rh = rowHeight();
     if (isVisible() && model()->rowCount() > 0) {
-        setFixedHeight(rowHeight * model()->rowCount());
+        setFixedHeight(rh * model()->rowCount());
     } else {
-        setFixedHeight(rowHeight);
+        setFixedHeight(rh);
     }
+}
+
+int TabListView::rowHeight() const
+{
+    QStyleOptionViewItem option;
+    initViewItemOption(&option);
+    return m_delegate->sizeHint(option, QModelIndex()).height();
 }

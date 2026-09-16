@@ -36,6 +36,9 @@ class FALKON_EXPORT VerticalTabsWidget : public QWidget
     Q_OBJECT
 
 public:
+    static constexpr int ExpandedMinWidth = 180;
+    static constexpr int ExpandedDefaultWidth = 300;
+
     explicit VerticalTabsWidget(BrowserWindow *window, QWidget *parent = nullptr);
 
     void setIconOnly(bool enable);

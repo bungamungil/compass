@@ -49,6 +49,11 @@ public:
     QModelIndex indexAfter(const QModelIndex &index) const;
     QModelIndex indexBefore(const QModelIndex &index) const;
 
+    QSize minimumSizeHint() const override;
+
+protected:
+    QSize viewportSizeHint() const override;
+
 private:
     void currentChanged(const QModelIndex &current, const QModelIndex &previous) override;
     void dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles = QVector<int>()) override;
@@ -65,6 +70,7 @@ private:
     DelegateButton buttonAt(const QPoint &pos, const QModelIndex &index) const;
     void updateVisibility();
     void updateHeight();
+    int rowHeight() const;
 
     BrowserWindow *m_window;
     TabListDelegate *m_delegate;

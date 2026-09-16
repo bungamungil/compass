@@ -191,5 +191,5 @@ QSize TabListDelegate::sizeHint(const QStyleOptionViewItem &option, const QModel
         return QSize(IconOnlyCell, IconOnlyCell);
     }
 
-    return QSize(m_padding * 4 + 16, m_padding * 2 + opt.fontMetrics.height());
+    return QSize(m_padding * 4 + 16, qMax(IconOnlyCell, m_padding * 2 + opt.fontMetrics.height()));
 }

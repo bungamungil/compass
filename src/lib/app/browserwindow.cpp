@@ -574,7 +574,13 @@ void BrowserWindow::restoreUiState(const QHash<QString, QVariant> &state)
 {
     m_sideBarWidth = state.value(QSL("SideBarWidth"), 250).toInt();
     m_webViewWidth = state.value(QSL("WebViewWidth"), 2000).toInt();
-    m_verticalTabsWidth = state.value(QSL("VerticalTabsWidth"), 300).toInt();
+    m_verticalTabsWidth = state.value(QSL("VerticalTabsWidth"), VerticalTabsWidget::ExpandedDefaultWidth).toInt();
+    if (m_verticalTabsWidth < VerticalTabsWidget::ExpandedMinWidth) {
+        // Repair a stale value from an older build that saved the icon-only
+        // rail width as the expanded width; saveSideBarSettings() persists
+        // the repaired value on the next save.
+        m_verticalTabsWidth = VerticalTabsWidget::ExpandedDefaultWidth;
+    }
     if (m_sideBar || m_verticalTabs) {
         applySplitterSizes();
     }
