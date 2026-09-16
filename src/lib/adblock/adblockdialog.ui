@@ -11,13 +11,13 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>AdBlock Configuration</string>
+   <string>Content Blocker Configuration</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QCheckBox" name="adblockCheckBox">
      <property name="text">
-      <string>Enable AdBlock</string>
+      <string>Enable Content Blocker</string>
      </property>
      <property name="checked">
       <bool>true</bool>
@@ -78,7 +78,7 @@
           </property>
           <property name="icon">
            <iconset resource="../data/icons.qrc">
-            <normaloff>:/adblock/data/adblock.png</normaloff>:/adblock/data/adblock.png</iconset>
+            <normaloff>:/adblock/data/content-blocker.svg</normaloff>:/adblock/data/content-blocker.svg</iconset>
           </property>
          </widget>
         </item>
@@ -104,7 +104,7 @@
            </sizepolicy>
           </property>
           <property name="text">
-           <string>AdBlock</string>
+           <string>Content Blocker</string>
           </property>
          </widget>
         </item>

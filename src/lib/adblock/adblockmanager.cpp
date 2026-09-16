@@ -186,7 +186,7 @@ bool AdBlockManager::addSubscriptionFromUrl(const QUrl &url)
 
     const QString message = AdBlockManager::tr("Do you want to add <b>%1</b> subscription?").arg(subscriptionTitle);
 
-    QMessageBox::StandardButton result = QMessageBox::question(nullptr, AdBlockManager::tr("AdBlock Subscription"), message, QMessageBox::Yes | QMessageBox::No);
+    QMessageBox::StandardButton result = QMessageBox::question(nullptr, AdBlockManager::tr("Content Blocker Subscription"), message, QMessageBox::Yes | QMessageBox::No);
     if (result == QMessageBox::Yes) {
         AdBlockManager::instance()->addSubscription(subscriptionTitle, subscriptionUrl);
         AdBlockManager::instance()->showDialog();

@@ -1774,7 +1774,7 @@
                   <bool>true</bool>
                  </property>
                  <property name="text">
-                  <string>Applies to web page traffic. Update checks, adblock list downloads and search suggestions use system DNS.</string>
+                  <string>Applies to web page traffic. Update checks, content blocker list downloads and search suggestions use system DNS.</string>
                  </property>
                 </widget>
                </item>

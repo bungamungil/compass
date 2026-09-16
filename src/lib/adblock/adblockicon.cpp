@@ -35,7 +35,7 @@
 AdBlockIcon::AdBlockIcon(QObject *parent)
     : AbstractButtonInterface(parent)
 {
-    setTitle(tr("AdBlock"));
+    setTitle(tr("Content Blocker"));
     const QColor c = QApplication::palette().color(QPalette::Active, QPalette::WindowText);
     setIcon(IconProvider::tintedIcon(QSL(":/adblock/data/content-blocker.svg"), c));
 
@@ -54,7 +54,7 @@ QString AdBlockIcon::id() const
 
 QString AdBlockIcon::name() const
 {
-    return tr("AdBlock Icon");
+    return tr("Content Blocker Icon");
 }
 
 void AdBlockIcon::toggleCustomFilter()
@@ -91,19 +91,19 @@ void AdBlockIcon::updateState()
     }
     if (!AdBlockManager::instance()->isEnabled()) {
         setActive(false);
-        setToolTip(tr("AdBlock is disabled"));
+        setToolTip(tr("Content Blocker is disabled"));
         setBadgeText(QString());
         return;
     }
     if (!AdBlockManager::instance()->canRunOnScheme(view->url().scheme())) {
         setActive(false);
-        setToolTip(tr("AdBlock is disabled on this site "));
+        setToolTip(tr("Content Blocker is disabled on this site "));
         setBadgeText(QString());
         return;
     }
 
     setActive(true);
-    setToolTip(tr("AdBlock is active"));
+    setToolTip(tr("Content Blocker is active"));
     updateBadgeText();
 }
 
@@ -151,12 +151,12 @@ void AdBlockIcon::clicked(ClickController *controller)
     auto *menu = new QMenu();
     menu->setAttribute(Qt::WA_DeleteOnClose);
 
-    QAction* act = menu->addAction(tr("&Enable AdBlock"));
+    QAction* act = menu->addAction(tr("&Enable Content Blocker"));
     act->setCheckable(true);
     act->setChecked(manager->isEnabled());
     connect(act, &QAction::triggered, manager, &AdBlockManager::setEnabled);
 
-    menu->addAction(tr("Show AdBlock &Settings"), manager, SLOT(showDialog()));
+    menu->addAction(tr("Show Content Blocker &Settings"), manager, SLOT(showDialog()));
     menu->addSeparator();
 
     if (!pageUrl.host().isEmpty() && manager->isEnabled() && manager->canRunOnScheme(pageUrl.scheme())) {
