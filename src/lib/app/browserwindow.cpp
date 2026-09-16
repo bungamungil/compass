@@ -893,7 +893,7 @@ void BrowserWindow::saveSideBarSettings()
 {
     // That +1 is important here, without it, the sidebar/vertical-tabs width
     // would decrease by 1 pixel every close
-    if (m_verticalTabs && !m_verticalTabs->isIconOnly()) {
+    if (m_verticalTabs && !m_verticalTabs->isIconOnly() && !m_verticalTabs->isHidden()) {
         m_verticalTabsWidth = m_tabsSplitter->sizes().at(0) + 1;
     }
     if (m_sideBar) {
@@ -943,12 +943,14 @@ void BrowserWindow::showVerticalTabs(bool enable)
         m_verticalTabs = new VerticalTabsWidget(this, this);
         m_verticalTabs->setIconOnly(qzSettings->verticalTabsIconOnly);
         connect(m_verticalTabs.data(), &VerticalTabsWidget::searchRequested, this, &BrowserWindow::searchTabs);
+        connect(m_verticalTabs.data(), &VerticalTabsWidget::iconOnlyChanged, this, &BrowserWindow::applySplitterSizes);
         m_webViewWidth = qMax(100, width() - m_verticalTabsWidth - (m_sideBar ? m_sideBarWidth : 0));
         m_tabsSplitter->insertWidget(0, m_verticalTabs.data());
         m_tabsSplitter->setStretchFactor(0, 0);
         m_tabsSplitter->setStretchFactor(1, 1);
         m_tabWidget->tabBar()->setForceHidden(true);
         applySplitterSizes();
+        updateBookmarksToolbarWidth();
     } else {
         if (!m_verticalTabs->isIconOnly()) {
             m_verticalTabsWidth = m_tabsSplitter->sizes().at(0) + 1;
@@ -958,6 +960,7 @@ void BrowserWindow::showVerticalTabs(bool enable)
         m_webViewWidth = width() - (m_sideBar ? m_sideBarWidth : 0);
         m_tabWidget->tabBar()->setForceHidden(false);
         applySplitterSizes();
+        updateBookmarksToolbarWidth();
     }
 }
 
@@ -1379,9 +1382,15 @@ bool BrowserWindow::event(QEvent *event)
 
 void BrowserWindow::resizeEvent(QResizeEvent* event)
 {
-    m_bookmarksToolbar->setMaximumWidth(width());
+    updateBookmarksToolbarWidth();
 
     QMainWindow::resizeEvent(event);
+}
+
+void BrowserWindow::updateBookmarksToolbarWidth()
+{
+    const int chrome = width() - (m_verticalTabs ? m_verticalTabs->width() : 0);
+    m_bookmarksToolbar->setMaximumWidth(qMax(0, chrome));
 }
 
 void BrowserWindow::keyPressEvent(QKeyEvent* event)

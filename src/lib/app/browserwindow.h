@@ -205,6 +205,7 @@ private:
     QHash<QString, QVariant> saveUiState();
     void restoreUiState(const QHash<QString, QVariant> &state);
     void applySplitterSizes();
+    void updateBookmarksToolbarWidth();
 
     QList<QUrl> m_startUrls;
     QUrl m_homepage;

@@ -178,6 +178,8 @@ void VerticalTabsWidget::setIconOnly(bool enable)
 
     qzSettings->verticalTabsIconOnly = enable;
     qzSettings->saveSettings();
+
+    Q_EMIT iconOnlyChanged(enable);
 }
 
 bool VerticalTabsWidget::isIconOnly() const

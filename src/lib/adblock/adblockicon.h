@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2010-2018 David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -18,6 +19,7 @@
 #ifndef ADBLOCKICON_H
 #define ADBLOCKICON_H
 
+#include <QColor>
 #include <QPointer>
 
 #include "qzcommon.h"
@@ -44,6 +46,7 @@ private:
     void blockedRequestsChanged(const QUrl &url);
 
     QPointer<WebView> m_view;
+    QColor m_tintColor;
 };
 
 #endif // ADBLOCKICON_H

@@ -48,6 +48,7 @@ public:
 
 Q_SIGNALS:
     void searchRequested();
+    void iconOnlyChanged(bool iconOnly);
 
 protected:
     void wheelEvent(QWheelEvent *event) override;

@@ -37,6 +37,7 @@ AdBlockIcon::AdBlockIcon(QObject *parent)
 {
     setTitle(tr("Content Blocker"));
     const QColor c = QApplication::palette().color(QPalette::Active, QPalette::WindowText);
+    m_tintColor = c;
     setIcon(IconProvider::tintedIcon(QSL(":/adblock/data/content-blocker.svg"), c));
 
     updateState();
@@ -80,7 +81,10 @@ void AdBlockIcon::toggleCustomFilter()
 void AdBlockIcon::updateState()
 {
     const QColor c = QApplication::palette().color(QPalette::Active, QPalette::WindowText);
-    setIcon(IconProvider::tintedIcon(QSL(":/adblock/data/content-blocker.svg"), c));
+    if (c != m_tintColor) {
+        m_tintColor = c;
+        setIcon(IconProvider::tintedIcon(QSL(":/adblock/data/content-blocker.svg"), c));
+    }
 
     WebView *view = webView();
     if (!view) {
