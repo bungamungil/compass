@@ -516,15 +516,26 @@ void NavigationBar::loadSettings()
     const QStringList defaultIds = {
         QSL("button-backforward"),
         QSL("button-reloadstop"),
-        QSL("button-home"),
         QSL("locationbar"),
-        QSL("button-downloads"),
-        QSL("adblock-icon"),
-        QSL("button-tools")
+        QSL("button-downloads")
     };
 
     Settings settings;
     settings.beginGroup(QSL("NavigationBar"));
+
+    const int layoutVersion = settings.value(QSL("LayoutVersion"), 0).toInt();
+    if (layoutVersion < 1) {
+        if (settings.contains(QSL("Layout"))) {
+            QStringList saved = settings.value(QSL("Layout")).toStringList();
+            saved.removeAll(QSL("button-home"));
+            saved.removeAll(QSL("button-tools"));
+            saved.removeAll(QSL("adblock-icon"));
+            settings.setValue(QSL("Layout"), saved);
+        }
+        settings.remove(QSL("ShowSearchBar"));
+        settings.setValue(QSL("LayoutVersion"), 1);
+    }
+
     m_layoutIds = settings.value(QSL("Layout"), defaultIds).toStringList();
     settings.endGroup();
 
