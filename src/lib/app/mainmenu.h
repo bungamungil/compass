@@ -92,6 +92,7 @@ private Q_SLOTS:
     void showCookieManager();
     void toggleWebInspector();
     void showClearRecentHistoryDialog();
+    void showContentBlocker();
 
     // Help menu
     void aboutQt();

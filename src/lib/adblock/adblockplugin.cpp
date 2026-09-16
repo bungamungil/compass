@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2018 David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -119,14 +120,12 @@ void AdBlockPlugin::mainWindowCreated(BrowserWindow *window)
     auto *icon = new AdBlockIcon(window);
     m_icons[window] = icon;
     window->statusBar()->addButton(icon);
-    window->navigationBar()->addToolButton(icon);
 }
 
 void AdBlockPlugin::mainWindowDeleted(BrowserWindow *window)
 {
     AdBlockIcon *icon = m_icons.take(window);
     window->statusBar()->removeButton(icon);
-    window->navigationBar()->removeToolButton(icon);
     delete icon;
 }
 

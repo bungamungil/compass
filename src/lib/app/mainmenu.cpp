@@ -35,12 +35,14 @@
 #include "webinspector.h"
 #include "sessionmanager.h"
 #include "statusbar.h"
+#include "adblockmanager.h"
 
 #include <QApplication>
 #include <QMetaObject>
 #include <QWebEnginePage>
 #include <QMenuBar>
 #include <QDesktopServices>
+#include <QPalette>
 
 #ifdef Q_OS_MACOS
 extern void qt_mac_set_dock_menu(QMenu* menu);
@@ -97,6 +99,7 @@ void MainMenu::initSuperMenu(QMenu* superMenu) const
     superMenu->addSeparator();
     superMenu->addAction(m_menuHistory->actions().at(3));
     superMenu->addAction(m_menuBookmarks->actions().at(2));
+    superMenu->addAction(m_actions[QSL("Tools/ContentBlocker")]);
     superMenu->addSeparator();
     superMenu->addMenu(m_menuView);
     superMenu->addMenu(m_menuHistory);
@@ -338,6 +341,11 @@ void MainMenu::showClearRecentHistoryDialog()
     dialog->open();
 }
 
+void MainMenu::showContentBlocker()
+{
+    AdBlockManager::instance()->showDialog(m_window);
+}
+
 void MainMenu::aboutQt()
 {
     QApplication::aboutQt();
@@ -427,6 +435,11 @@ void MainMenu::aboutToShowSuperMenu()
 
     m_actions[QSL("Edit/Find")]->setEnabled(true);
     m_actions[QSL("Edit/SelectAll")]->setEnabled(view->pageAction(QWebEnginePage::SelectAll)->isEnabled());
+
+    if (QAction *cb = m_actions.value(QSL("Tools/ContentBlocker"))) {
+        const QColor c = QApplication::palette().color(QPalette::Active, QPalette::WindowText);
+        cb->setIcon(IconProvider::tintedIcon(QSL(":/adblock/data/content-blocker.svg"), c));
+    }
 }
 
 void MainMenu::aboutToShowToolbarsMenu()
@@ -585,6 +598,9 @@ void MainMenu::init()
     ADD_ACTION("Tools/WebSearch", m_menuTools, QIcon::fromTheme(QSL("edit-find")), tr("&Web Search"), SLOT(webSearch()), "Ctrl+K");
     ADD_ACTION("Tools/SiteInfo", m_menuTools, QIcon::fromTheme(QSL("dialog-information")), tr("Site &Info"), SLOT(showSiteInfo()), "Ctrl+I");
     action->setShortcutContext(Qt::WidgetShortcut);
+    const QColor menuColor = QApplication::palette().color(QPalette::Active, QPalette::WindowText);
+    const QIcon shieldIcon = IconProvider::tintedIcon(QSL(":/adblock/data/content-blocker.svg"), menuColor);
+    ADD_ACTION("Tools/ContentBlocker", m_menuTools, shieldIcon, tr("Content Blocker"), SLOT(showContentBlocker()), "");
     m_menuTools->addSeparator();
     ADD_ACTION("Tools/DownloadManager", m_menuTools, QIcon::fromTheme(QSL("download")), tr("&Download Manager"), SLOT(showDownloadManager()), "Ctrl+Y");
     ADD_ACTION("Tools/CookiesManager", m_menuTools, QIcon(), tr("&Cookies Manager"), SLOT(showCookieManager()), "");

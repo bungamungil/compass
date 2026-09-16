@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2010-2018 David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -25,14 +26,18 @@
 #include "tabwidget.h"
 #include "desktopnotificationsfactory.h"
 #include "qztools.h"
+#include "iconprovider.h"
 
 #include <QMenu>
+#include <QApplication>
+#include <QPalette>
 
 AdBlockIcon::AdBlockIcon(QObject *parent)
     : AbstractButtonInterface(parent)
 {
     setTitle(tr("AdBlock"));
-    setIcon(QIcon(QSL(":adblock/data/adblock.png")));
+    const QColor c = QApplication::palette().color(QPalette::Active, QPalette::WindowText);
+    setIcon(IconProvider::tintedIcon(QSL(":/adblock/data/content-blocker.svg"), c));
 
     updateState();
 
@@ -74,6 +79,9 @@ void AdBlockIcon::toggleCustomFilter()
 
 void AdBlockIcon::updateState()
 {
+    const QColor c = QApplication::palette().color(QPalette::Active, QPalette::WindowText);
+    setIcon(IconProvider::tintedIcon(QSL(":/adblock/data/content-blocker.svg"), c));
+
     WebView *view = webView();
     if (!view) {
         setActive(false);
