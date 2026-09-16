@@ -64,6 +64,9 @@ QRect TabListDelegate::closeButtonRect(const QModelIndex &index) const
     const int h = qMax(16, style->pixelMetric(QStyle::PM_TabCloseIndicatorHeight, nullptr, m_view));
     const int center = rect.height() / 2 + rect.top();
     if (m_iconOnly) {
+        if (!index.data(TabModel::CurrentTabRole).toBool()) {
+            return QRect();
+        }
         return QRect(rect.center().x() - w / 2, center - h / 2, w, h);
     }
     return QRect(rect.right() - m_padding - w, center - h / 2, w, h);
@@ -123,7 +126,7 @@ void TabListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &optio
     style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, w);
 
     if (m_iconOnly) {
-        if (opt.state & QStyle::State_MouseOver) {
+        if ((opt.state & QStyle::State_MouseOver) && (opt.state & QStyle::State_Selected)) {
             drawCloseButton(painter, closeButtonRect(index));
             return;
         }
