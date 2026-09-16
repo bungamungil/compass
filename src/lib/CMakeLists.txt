@@ -120,7 +120,6 @@ set(SRCS ${SRCS}
     navigation/completer/locationcompletermodel.cpp
     navigation/completer/locationcompleterrefreshjob.cpp
     navigation/completer/locationcompleterview.cpp
-    navigation/downicon.cpp
     navigation/goicon.cpp
     navigation/locationbar.cpp
     navigation/locationbarpopup.cpp
@@ -364,7 +363,6 @@ set(SRCS ${SRCS}
     navigation/completer/locationcompletermodel.h
     navigation/completer/locationcompleterrefreshjob.h
     navigation/completer/locationcompleterview.h
-    navigation/downicon.h
     navigation/goicon.h
     navigation/locationbar.h
     navigation/locationbarpopup.h

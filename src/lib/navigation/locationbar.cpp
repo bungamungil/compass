@@ -28,7 +28,6 @@
 #include "bookmarkstoolbar.h"
 #include "siteicon.h"
 #include "goicon.h"
-#include "downicon.h"
 #include "qztools.h"
 #include "iconprovider.h"
 #include "qzsettings.h"
@@ -65,7 +64,6 @@ LocationBar::LocationBar(QWidget *parent)
     m_goIcon = new GoIcon(this);
     m_siteIcon = new SiteIcon(this);
     m_autofillIcon = new AutoFillIcon(this);
-    auto* down = new DownIcon(this);
     m_zoomlabel = new ZoomLabel(this);
 
     addWidget(m_siteIcon, LineEdit::LeftSide);
@@ -73,7 +71,6 @@ LocationBar::LocationBar(QWidget *parent)
     addWidget(m_autofillIcon, LineEdit::RightSide);
     addWidget(m_bookmarkIcon, LineEdit::RightSide);
     addWidget(m_goIcon, LineEdit::RightSide);
-    addWidget(down, LineEdit::RightSide);
 
     m_completer = new LocationCompleter(this);
     m_completer->setLocationBar(this);
@@ -100,7 +97,6 @@ LocationBar::LocationBar(QWidget *parent)
 
     connect(this, SIGNAL(textEdited(QString)), this, SLOT(textEdited(QString)));
     connect(m_goIcon, &ClickableLabel::clicked, this, &LocationBar::requestLoadUrl);
-    connect(down, &ClickableLabel::clicked, m_completer, &LocationCompleter::showMostVisited);
     connect(mApp->searchEnginesManager(), &SearchEnginesManager::activeEngineChanged, this, &LocationBar::updatePlaceHolderText);
     connect(mApp->searchEnginesManager(), &SearchEnginesManager::defaultEngineChanged, this, &LocationBar::updatePlaceHolderText);
     connect(mApp, &MainApplication::settingsReloaded, this, &LocationBar::loadSettings);
