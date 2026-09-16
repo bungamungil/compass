@@ -24,7 +24,6 @@
 #include "lineedit.h"
 #include "history.h"
 #include "locationbar.h"
-#include "websearchbar.h"
 #include "pluginproxy.h"
 #include "sidebar.h"
 #include "verticaltabswidget.h"
@@ -351,8 +350,6 @@ void BrowserWindow::setupUi()
     const QByteArray windowGeometry = settings.value(QSL("WindowGeometry")).toByteArray();
 
     const QStringList keys = {
-        QSL("LocationBarWidth"),
-        QSL("WebSearchBarWidth"),
         QSL("SideBarWidth"),
         QSL("WebViewWidth"),
         QSL("VerticalTabsWidth"),
@@ -555,8 +552,6 @@ QHash<QString, QVariant> BrowserWindow::saveUiState()
     saveSideBarSettings();
 
     QHash<QString, QVariant> state;
-    state[QSL("LocationBarWidth")] = m_navigationToolbar->splitter()->sizes().at(0);
-    state[QSL("WebSearchBarWidth")] = m_navigationToolbar->splitter()->sizes().at(1);
     state[QSL("SideBarWidth")] = m_sideBarWidth;
     state[QSL("WebViewWidth")] = m_webViewWidth;
     state[QSL("VerticalTabsWidth")] = m_verticalTabsWidth;
@@ -566,10 +561,6 @@ QHash<QString, QVariant> BrowserWindow::saveUiState()
 
 void BrowserWindow::restoreUiState(const QHash<QString, QVariant> &state)
 {
-    const int locationBarWidth = state.value(QSL("LocationBarWidth"), 480).toInt();
-    const int websearchBarWidth = state.value(QSL("WebSearchBarWidth"), 140).toInt();
-    m_navigationToolbar->setSplitterSizes(locationBarWidth, websearchBarWidth);
-
     m_sideBarWidth = state.value(QSL("SideBarWidth"), 250).toInt();
     m_webViewWidth = state.value(QSL("WebViewWidth"), 2000).toInt();
     m_verticalTabsWidth = state.value(QSL("VerticalTabsWidth"), 250).toInt();
@@ -1111,9 +1102,8 @@ void BrowserWindow::currentTabChanged()
 
     updateLoadingActions();
 
-    // Setting correct tab order (LocationBar -> WebSearchBar -> WebView)
-    setTabOrder(locationBar(), m_navigationToolbar->webSearchBar());
-    setTabOrder(m_navigationToolbar->webSearchBar(), view);
+    // Setting correct tab order (LocationBar -> WebView)
+    setTabOrder(locationBar(), view);
 }
 
 void BrowserWindow::updateLoadingActions()
@@ -1259,8 +1249,7 @@ void BrowserWindow::addTab()
 
 void BrowserWindow::webSearch()
 {
-    m_navigationToolbar->webSearchBar()->setFocus();
-    m_navigationToolbar->webSearchBar()->selectAll();
+    openLocation();
 }
 
 void BrowserWindow::searchOnPage()

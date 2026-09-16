@@ -56,13 +56,6 @@
      </property>
     </spacer>
    </item>
-   <item row="3" column="0" colspan="2">
-    <widget class="QCheckBox" name="showSearchBar">
-     <property name="text">
-      <string>Show search bar</string>
-     </property>
-    </widget>
-   </item>
    <item row="1" column="0">
     <widget class="QListWidget" name="availableItems">
      <property name="dragEnabled">

@@ -130,7 +130,6 @@ set(SRCS ${SRCS}
     navigation/navigationcontainer.cpp
     navigation/reloadstopbutton.cpp
     navigation/siteicon.cpp
-    navigation/websearchbar.cpp
     navigation/zoomlabel.cpp
     network/networkmanager.cpp
     network/securedns.cpp
@@ -239,7 +238,6 @@ set(SRCS ${SRCS}
     tools/abstractbuttoninterface.cpp
     tools/aesinterface.cpp
     tools/animatedwidget.cpp
-    tools/buttonwithmenu.cpp
     tools/certificateinfowidget.cpp
     tools/clickablelabel.cpp
     tools/closedtabsmanager.cpp
@@ -376,7 +374,6 @@ set(SRCS ${SRCS}
     navigation/navigationcontainer.h
     navigation/reloadstopbutton.h
     navigation/siteicon.h
-    navigation/websearchbar.h
     navigation/zoomlabel.h
     network/networkmanager.h
     network/securedns.h
@@ -485,7 +482,6 @@ set(SRCS ${SRCS}
     tools/abstractbuttoninterface.h
     tools/aesinterface.h
     tools/animatedwidget.h
-    tools/buttonwithmenu.h
     tools/certificateinfowidget.h
     tools/clickablelabel.h
     tools/closedtabsmanager.h

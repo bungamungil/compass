@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2018 David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -21,7 +22,6 @@
 #include "toolbutton.h"
 #include "settings.h"
 #include "mainapplication.h"
-#include "websearchbar.h"
 
 NavigationBarConfigDialog::NavigationBarConfigDialog(NavigationBar *navigationBar)
     : QDialog(navigationBar)
@@ -69,8 +69,6 @@ void NavigationBarConfigDialog::loadSettings()
             ui->availableItems->addItem(createItem(data));
         }
     }
-
-    ui->showSearchBar->setChecked(m_navigationBar->webSearchBar()->isVisible());
 }
 
 void NavigationBarConfigDialog::saveSettings()
@@ -83,7 +81,6 @@ void NavigationBarConfigDialog::saveSettings()
     Settings settings;
     settings.beginGroup(QSL("NavigationBar"));
     settings.setValue(QSL("Layout"), ids);
-    settings.setValue(QSL("ShowSearchBar"), ui->showSearchBar->isChecked());
     settings.endGroup();
 
     const auto windows = mApp->windows();
@@ -97,7 +94,6 @@ void NavigationBarConfigDialog::resetToDefaults()
     Settings settings;
     settings.beginGroup(QSL("NavigationBar"));
     settings.remove(QSL("Layout"));
-    settings.remove(QSL("ShowSearchBar"));
     settings.endGroup();
 
     const auto windows = mApp->windows();

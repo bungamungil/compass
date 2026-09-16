@@ -45,11 +45,9 @@ public:
     bool completionPopupExpandToWindow;
 
     // SearchEngines
-    bool searchOnEngineChange;
     bool searchFromAddressBar;
     bool searchWithDefaultEngine;
     bool showABSearchSuggestions;
-    bool showWSBSearchSuggestions;
 
     // Web-Browser-Settings
     int defaultZoomLevel;

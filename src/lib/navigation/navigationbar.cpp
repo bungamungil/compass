@@ -21,7 +21,6 @@
 #include "browserwindow.h"
 #include "mainapplication.h"
 #include "iconprovider.h"
-#include "websearchbar.h"
 #include "reloadstopbutton.h"
 #include "enhancedmenu.h"
 #include "tabwidget.h"
@@ -35,7 +34,6 @@
 #include "statusbar.h"
 
 #include <QTimer>
-#include <QSplitter>
 #include <QHBoxLayout>
 #include <QStackedWidget>
 #include <QWebEngineHistory>
@@ -159,15 +157,6 @@ NavigationBar::NavigationBar(BrowserWindow* window)
     m_supMenu->setMenu(m_window->superMenu());
     m_supMenu->setShowMenuInside(true);
 
-    m_searchLine = new WebSearchBar(m_window);
-
-    m_navigationSplitter = new QSplitter(this);
-    m_navigationSplitter->addWidget(m_window->tabWidget()->locationBars());
-    m_navigationSplitter->addWidget(m_searchLine);
-
-    m_navigationSplitter->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
-    m_navigationSplitter->setCollapsible(0, false);
-
     m_exitFullscreen = new ToolButton(this);
     m_exitFullscreen->setObjectName("navigation-button-exitfullscreen");
     m_exitFullscreen->setIcon(QIcon::fromTheme(QSL("view-restore")));
@@ -201,7 +190,9 @@ NavigationBar::NavigationBar(BrowserWindow* window)
     addWidget(m_reloadStop, QSL("button-reloadstop"), tr("Reload button"));
     addWidget(buttonHome, QSL("button-home"), tr("Home button"));
     addWidget(buttonAddTab, QSL("button-addtab"), tr("Add tab button"));
-    addWidget(m_navigationSplitter, QSL("locationbar"), tr("Address and Search bar"));
+    QStackedWidget *locationBars = m_window->tabWidget()->locationBars();
+    locationBars->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
+    addWidget(locationBars, QSL("locationbar"), tr("Address Bar"));
     addWidget(buttonTools, QSL("button-tools"), tr("Tools button"));
     addWidget(m_exitFullscreen, QSL("button-exitfullscreen"), tr("Exit Fullscreen button"));
 
@@ -211,21 +202,6 @@ NavigationBar::NavigationBar(BrowserWindow* window)
 NavigationBar::~NavigationBar()
 {
     setCurrentView(nullptr);
-}
-
-void NavigationBar::setSplitterSizes(int locationBar, int websearchBar)
-{
-    QList<int> sizes;
-
-    if (locationBar == 0) {
-        int splitterWidth = m_navigationSplitter->width();
-        sizes << (int)((double)splitterWidth * .80) << (int)((double)splitterWidth * .20);
-    }
-    else {
-        sizes << locationBar << websearchBar;
-    }
-
-    m_navigationSplitter->setSizes(sizes);
 }
 
 void NavigationBar::setCurrentView(TabbedWebView *view)
@@ -550,7 +526,6 @@ void NavigationBar::loadSettings()
     Settings settings;
     settings.beginGroup(QSL("NavigationBar"));
     m_layoutIds = settings.value(QSL("Layout"), defaultIds).toStringList();
-    m_searchLine->setVisible(settings.value(QSL("ShowSearchBar"), true).toBool());
     settings.endGroup();
 
     m_layoutIds.removeDuplicates();
@@ -603,12 +578,6 @@ void NavigationBar::reloadLayout()
     }
 
     m_layout->addWidget(m_supMenu);
-
-    // Make sure search bar is visible
-    if (m_searchLine->isVisible() && m_navigationSplitter->sizes().at(1) == 0) {
-        const int locationBarSize = m_navigationSplitter->sizes().at(0);
-        setSplitterSizes(locationBarSize - 50, 50);
-    }
 
     if (m_window->isFullScreen()) {
         enterFullScreen();

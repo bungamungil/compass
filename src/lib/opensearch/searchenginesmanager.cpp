@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2010-2017 David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -107,6 +108,14 @@ void SearchEnginesManager::loadSettings()
 
     if (m_defaultEngine.name.isEmpty()) {
         m_defaultEngine = m_allEngines[0];
+    }
+
+    m_activeEngine = m_defaultEngine;
+    for (const Engine &engine : std::as_const(m_allEngines)) {
+        if (engine.name == m_startingEngineName) {
+            m_activeEngine = engine;
+            break;
+        }
     }
 }
 
