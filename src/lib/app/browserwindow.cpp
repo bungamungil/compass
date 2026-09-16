@@ -389,8 +389,19 @@ void BrowserWindow::setupUi()
     m_mainSplitter->addWidget(m_tabWidget);
     m_mainSplitter->setCollapsible(0, false);
 
-    m_mainLayout->addWidget(m_navigationContainer);
-    m_mainLayout->addWidget(m_mainSplitter);
+    auto *content = new QWidget(this);
+    auto *contentLayout = new QVBoxLayout(content);
+    contentLayout->setContentsMargins(0, 0, 0, 0);
+    contentLayout->setSpacing(0);
+    contentLayout->addWidget(m_navigationContainer);
+    contentLayout->addWidget(m_mainSplitter);
+
+    m_tabsSplitter = new QSplitter(Qt::Horizontal, this);
+    m_tabsSplitter->setObjectName(QSL("verticaltabs-splitter"));
+    m_tabsSplitter->setChildrenCollapsible(false);
+    m_tabsSplitter->addWidget(content);
+
+    m_mainLayout->addWidget(m_tabsSplitter);
 
     m_statusBar = new StatusBar(this);
     m_statusBar->setObjectName(QSL("mainwindow-statusbar"));
@@ -563,7 +574,7 @@ void BrowserWindow::restoreUiState(const QHash<QString, QVariant> &state)
 {
     m_sideBarWidth = state.value(QSL("SideBarWidth"), 250).toInt();
     m_webViewWidth = state.value(QSL("WebViewWidth"), 2000).toInt();
-    m_verticalTabsWidth = state.value(QSL("VerticalTabsWidth"), 250).toInt();
+    m_verticalTabsWidth = state.value(QSL("VerticalTabsWidth"), 300).toInt();
     if (m_sideBar || m_verticalTabs) {
         applySplitterSizes();
     }
@@ -871,9 +882,8 @@ SideBar* BrowserWindow::addSideBar()
         m_sideBarWidth = defaultSideBarWidth;
     }
 
-    const int sideBarIndex = m_verticalTabs ? 1 : 0;
-    m_mainSplitter->insertWidget(sideBarIndex, m_sideBar.data());
-    m_mainSplitter->setCollapsible(sideBarIndex, false);
+    m_mainSplitter->insertWidget(0, m_sideBar.data());
+    m_mainSplitter->setCollapsible(0, false);
     applySplitterSizes();
 
     return m_sideBar.data();
@@ -883,12 +893,11 @@ void BrowserWindow::saveSideBarSettings()
 {
     // That +1 is important here, without it, the sidebar/vertical-tabs width
     // would decrease by 1 pixel every close
-    if (m_verticalTabs) {
-        m_verticalTabsWidth = m_mainSplitter->sizes().at(0) + 1;
+    if (m_verticalTabs && !m_verticalTabs->isIconOnly()) {
+        m_verticalTabsWidth = m_tabsSplitter->sizes().at(0) + 1;
     }
     if (m_sideBar) {
-        const int sideBarIndex = m_verticalTabs ? 1 : 0;
-        m_sideBarWidth = m_mainSplitter->sizes().at(sideBarIndex) + 1;
+        m_sideBarWidth = m_mainSplitter->sizes().at(0) + 1;
     }
     if (m_sideBar || m_verticalTabs) {
         m_webViewWidth = width() - (m_sideBar ? m_sideBarWidth : 0) - (m_verticalTabs ? m_verticalTabsWidth : 0);
@@ -899,10 +908,10 @@ void BrowserWindow::saveSideBarSettings()
 
 void BrowserWindow::applySplitterSizes()
 {
-    QList<int> sizes;
     if (m_verticalTabs) {
-        sizes.append(m_verticalTabsWidth);
+        m_tabsSplitter->setSizes({m_verticalTabsWidth, qMax(100, width() - m_verticalTabsWidth)});
     }
+    QList<int> sizes;
     if (m_sideBar) {
         sizes.append(m_sideBarWidth);
     }
@@ -935,12 +944,15 @@ void BrowserWindow::showVerticalTabs(bool enable)
         m_verticalTabs->setIconOnly(qzSettings->verticalTabsIconOnly);
         connect(m_verticalTabs.data(), &VerticalTabsWidget::searchRequested, this, &BrowserWindow::searchTabs);
         m_webViewWidth = qMax(100, width() - m_verticalTabsWidth - (m_sideBar ? m_sideBarWidth : 0));
-        m_mainSplitter->insertWidget(0, m_verticalTabs.data());
-        m_mainSplitter->setCollapsible(0, false);
+        m_tabsSplitter->insertWidget(0, m_verticalTabs.data());
+        m_tabsSplitter->setStretchFactor(0, 0);
+        m_tabsSplitter->setStretchFactor(1, 1);
         m_tabWidget->tabBar()->setForceHidden(true);
         applySplitterSizes();
     } else {
-        m_verticalTabsWidth = m_mainSplitter->sizes().at(0) + 1;
+        if (!m_verticalTabs->isIconOnly()) {
+            m_verticalTabsWidth = m_tabsSplitter->sizes().at(0) + 1;
+        }
         delete m_verticalTabs.data();
         m_verticalTabs = nullptr;
         m_webViewWidth = width() - (m_sideBar ? m_sideBarWidth : 0);

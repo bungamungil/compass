@@ -214,6 +214,7 @@ private:
 
     QVBoxLayout* m_mainLayout;
     QSplitter* m_mainSplitter;
+    QSplitter* m_tabsSplitter;
 
     TabWidget* m_tabWidget;
     QPointer<SideBar> m_sideBar;
@@ -236,7 +237,7 @@ private:
 
     int m_sideBarWidth;
     int m_webViewWidth;
-    int m_verticalTabsWidth = 250;
+    int m_verticalTabsWidth = 300;
 
     // Shortcuts
     bool m_useTabNumberShortcuts;
