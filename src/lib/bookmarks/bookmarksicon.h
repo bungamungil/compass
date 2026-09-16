@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2010-2014  David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -44,6 +45,7 @@ private Q_SLOTS:
 private:
     void contextMenuEvent(QContextMenuEvent* ev) override;
     void mousePressEvent(QMouseEvent* ev) override;
+    void resizeEvent(QResizeEvent *event) override;
 
     void setBookmarkSaved();
     void setBookmarkDisabled();

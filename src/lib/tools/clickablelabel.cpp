@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2010-2014  David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -48,16 +49,18 @@ void ClickableLabel::setFallbackIcon(const QIcon &fallbackIcon)
 
 void ClickableLabel::updateIcon()
 {
+    const QSize target = m_iconSize.isValid() ? m_iconSize : size();
+
     if (!m_themeIcon.isEmpty()) {
         const QIcon icon = QIcon::fromTheme(m_themeIcon);
         if (!icon.isNull()) {
-            setPixmap(icon.pixmap(size()));
+            setPixmap(icon.pixmap(target));
             return;
         }
     }
 
     if (!m_fallbackIcon.isNull())
-        setPixmap(m_fallbackIcon.pixmap(size()));
+        setPixmap(m_fallbackIcon.pixmap(target));
 }
 
 void ClickableLabel::resizeEvent(QResizeEvent *ev)

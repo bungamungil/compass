@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2010-2014  David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -33,6 +34,7 @@ class FALKON_EXPORT ClickableLabel : public QLabel
     Q_PROPERTY(int fixedheight READ height WRITE setFixedHeight)
     Q_PROPERTY(QString themeIcon READ themeIcon WRITE setThemeIcon)
     Q_PROPERTY(QIcon fallbackIcon READ fallbackIcon WRITE setFallbackIcon)
+    Q_PROPERTY(QSize iconSize READ iconSize WRITE setIconSize)
 
 public:
     explicit ClickableLabel(QWidget* parent = nullptr);
@@ -43,18 +45,24 @@ public:
     QIcon fallbackIcon() const;
     void setFallbackIcon(const QIcon &fallbackIcon);
 
+    QSize iconSize() const { return m_iconSize; }
+    void setIconSize(const QSize &size) { m_iconSize = size; updateIcon(); }
+
 Q_SIGNALS:
     void clicked(QPoint);
     void middleClicked(QPoint);
 
+protected:
+    void resizeEvent(QResizeEvent *ev) override;
+
 private:
     void updateIcon();
 
-    void resizeEvent(QResizeEvent *ev) override;
     void mouseReleaseEvent(QMouseEvent* ev) override;
 
     QString m_themeIcon;
     QIcon m_fallbackIcon;
+    QSize m_iconSize;
 
 };
 

@@ -38,6 +38,8 @@ BookmarksIcon::BookmarksIcon(QWidget* parent)
     setCursor(Qt::PointingHandCursor);
     setToolTip(tr("Bookmark this Page"));
     setFocusPolicy(Qt::ClickFocus);
+    setAlignment(Qt::AlignCenter);
+    setIconSize(QSize(16, 16));
 
     connect(mApp->bookmarks(), SIGNAL(bookmarkAdded(BookmarkItem*)), this, SLOT(bookmarksChanged()));
     connect(mApp->bookmarks(), SIGNAL(bookmarkRemoved(BookmarkItem*)), this, SLOT(bookmarksChanged()));
@@ -126,4 +128,10 @@ void BookmarksIcon::mousePressEvent(QMouseEvent* ev)
 
     // Prevent propagating to LocationBar
     ev->accept();
+}
+
+void BookmarksIcon::resizeEvent(QResizeEvent *event)
+{
+    ClickableLabel::resizeEvent(event);
+    setFixedWidth(height());
 }
