@@ -28,6 +28,9 @@
 #include <QBuffer>
 #include <QFutureWatcher>
 #include <QtConcurrent/QtConcurrentRun>
+#include <QPainter>
+#include <QPixmap>
+#include <QIcon>
 
 Q_GLOBAL_STATIC(IconProvider, qz_icon_provider)
 
@@ -162,6 +165,24 @@ QIcon IconProvider::privateBrowsingIcon()
 QIcon IconProvider::settingsIcon()
 {
     return QIcon::fromTheme(QSL("configure"), QIcon(QSL(":/icons/menu/settings.svg")));
+}
+
+QIcon IconProvider::tintedIcon(const QString &path, const QColor &color)
+{
+    QIcon source(path);
+    QIcon result;
+    for (int size : {16, 22, 32}) {
+        QPixmap pixmap = source.pixmap(QSize(size, size));
+        if (pixmap.isNull()) {
+            continue;
+        }
+        QPainter painter(&pixmap);
+        painter.setCompositionMode(QPainter::CompositionMode_SourceIn);
+        painter.fillRect(pixmap.rect(), color);
+        painter.end();
+        result.addPixmap(pixmap);
+    }
+    return result;
 }
 
 QIcon IconProvider::emptyWebIcon()

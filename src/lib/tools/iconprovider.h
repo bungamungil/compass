@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2010-2014  David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -55,6 +56,8 @@ public:
     static QIcon newWindowIcon();
     static QIcon privateBrowsingIcon();
     static QIcon settingsIcon();
+
+    static QIcon tintedIcon(const QString &path, const QColor &color);
 
     // Icon for empty page
     static QIcon emptyWebIcon();
