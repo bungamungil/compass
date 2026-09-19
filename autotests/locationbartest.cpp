@@ -19,6 +19,7 @@
 #include "locationbartest.h"
 #include "autotests.h"
 #include "locationbar.h"
+#include "siteicon.h"
 #include "searchenginesmanager.h"
 #include "bookmarks.h"
 #include "bookmarkitem.h"
@@ -79,6 +80,19 @@ void LocationBarTest::loadActionBasicTest()
     action = LocationBar::loadAction(QSL("compass:about"));
     QCOMPARE(action.type, LocationBar::LoadAction::Url);
     QCOMPARE(action.loadRequest.url(), QUrl(QSL("compass:about")));
+}
+
+void LocationBarTest::siteIconIsFlat()
+{
+    LocationBar bar;
+    auto *siteIcon = bar.findChild<SiteIcon*>(QSL("locationbar-siteicon"));
+    QVERIFY(siteIcon);
+    QVERIFY(siteIcon->autoRaise());
+    QCOMPARE(siteIcon->toolButtonStyle(), Qt::ToolButtonIconOnly);
+
+    siteIcon->setDown(true);
+    QVERIFY(siteIcon->isDown());
+    QVERIFY(siteIcon->autoRaise());
 }
 
 void LocationBarTest::loadActionBookmarksTest()
