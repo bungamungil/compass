@@ -29,4 +29,7 @@ private Q_SLOTS:
     void expandedMinimumWidth();
     void initialIconOnlyWidth();
     void expandedWidthSurvivesModeToggle();
+    void listBlendsAndHidesScrollbar();
+    void hiddenScrollbarStillScrolls();
+    void panelHasBottomInset();
 };

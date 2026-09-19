@@ -28,10 +28,14 @@
 #include "qzsettings.h"
 
 #include <QCoreApplication>
+#include <QApplication>
 #include <QScopeGuard>
+#include <QScrollBar>
 #include <QSplitter>
 #include <QStyleOptionViewItem>
 #include <QUrl>
+#include <QVBoxLayout>
+#include <QWheelEvent>
 
 void VerticalTabsTest::listGrowsWithTabs()
 {
@@ -159,6 +163,61 @@ void VerticalTabsTest::expandedWidthSurvivesModeToggle()
         QTRY_COMPARE(splitter->sizes().constFirst(), expandedWidth + 1);
     }
 
+}
+
+void VerticalTabsTest::listBlendsAndHidesScrollbar()
+{
+    BrowserWindow *w = mApp->createWindow(Qz::BW_NewWindow);
+    TabListView view(w);
+
+    QCOMPARE(view.palette().color(QPalette::Base).alpha(), 0);
+    QCOMPARE(view.viewport()->palette().color(QPalette::Base).alpha(), 0);
+    QVERIFY(!view.viewport()->autoFillBackground());
+    QCOMPARE(view.verticalScrollBarPolicy(), Qt::ScrollBarAlwaysOff);
+
+    view.setAutoHeight(false);
+    QCOMPARE(view.verticalScrollBarPolicy(), Qt::ScrollBarAlwaysOff);
+    delete w;
+}
+
+void VerticalTabsTest::hiddenScrollbarStillScrolls()
+{
+    BrowserWindow *w = mApp->createWindow(Qz::BW_NewWindow);
+    TabListView view(w);
+    auto *model = new TabFilterModel(&view);
+    model->setFilterPinnedTabs(true);
+    model->setSourceModel(w->tabModel());
+    view.setModel(model);
+    view.setAutoHeight(false);
+
+    for (int i = 0; i < 5; ++i) {
+        w->tabWidget()->addView(QUrl());
+    }
+    view.resize(180, TabListDelegate::IconOnlyCell * 2);
+    view.show();
+    QCoreApplication::processEvents();
+
+    QScrollBar *scrollBar = view.verticalScrollBar();
+    QVERIFY(scrollBar->maximum() > scrollBar->minimum());
+    QVERIFY(!scrollBar->isVisible());
+    const int before = scrollBar->value();
+    const QPointF localPos(20, 20);
+    QWheelEvent event(localPos,
+                      view.viewport()->mapToGlobal(localPos.toPoint()),
+                      QPoint(), QPoint(0, -120), Qt::NoButton,
+                      Qt::NoModifier, Qt::NoScrollPhase, false);
+    QApplication::sendEvent(view.viewport(), &event);
+    QTRY_VERIFY(scrollBar->value() > before);
+
+    delete w;
+}
+
+void VerticalTabsTest::panelHasBottomInset()
+{
+    BrowserWindow *w = mApp->createWindow(Qz::BW_NewWindow);
+    VerticalTabsWidget tabs(w);
+    QCOMPARE(tabs.layout()->contentsMargins().bottom(), 8);
+    delete w;
 }
 
 FALKONTEST_MAIN(VerticalTabsTest)

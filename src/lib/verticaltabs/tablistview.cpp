@@ -41,6 +41,12 @@ TabListView::TabListView(BrowserWindow *window, QWidget *parent)
     setFlow(QListView::TopToBottom);
     setFocusPolicy(Qt::NoFocus);
     setFrameShape(QFrame::NoFrame);
+    QPalette transparentPalette = palette();
+    transparentPalette.setColor(QPalette::Base, Qt::transparent);
+    transparentPalette.setColor(QPalette::Window, Qt::transparent);
+    setPalette(transparentPalette);
+    viewport()->setPalette(transparentPalette);
+    viewport()->setAutoFillBackground(false);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
@@ -92,12 +98,10 @@ void TabListView::setIconOnly(bool enable)
 void TabListView::setAutoHeight(bool enable)
 {
     m_autoHeight = enable;
-    setVerticalScrollBarPolicy(enable ? Qt::ScrollBarAlwaysOff : Qt::ScrollBarAsNeeded);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
-    // Non-auto: the reported hint is a ceiling the list may shrink below and scroll.
     setSizePolicy(sizePolicy().horizontalPolicy(), enable ? QSizePolicy::Preferred : QSizePolicy::Maximum);
     if (!enable) {
-        // Undo any fixed height previously applied by updateHeight()
         setMinimumHeight(0);
         setMaximumHeight(QWIDGETSIZE_MAX);
     }

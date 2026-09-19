@@ -46,7 +46,7 @@ VerticalTabsWidget::VerticalTabsWidget(BrowserWindow *window, QWidget *parent)
 {
     auto *layout = new QVBoxLayout(this);
     layout->setSpacing(0);
-    layout->setContentsMargins(PanelHMargin, 0, PanelHMargin, 0);
+    layout->setContentsMargins(PanelHMargin, 0, PanelHMargin, PanelHMargin);
 
     auto *collapseButton = new ToolButton(this);
     collapseButton->setObjectName(QSL("verticaltabs-button-collapse"));
@@ -241,13 +241,10 @@ WebTab *VerticalTabsWidget::previousTab() const
 
 void VerticalTabsWidget::wheelEvent(QWheelEvent *event)
 {
-    if (!qzSettings->alwaysSwitchTabsWithWheel && m_normalView->verticalScrollBar()->isVisible()) {
-        return;
-    }
-
-    if (   m_normalView->verticalScrollBar()->isVisible()
-        && m_normalView->verticalScrollBar()->rect().contains(event->position().toPoint())
-    ) {
+    QScrollBar *scrollBar = m_normalView->verticalScrollBar();
+    const bool listOverflows = scrollBar->maximum() > scrollBar->minimum();
+    if (!qzSettings->alwaysSwitchTabsWithWheel && listOverflows) {
+        event->ignore();
         return;
     }
 
