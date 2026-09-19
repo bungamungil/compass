@@ -28,6 +28,7 @@
 #include "qzsettings.h"
 
 #include <QCoreApplication>
+#include <QScopeGuard>
 #include <QSplitter>
 #include <QStyleOptionViewItem>
 #include <QUrl>
@@ -100,6 +101,12 @@ void VerticalTabsTest::initialIconOnlyWidth()
     qzSettings->verticalTabsIconOnly = true;
 
     BrowserWindow *w = mApp->createWindow(Qz::BW_NewWindow);
+    const auto cleanup = qScopeGuard([w, oldEnabled, oldIconOnly] {
+        delete w;
+        qzSettings->verticalTabsEnabled = oldEnabled;
+        qzSettings->verticalTabsIconOnly = oldIconOnly;
+        qzSettings->saveSettings();
+    });
     w->resize(1000, 700);
     w->show();
     QCoreApplication::processEvents();
@@ -111,10 +118,6 @@ void VerticalTabsTest::initialIconOnlyWidth()
     QCOMPARE(w->verticalTabs()->minimumWidth(), 56);
     QTRY_COMPARE(splitter->sizes().constFirst(), 56);
 
-    delete w;
-    qzSettings->verticalTabsEnabled = oldEnabled;
-    qzSettings->verticalTabsIconOnly = oldIconOnly;
-    qzSettings->saveSettings();
 }
 
 void VerticalTabsTest::expandedWidthSurvivesModeToggle()
@@ -125,6 +128,12 @@ void VerticalTabsTest::expandedWidthSurvivesModeToggle()
     qzSettings->verticalTabsIconOnly = false;
 
     BrowserWindow *w = mApp->createWindow(Qz::BW_NewWindow);
+    const auto cleanup = qScopeGuard([w, oldEnabled, oldIconOnly] {
+        delete w;
+        qzSettings->verticalTabsEnabled = oldEnabled;
+        qzSettings->verticalTabsIconOnly = oldIconOnly;
+        qzSettings->saveSettings();
+    });
     w->resize(1000, 700);
     w->showVerticalTabs(true);
     w->show();
@@ -150,10 +159,6 @@ void VerticalTabsTest::expandedWidthSurvivesModeToggle()
         QTRY_COMPARE(splitter->sizes().constFirst(), expandedWidth + 1);
     }
 
-    delete w;
-    qzSettings->verticalTabsEnabled = oldEnabled;
-    qzSettings->verticalTabsIconOnly = oldIconOnly;
-    qzSettings->saveSettings();
 }
 
 FALKONTEST_MAIN(VerticalTabsTest)
