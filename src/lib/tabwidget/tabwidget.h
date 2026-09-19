@@ -1,6 +1,7 @@
 /* ============================================================
 * Falkon - Qt web browser
 * Copyright (C) 2010-2018  David Rosca <nowrep@gmail.com>
+* Copyright (C) 2026 Bunga Mungil <bungamungil@icloud.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -38,10 +39,14 @@ class ClosedTabsManager;
 
 class FALKON_EXPORT AddTabButton : public ToolButton
 {
+    Q_OBJECT
+
 public:
     explicit AddTabButton(TabWidget* tabWidget, TabBar* tabBar);
 
 private:
+    void changeEvent(QEvent *event) override;
+    void updateButtonSize();
     void wheelEvent(QWheelEvent* event) override;
     void mouseReleaseEvent(QMouseEvent* event) override;
 

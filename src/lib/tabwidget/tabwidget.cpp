@@ -52,6 +52,22 @@ AddTabButton::AddTabButton(TabWidget* tabWidget, TabBar* tabBar)
     setFocusPolicy(Qt::NoFocus);
     setAcceptDrops(true);
     setToolTip(TabWidget::tr("New Tab"));
+    setToolButtonStyle(Qt::ToolButtonIconOnly);
+    updateButtonSize();
+}
+
+void AddTabButton::updateButtonSize()
+{
+    const int extent = sizeHint().height();
+    setFixedSize(extent, extent);
+}
+
+void AddTabButton::changeEvent(QEvent *event)
+{
+    ToolButton::changeEvent(event);
+    if (event->type() == QEvent::StyleChange || event->type() == QEvent::FontChange) {
+        updateButtonSize();
+    }
 }
 
 void AddTabButton::wheelEvent(QWheelEvent* event)

@@ -22,6 +22,7 @@ falkon_tests(
     locationbartest
     webviewtest
     webtabtest
+    tabwidgettest
     sqldatabasetest
     tabsearchmodeltest
     securednstest
