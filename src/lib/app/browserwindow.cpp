@@ -400,6 +400,11 @@ void BrowserWindow::setupUi()
     m_tabsSplitter->setObjectName(QSL("verticaltabs-splitter"));
     m_tabsSplitter->setChildrenCollapsible(false);
     m_tabsSplitter->addWidget(content);
+    connect(m_tabsSplitter, &QSplitter::splitterMoved, this, [this](int, int) {
+        if (m_verticalTabs && !m_verticalTabs->isIconOnly() && !m_tabsSplitter->sizes().isEmpty()) {
+            m_verticalTabsWidth = m_tabsSplitter->sizes().constFirst() + 1;
+        }
+    });
 
     m_mainLayout->addWidget(m_tabsSplitter);
 
@@ -912,10 +917,26 @@ void BrowserWindow::saveSideBarSettings()
     Settings().setValue(QSL("Browser-View-Settings/SideBar"), m_sideBarManager->activeSideBar());
 }
 
+int BrowserWindow::effectiveVerticalTabsWidth() const
+{
+    if (m_verticalTabs && m_verticalTabs->isIconOnly()) {
+        return m_verticalTabs->minimumWidth();
+    }
+    return m_verticalTabsWidth;
+}
+
+void BrowserWindow::verticalTabsModeChanged(bool iconOnly)
+{
+    Q_UNUSED(iconOnly)
+    applySplitterSizes();
+    updateBookmarksToolbarWidth();
+}
+
 void BrowserWindow::applySplitterSizes()
 {
     if (m_verticalTabs) {
-        m_tabsSplitter->setSizes({m_verticalTabsWidth, qMax(100, width() - m_verticalTabsWidth)});
+        const int tabsWidth = effectiveVerticalTabsWidth();
+        m_tabsSplitter->setSizes({tabsWidth, qMax(100, width() - tabsWidth)});
     }
     QList<int> sizes;
     if (m_sideBar) {
@@ -947,13 +968,13 @@ void BrowserWindow::showVerticalTabs(bool enable)
 
     if (enable) {
         m_verticalTabs = new VerticalTabsWidget(this, this);
-        m_verticalTabs->setIconOnly(qzSettings->verticalTabsIconOnly);
         connect(m_verticalTabs.data(), &VerticalTabsWidget::searchRequested, this, &BrowserWindow::searchTabs);
-        connect(m_verticalTabs.data(), &VerticalTabsWidget::iconOnlyChanged, this, &BrowserWindow::applySplitterSizes);
-        m_webViewWidth = qMax(100, width() - m_verticalTabsWidth - (m_sideBar ? m_sideBarWidth : 0));
+        connect(m_verticalTabs.data(), &VerticalTabsWidget::iconOnlyChanged, this, &BrowserWindow::verticalTabsModeChanged);
         m_tabsSplitter->insertWidget(0, m_verticalTabs.data());
         m_tabsSplitter->setStretchFactor(0, 0);
         m_tabsSplitter->setStretchFactor(1, 1);
+        m_verticalTabs->setIconOnly(qzSettings->verticalTabsIconOnly);
+        m_webViewWidth = qMax(100, width() - effectiveVerticalTabsWidth() - (m_sideBar ? m_sideBarWidth : 0));
         m_tabWidget->tabBar()->setForceHidden(true);
         applySplitterSizes();
         updateBookmarksToolbarWidth();

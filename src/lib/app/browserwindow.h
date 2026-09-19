@@ -204,6 +204,8 @@ private:
 
     QHash<QString, QVariant> saveUiState();
     void restoreUiState(const QHash<QString, QVariant> &state);
+    int effectiveVerticalTabsWidth() const;
+    void verticalTabsModeChanged(bool iconOnly);
     void applySplitterSizes();
     void updateBookmarksToolbarWidth();
 

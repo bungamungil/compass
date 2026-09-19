@@ -25,7 +25,10 @@
 #include "tabwidget.h"
 #include "mainapplication.h"
 #include "browserwindow.h"
+#include "qzsettings.h"
 
+#include <QCoreApplication>
+#include <QSplitter>
 #include <QStyleOptionViewItem>
 #include <QUrl>
 
@@ -87,6 +90,70 @@ void VerticalTabsTest::expandedMinimumWidth()
     QCOMPARE(v.maximumWidth(), 56);
 
     delete w;
+}
+
+void VerticalTabsTest::initialIconOnlyWidth()
+{
+    const bool oldEnabled = qzSettings->verticalTabsEnabled;
+    const bool oldIconOnly = qzSettings->verticalTabsIconOnly;
+    qzSettings->verticalTabsEnabled = true;
+    qzSettings->verticalTabsIconOnly = true;
+
+    BrowserWindow *w = mApp->createWindow(Qz::BW_NewWindow);
+    w->resize(1000, 700);
+    w->show();
+    QCoreApplication::processEvents();
+
+    auto *splitter = w->findChild<QSplitter*>(QSL("verticaltabs-splitter"));
+    QVERIFY(splitter);
+    QVERIFY(w->verticalTabs());
+    QVERIFY(w->verticalTabs()->isIconOnly());
+    QCOMPARE(w->verticalTabs()->minimumWidth(), 56);
+    QTRY_COMPARE(splitter->sizes().constFirst(), 56);
+
+    delete w;
+    qzSettings->verticalTabsEnabled = oldEnabled;
+    qzSettings->verticalTabsIconOnly = oldIconOnly;
+    qzSettings->saveSettings();
+}
+
+void VerticalTabsTest::expandedWidthSurvivesModeToggle()
+{
+    const bool oldEnabled = qzSettings->verticalTabsEnabled;
+    const bool oldIconOnly = qzSettings->verticalTabsIconOnly;
+    qzSettings->verticalTabsEnabled = false;
+    qzSettings->verticalTabsIconOnly = false;
+
+    BrowserWindow *w = mApp->createWindow(Qz::BW_NewWindow);
+    w->resize(1000, 700);
+    w->showVerticalTabs(true);
+    w->show();
+    QCoreApplication::processEvents();
+
+    auto *splitter = w->findChild<QSplitter*>(QSL("verticaltabs-splitter"));
+    VerticalTabsWidget *tabs = w->verticalTabs();
+    QVERIFY(splitter);
+    QVERIFY(tabs);
+
+    tabs->setIconOnly(false);
+    splitter->setSizes({240, 760});
+    QCoreApplication::processEvents();
+    const int expandedWidth = splitter->sizes().constFirst();
+    QVERIFY(expandedWidth >= VerticalTabsWidget::ExpandedMinWidth);
+    QMetaObject::invokeMethod(splitter, "splitterMoved", Qt::DirectConnection,
+                              Q_ARG(int, expandedWidth), Q_ARG(int, 1));
+
+    for (int i = 0; i < 2; ++i) {
+        tabs->setIconOnly(true);
+        QTRY_COMPARE(splitter->sizes().constFirst(), 56);
+        tabs->setIconOnly(false);
+        QTRY_COMPARE(splitter->sizes().constFirst(), expandedWidth + 1);
+    }
+
+    delete w;
+    qzSettings->verticalTabsEnabled = oldEnabled;
+    qzSettings->verticalTabsIconOnly = oldIconOnly;
+    qzSettings->saveSettings();
 }
 
 FALKONTEST_MAIN(VerticalTabsTest)

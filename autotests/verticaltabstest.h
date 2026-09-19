@@ -27,4 +27,6 @@ private Q_SLOTS:
     void listGrowsWithTabs();
     void rowHeightMatchesIconOnly();
     void expandedMinimumWidth();
+    void initialIconOnlyWidth();
+    void expandedWidthSurvivesModeToggle();
 };
