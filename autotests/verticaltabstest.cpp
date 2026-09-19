@@ -168,7 +168,8 @@ void VerticalTabsTest::expandedWidthSurvivesModeToggle()
 void VerticalTabsTest::listBlendsAndHidesScrollbar()
 {
     BrowserWindow *w = mApp->createWindow(Qz::BW_NewWindow);
-    TabListView view(w);
+    const auto cleanup = qScopeGuard([w] { delete w; });
+    TabListView view(w, nullptr);
 
     QCOMPARE(view.palette().color(QPalette::Base).alpha(), 0);
     QCOMPARE(view.viewport()->palette().color(QPalette::Base).alpha(), 0);
@@ -177,13 +178,13 @@ void VerticalTabsTest::listBlendsAndHidesScrollbar()
 
     view.setAutoHeight(false);
     QCOMPARE(view.verticalScrollBarPolicy(), Qt::ScrollBarAlwaysOff);
-    delete w;
 }
 
 void VerticalTabsTest::hiddenScrollbarStillScrolls()
 {
     BrowserWindow *w = mApp->createWindow(Qz::BW_NewWindow);
-    TabListView view(w);
+    const auto cleanup = qScopeGuard([w] { delete w; });
+    TabListView view(w, nullptr);
     auto *model = new TabFilterModel(&view);
     model->setFilterPinnedTabs(true);
     model->setSourceModel(w->tabModel());
@@ -209,15 +210,14 @@ void VerticalTabsTest::hiddenScrollbarStillScrolls()
     QApplication::sendEvent(view.viewport(), &event);
     QTRY_VERIFY(scrollBar->value() > before);
 
-    delete w;
 }
 
 void VerticalTabsTest::panelHasBottomInset()
 {
     BrowserWindow *w = mApp->createWindow(Qz::BW_NewWindow);
-    VerticalTabsWidget tabs(w);
+    const auto cleanup = qScopeGuard([w] { delete w; });
+    VerticalTabsWidget tabs(w, nullptr);
     QCOMPARE(tabs.layout()->contentsMargins().bottom(), 8);
-    delete w;
 }
 
 FALKONTEST_MAIN(VerticalTabsTest)
